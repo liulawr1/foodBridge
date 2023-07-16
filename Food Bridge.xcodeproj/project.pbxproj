@@ -1,0 +1,661 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		214300522A45786700B0FBA0 /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214300512A45786700B0FBA0 /* AboutVC.swift */; };
+		218D979F2A5612D900FAD484 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218D979E2A5612D900FAD484 /* Demo.swift */; };
+		21955C302A396DB900BC87D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C2F2A396DB900BC87D2 /* AppDelegate.swift */; };
+		21955C322A396DB900BC87D2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C312A396DB900BC87D2 /* SceneDelegate.swift */; };
+		21955C342A396DB900BC87D2 /* Backup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C332A396DB900BC87D2 /* Backup.swift */; };
+		21955C372A396DB900BC87D2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21955C352A396DB900BC87D2 /* Main.storyboard */; };
+		21955C392A396DBA00BC87D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21955C382A396DBA00BC87D2 /* Assets.xcassets */; };
+		21955C3C2A396DBA00BC87D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21955C3A2A396DBA00BC87D2 /* LaunchScreen.storyboard */; };
+		21955C472A396DBA00BC87D2 /* Food_BridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C462A396DBA00BC87D2 /* Food_BridgeTests.swift */; };
+		21955C512A396DBA00BC87D2 /* Food_BridgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C502A396DBA00BC87D2 /* Food_BridgeUITests.swift */; };
+		21955C532A396DBA00BC87D2 /* Food_BridgeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C522A396DBA00BC87D2 /* Food_BridgeUITestsLaunchTests.swift */; };
+		21955C602A396DFA00BC87D2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C5F2A396DFA00BC87D2 /* Colors.swift */; };
+		21955C622A396E0F00BC87D2 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C612A396E0F00BC87D2 /* MainVC.swift */; };
+		21955C662A3A5D3900BC87D2 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C652A3A5D3900BC87D2 /* SignUpVC.swift */; };
+		21955C682A3A5D7A00BC87D2 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C672A3A5D7A00BC87D2 /* LaunchVC.swift */; };
+		21955C6A2A3B98DD00BC87D2 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21955C692A3B98DD00BC87D2 /* LoginVC.swift */; };
+		21B8C73C2A5A1A76003139FD /* FirstTimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C73B2A5A1A76003139FD /* FirstTimeVC.swift */; };
+		21B8C73E2A5A1CF6003139FD /* ControlBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C73D2A5A1CF6003139FD /* ControlBar.swift */; };
+		21B8C7412A5A1E64003139FD /* BrowseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C7402A5A1E64003139FD /* BrowseVC.swift */; };
+		21B8C7432A5A1E6F003139FD /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C7422A5A1E6F003139FD /* ListVC.swift */; };
+		21B8C7452A5A1E79003139FD /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C7442A5A1E79003139FD /* AccountVC.swift */; };
+		21E1C9432A47A20500E08F48 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1C9422A47A20500E08F48 /* User.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		21955C432A396DBA00BC87D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21955C242A396DB900BC87D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21955C2B2A396DB900BC87D2;
+			remoteInfo = "Food Bridge";
+		};
+		21955C4D2A396DBA00BC87D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21955C242A396DB900BC87D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21955C2B2A396DB900BC87D2;
+			remoteInfo = "Food Bridge";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		214300512A45786700B0FBA0 /* AboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutVC.swift; sourceTree = "<group>"; };
+		218D979E2A5612D900FAD484 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		21955C2C2A396DB900BC87D2 /* Food Bridge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Bridge.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21955C2F2A396DB900BC87D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		21955C312A396DB900BC87D2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		21955C332A396DB900BC87D2 /* Backup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backup.swift; sourceTree = "<group>"; };
+		21955C362A396DB900BC87D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		21955C382A396DBA00BC87D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		21955C3B2A396DBA00BC87D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		21955C3D2A396DBA00BC87D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21955C422A396DBA00BC87D2 /* Food BridgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Food BridgeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21955C462A396DBA00BC87D2 /* Food_BridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food_BridgeTests.swift; sourceTree = "<group>"; };
+		21955C4C2A396DBA00BC87D2 /* Food BridgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Food BridgeUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21955C502A396DBA00BC87D2 /* Food_BridgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food_BridgeUITests.swift; sourceTree = "<group>"; };
+		21955C522A396DBA00BC87D2 /* Food_BridgeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food_BridgeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		21955C5F2A396DFA00BC87D2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		21955C612A396E0F00BC87D2 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		21955C652A3A5D3900BC87D2 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		21955C672A3A5D7A00BC87D2 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
+		21955C692A3B98DD00BC87D2 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		21B8C73B2A5A1A76003139FD /* FirstTimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeVC.swift; sourceTree = "<group>"; };
+		21B8C73D2A5A1CF6003139FD /* ControlBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlBar.swift; sourceTree = "<group>"; };
+		21B8C7402A5A1E64003139FD /* BrowseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseVC.swift; sourceTree = "<group>"; };
+		21B8C7422A5A1E6F003139FD /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
+		21B8C7442A5A1E79003139FD /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
+		21E1C9422A47A20500E08F48 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		21955C292A396DB900BC87D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21955C3F2A396DBA00BC87D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21955C492A396DBA00BC87D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		21955C232A396DB900BC87D2 = {
+			isa = PBXGroup;
+			children = (
+				21955C2E2A396DB900BC87D2 /* Food Bridge */,
+				21955C452A396DBA00BC87D2 /* Food BridgeTests */,
+				21955C4F2A396DBA00BC87D2 /* Food BridgeUITests */,
+				21955C2D2A396DB900BC87D2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		21955C2D2A396DB900BC87D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21955C2C2A396DB900BC87D2 /* Food Bridge.app */,
+				21955C422A396DBA00BC87D2 /* Food BridgeTests.xctest */,
+				21955C4C2A396DBA00BC87D2 /* Food BridgeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		21955C2E2A396DB900BC87D2 /* Food Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				21955C2F2A396DB900BC87D2 /* AppDelegate.swift */,
+				21955C312A396DB900BC87D2 /* SceneDelegate.swift */,
+				21955C332A396DB900BC87D2 /* Backup.swift */,
+				21955C672A3A5D7A00BC87D2 /* LaunchVC.swift */,
+				214300512A45786700B0FBA0 /* AboutVC.swift */,
+				21955C652A3A5D3900BC87D2 /* SignUpVC.swift */,
+				21955C692A3B98DD00BC87D2 /* LoginVC.swift */,
+				21B8C73B2A5A1A76003139FD /* FirstTimeVC.swift */,
+				21B8C73D2A5A1CF6003139FD /* ControlBar.swift */,
+				21955C612A396E0F00BC87D2 /* MainVC.swift */,
+				21B8C7402A5A1E64003139FD /* BrowseVC.swift */,
+				21B8C7422A5A1E6F003139FD /* ListVC.swift */,
+				21B8C7442A5A1E79003139FD /* AccountVC.swift */,
+				218D979E2A5612D900FAD484 /* Demo.swift */,
+				21E1C9422A47A20500E08F48 /* User.swift */,
+				21955C5F2A396DFA00BC87D2 /* Colors.swift */,
+				21955C352A396DB900BC87D2 /* Main.storyboard */,
+				21955C382A396DBA00BC87D2 /* Assets.xcassets */,
+				21955C3A2A396DBA00BC87D2 /* LaunchScreen.storyboard */,
+				21955C3D2A396DBA00BC87D2 /* Info.plist */,
+			);
+			path = "Food Bridge";
+			sourceTree = "<group>";
+		};
+		21955C452A396DBA00BC87D2 /* Food BridgeTests */ = {
+			isa = PBXGroup;
+			children = (
+				21955C462A396DBA00BC87D2 /* Food_BridgeTests.swift */,
+			);
+			path = "Food BridgeTests";
+			sourceTree = "<group>";
+		};
+		21955C4F2A396DBA00BC87D2 /* Food BridgeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				21955C502A396DBA00BC87D2 /* Food_BridgeUITests.swift */,
+				21955C522A396DBA00BC87D2 /* Food_BridgeUITestsLaunchTests.swift */,
+			);
+			path = "Food BridgeUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		21955C2B2A396DB900BC87D2 /* Food Bridge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21955C562A396DBA00BC87D2 /* Build configuration list for PBXNativeTarget "Food Bridge" */;
+			buildPhases = (
+				21955C282A396DB900BC87D2 /* Sources */,
+				21955C292A396DB900BC87D2 /* Frameworks */,
+				21955C2A2A396DB900BC87D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Food Bridge";
+			productName = "Food Bridge";
+			productReference = 21955C2C2A396DB900BC87D2 /* Food Bridge.app */;
+			productType = "com.apple.product-type.application";
+		};
+		21955C412A396DBA00BC87D2 /* Food BridgeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21955C592A396DBA00BC87D2 /* Build configuration list for PBXNativeTarget "Food BridgeTests" */;
+			buildPhases = (
+				21955C3E2A396DBA00BC87D2 /* Sources */,
+				21955C3F2A396DBA00BC87D2 /* Frameworks */,
+				21955C402A396DBA00BC87D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21955C442A396DBA00BC87D2 /* PBXTargetDependency */,
+			);
+			name = "Food BridgeTests";
+			productName = "Food BridgeTests";
+			productReference = 21955C422A396DBA00BC87D2 /* Food BridgeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		21955C4B2A396DBA00BC87D2 /* Food BridgeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21955C5C2A396DBA00BC87D2 /* Build configuration list for PBXNativeTarget "Food BridgeUITests" */;
+			buildPhases = (
+				21955C482A396DBA00BC87D2 /* Sources */,
+				21955C492A396DBA00BC87D2 /* Frameworks */,
+				21955C4A2A396DBA00BC87D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21955C4E2A396DBA00BC87D2 /* PBXTargetDependency */,
+			);
+			name = "Food BridgeUITests";
+			productName = "Food BridgeUITests";
+			productReference = 21955C4C2A396DBA00BC87D2 /* Food BridgeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		21955C242A396DB900BC87D2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1320;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					21955C2B2A396DB900BC87D2 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					21955C412A396DBA00BC87D2 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 21955C2B2A396DB900BC87D2;
+					};
+					21955C4B2A396DBA00BC87D2 = {
+						CreatedOnToolsVersion = 13.2.1;
+						TestTargetID = 21955C2B2A396DB900BC87D2;
+					};
+				};
+			};
+			buildConfigurationList = 21955C272A396DB900BC87D2 /* Build configuration list for PBXProject "Food Bridge" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 21955C232A396DB900BC87D2;
+			productRefGroup = 21955C2D2A396DB900BC87D2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				21955C2B2A396DB900BC87D2 /* Food Bridge */,
+				21955C412A396DBA00BC87D2 /* Food BridgeTests */,
+				21955C4B2A396DBA00BC87D2 /* Food BridgeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		21955C2A2A396DB900BC87D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21955C3C2A396DBA00BC87D2 /* LaunchScreen.storyboard in Resources */,
+				21955C392A396DBA00BC87D2 /* Assets.xcassets in Resources */,
+				21955C372A396DB900BC87D2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21955C402A396DBA00BC87D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21955C4A2A396DBA00BC87D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		21955C282A396DB900BC87D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21B8C7452A5A1E79003139FD /* AccountVC.swift in Sources */,
+				21B8C73C2A5A1A76003139FD /* FirstTimeVC.swift in Sources */,
+				21E1C9432A47A20500E08F48 /* User.swift in Sources */,
+				21B8C7412A5A1E64003139FD /* BrowseVC.swift in Sources */,
+				21955C662A3A5D3900BC87D2 /* SignUpVC.swift in Sources */,
+				21955C342A396DB900BC87D2 /* Backup.swift in Sources */,
+				21955C622A396E0F00BC87D2 /* MainVC.swift in Sources */,
+				21B8C7432A5A1E6F003139FD /* ListVC.swift in Sources */,
+				21955C602A396DFA00BC87D2 /* Colors.swift in Sources */,
+				218D979F2A5612D900FAD484 /* Demo.swift in Sources */,
+				21955C302A396DB900BC87D2 /* AppDelegate.swift in Sources */,
+				21955C6A2A3B98DD00BC87D2 /* LoginVC.swift in Sources */,
+				214300522A45786700B0FBA0 /* AboutVC.swift in Sources */,
+				21B8C73E2A5A1CF6003139FD /* ControlBar.swift in Sources */,
+				21955C682A3A5D7A00BC87D2 /* LaunchVC.swift in Sources */,
+				21955C322A396DB900BC87D2 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21955C3E2A396DBA00BC87D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21955C472A396DBA00BC87D2 /* Food_BridgeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21955C482A396DBA00BC87D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21955C512A396DBA00BC87D2 /* Food_BridgeUITests.swift in Sources */,
+				21955C532A396DBA00BC87D2 /* Food_BridgeUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		21955C442A396DBA00BC87D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21955C2B2A396DB900BC87D2 /* Food Bridge */;
+			targetProxy = 21955C432A396DBA00BC87D2 /* PBXContainerItemProxy */;
+		};
+		21955C4E2A396DBA00BC87D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21955C2B2A396DB900BC87D2 /* Food Bridge */;
+			targetProxy = 21955C4D2A396DBA00BC87D2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		21955C352A396DB900BC87D2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				21955C362A396DB900BC87D2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		21955C3A2A396DBA00BC87D2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				21955C3B2A396DBA00BC87D2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		21955C542A396DBA00BC87D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		21955C552A396DBA00BC87D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		21955C572A396DBA00BC87D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47Y2UT3C45;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Food Bridge/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foodbridge.Food-Bridge";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		21955C582A396DBA00BC87D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47Y2UT3C45;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Food Bridge/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foodbridge.Food-Bridge";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		21955C5A2A396DBA00BC87D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47Y2UT3C45;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foodbridge.Food-BridgeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Food Bridge.app/Food Bridge";
+			};
+			name = Debug;
+		};
+		21955C5B2A396DBA00BC87D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47Y2UT3C45;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foodbridge.Food-BridgeTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Food Bridge.app/Food Bridge";
+			};
+			name = Release;
+		};
+		21955C5D2A396DBA00BC87D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47Y2UT3C45;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foodbridge.Food-BridgeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Food Bridge";
+			};
+			name = Debug;
+		};
+		21955C5E2A396DBA00BC87D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47Y2UT3C45;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.foodbridge.Food-BridgeUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Food Bridge";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		21955C272A396DB900BC87D2 /* Build configuration list for PBXProject "Food Bridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21955C542A396DBA00BC87D2 /* Debug */,
+				21955C552A396DBA00BC87D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21955C562A396DBA00BC87D2 /* Build configuration list for PBXNativeTarget "Food Bridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21955C572A396DBA00BC87D2 /* Debug */,
+				21955C582A396DBA00BC87D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21955C592A396DBA00BC87D2 /* Build configuration list for PBXNativeTarget "Food BridgeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21955C5A2A396DBA00BC87D2 /* Debug */,
+				21955C5B2A396DBA00BC87D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21955C5C2A396DBA00BC87D2 /* Build configuration list for PBXNativeTarget "Food BridgeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21955C5D2A396DBA00BC87D2 /* Debug */,
+				21955C5E2A396DBA00BC87D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 21955C242A396DB900BC87D2 /* Project object */;
+}
