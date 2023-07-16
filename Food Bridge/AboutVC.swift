@@ -42,6 +42,7 @@ class AboutVC: UIViewController {
         let lb = UILabel()
         lb.text = "Jonny has been responsible for bringing concepts to life for clients such as Nintendo, Estée Lauder, Oxfam, Scribner, Sony, and many others. His work has been recognised by One Show, ADC, Webby Awards, and Cannes Lions. When Jonny isn't busy educating people on the difference between fonts and typefaces, he can be found taking part in competitive tickling competitions across the UK."
         lb.font = UIFont.systemFont(ofSize: 20)
+        lb.textColor = .white
         lb.textAlignment = .center
         lb.numberOfLines = 0
         return lb
