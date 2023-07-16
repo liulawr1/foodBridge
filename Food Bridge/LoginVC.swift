@@ -111,8 +111,6 @@ class LoginVC: UIViewController {
     @objc func handle_submit(sender: UIButton) {
         let cb = ControlBar()
         let nav = UINavigationController(rootViewController: cb)
-        nav.navigationBar.backgroundColor = .clear
-        nav.navigationBar.setBackgroundImage(UIImage(named: ""), for: UIBarMetrics.default)
         nav.modalPresentationStyle = .fullScreen
         let email = email_field.text
         let password = password_field.text

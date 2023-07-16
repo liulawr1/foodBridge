@@ -60,7 +60,7 @@ class AboutVC: UIViewController {
         let description_h: CGFloat = view.frame.height / 2
         back_bt.frame = CGRect(x: view.frame.width / 2, y: top_margin, width: elem_w / 2, height: elem_h)
         title_lb.frame = CGRect(x: left_margin, y: back_bt.center.y + back_bt.frame.height / 2 + elem_margin + 50, width: elem_w, height: elem_h)
-        description_lb.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin - 15, width: elem_w, height: elem_h)
+        description_lb.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin - 15, width: elem_w, height: description_h)
         
         // connect @objc func to buttons
         back_bt.addTarget(self, action: #selector(handle_back(sender: )), for: .touchUpInside)

@@ -15,9 +15,9 @@ class ControlBar: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.backgroundColor = skyBlue
-        self.tabBar.tintColor = .white
-        self.navigationController?.navigationBar.backgroundColor = .clear
+        UITabBar.appearance().backgroundColor = skyBlue
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().tintColor = .white
         
         let item1 = UITabBarItem(title: "Browse", image: UIImage(systemName: "tray.full"), tag: 0)
         let item2 = UITabBarItem(title: "List", image: UIImage(systemName: "square.and.arrow.up"), tag: 1)
