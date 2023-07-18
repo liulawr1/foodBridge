@@ -120,25 +120,30 @@ class SignUpVC: UIViewController {
         return lb
     }()
     
-    func create_user(email: String, password: String) {
-        
-        user_db.set(user_cnt + 1, forKey: "cnt")
-        let new_user = ["email": email, "password": password]
-        user_db.set(new_user, forKey: "user_\(user_cnt)")
-        users.append(user_db.dictionary(forKey: "user_\(user_cnt)")!)
-    }
-    
-    @objc func handle_submit(sender: UIButton) {
+    func sign_up(email: String, password: String) {
         let vc = LaunchVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
+        
+        Auth.auth().createUser(withEmail: email, password: password) {
+            (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("Sign-up successful")
+                self.present(nav, animated: true)
+            }
+        }
+    }
+    
+    @objc func handle_submit(sender: UIButton) {
         let email = email_field.text
         let password = password_field.text
         let password_confirmation = password_confirmation_field.text
+        
         if (email != "" && password != "" && password_confirmation != "") {
             if (password == password_confirmation) {
-                create_user(email: email!, password: password!)
-                self.present(nav, animated: true)
+                sign_up(email: email!, password: password!)
             } else {
                 let elem_w: CGFloat = view.frame.width - 2 * left_margin
                 warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)

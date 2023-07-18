@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class LoginVC: UIViewController {
     override func viewDidLoad() {
@@ -96,29 +97,31 @@ class LoginVC: UIViewController {
         return lb
     }()
     
-    func traverse_db(email: String, password: String) -> Bool {
-        for user in users {
-            if (user["email"] as! String == email && user["password"] as! String == password) {
-                print("Access granted")
-                return true
-            }
-        }
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(warning1_lb)
-        return false
-    }
-
-    @objc func handle_submit(sender: UIButton) {
+    func login(email: String, password: String) {
         let cb = ControlBar()
         let nav = UINavigationController(rootViewController: cb)
         nav.modalPresentationStyle = .fullScreen
+        
+        Auth.auth().signIn(withEmail: email, password: password) {
+            [self] (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                let elem_w: CGFloat = view.frame.width - 2 * left_margin
+                warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+                view.addSubview(warning1_lb)
+            } else {
+                print("Login successful")
+                self.present(nav, animated: true)
+            }
+        }
+    }
+
+    @objc func handle_submit(sender: UIButton) {
         let email = email_field.text
         let password = password_field.text
+        
         if (email != "" && password != "") {
-            if (traverse_db(email: email!, password: password!)) {
-                self.present(nav, animated: false)
-            }
+            login(email: email!, password: password!)
         } else {
             let elem_w: CGFloat = view.frame.width - 2 * left_margin
             warning2_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
