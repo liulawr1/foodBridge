@@ -15,25 +15,24 @@ var user_cnt = user_db.integer(forKey: "cnt")
 class User {
     var email: String?
     var password: String?
-    var isFirstTime: Bool?
-    
+
     init(email: String, password: String) {
         self.email = email
         self.password = password
     }
-    
+
     public func set_email(email: String) {
         self.email = email
     }
-    
+
     public func get_email() -> String {
         return self.email!
     }
-    
+
     public func set_password(password: String) {
         self.password = password
     }
-    
+
     public func get_password() -> String {
         return self.password!
     }

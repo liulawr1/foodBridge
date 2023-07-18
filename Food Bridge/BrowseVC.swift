@@ -52,7 +52,7 @@ class BrowseVC: UIViewController {
     }()
     
     @objc func handle_enter(sender: UIButton) {
-        print("e")
+        
     }
     
     func setup_UI() {

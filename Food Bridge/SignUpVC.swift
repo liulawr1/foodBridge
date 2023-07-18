@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class SignUpVC: UIViewController {
     override func viewDidLoad() {
@@ -45,6 +46,7 @@ class SignUpVC: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
+        tf.isSecureTextEntry = true
         tf.backgroundColor = lightRobinBlue
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
@@ -68,6 +70,7 @@ class SignUpVC: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
+        tf.isSecureTextEntry = true
         tf.backgroundColor = lightRobinBlue
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
@@ -118,6 +121,7 @@ class SignUpVC: UIViewController {
     }()
     
     func create_user(email: String, password: String) {
+        
         user_db.set(user_cnt + 1, forKey: "cnt")
         let new_user = ["email": email, "password": password]
         user_db.set(new_user, forKey: "user_\(user_cnt)")

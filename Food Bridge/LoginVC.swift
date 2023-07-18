@@ -45,6 +45,7 @@ class LoginVC: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
+        tf.isSecureTextEntry = true
         tf.backgroundColor = lightRobinBlue
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
