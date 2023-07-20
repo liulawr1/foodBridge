@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 class ListVC: UIViewController {
     override func viewDidLoad() {
@@ -18,7 +19,7 @@ class ListVC: UIViewController {
     let header_lb: UILabel = {
         let lb = UILabel()
         lb.text = "Create a Listing"
-        lb.font = UIFont.boldSystemFont(ofSize: 35)
+        lb.font = UIFont.boldSystemFont(ofSize: 40)
         lb.textColor = .white
         lb.textAlignment = .center
         return lb
@@ -99,6 +100,7 @@ class ListVC: UIViewController {
         dp.layer.borderWidth = 2
         dp.layer.cornerRadius = 20
         dp.clipsToBounds = true
+        dp.setValue(UIColor.white, forKeyPath: "textColor")
         return dp
     }()
 
@@ -131,6 +133,58 @@ class ListVC: UIViewController {
         }
     }
     
+    let contact_field: UITextField = {
+        let tf = UITextField()
+        let attributedPlaceholder = NSAttributedString(
+            string: "Contact",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        tf.attributedPlaceholder = attributedPlaceholder
+        tf.backgroundColor = lightRobinBlue
+        tf.font = UIFont.boldSystemFont(ofSize: 20)
+        tf.textColor = .white
+        tf.autocapitalizationType = .none
+        tf.autocorrectionType = .no
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 2
+        tf.layer.cornerRadius = 20
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
+        
+        return tf
+    }()
+    
+    let create_listing_bt: UIButton = {
+        let bt = UIButton()
+        bt.setTitle("Create Listing", for: .normal)
+        bt.backgroundColor = robinBlue
+        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        bt.setTitleColor(.white, for: .normal)
+        bt.titleLabel?.textAlignment = .center
+        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderWidth = 2
+        bt.layer.cornerRadius = 20
+        return bt
+    }()
+    
+    @objc func handle_create(sender: UIButton) {
+        var ref: DocumentReference? = nil
+        ref = listing_db.collection("listings").addDocument(data: [
+            "first": "Ada",
+            "last": "Lovelace",
+            "born": 1815,
+            "location": [634.2344, 123124.44]
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
+    }
+    
     func setup_UI() {
         let top_margin: CGFloat = 80
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
@@ -140,6 +194,8 @@ class ListVC: UIViewController {
         pickup_location_field.frame = CGRect(x: left_margin, y: description_field.center.y + description_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_picker.frame = CGRect(x: left_margin, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
         end_time_picker.frame = CGRect(x: left_margin + elem_w / 2 + 10, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
+        contact_field.frame = CGRect(x: left_margin, y: start_time_picker.center.y + start_time_picker.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        create_listing_bt.frame = CGRect(x: left_margin, y: contact_field.center.y + contact_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         let startTimeLabel = UILabel(frame: CGRect(x: 5, y: 0, width: start_time_picker.frame.width, height: start_time_picker.frame.height))
         startTimeLabel.text = "Start Time:"
@@ -148,9 +204,9 @@ class ListVC: UIViewController {
         startTimeLabel.textAlignment = .left
         start_time_picker.addSubview(startTimeLabel)
         
-        let endTimeLabel = UILabel(frame: CGRect(x: 8, y: 0, width: end_time_picker.frame.width, height: end_time_picker.frame.height))
+        let endTimeLabel = UILabel(frame: CGRect(x: 5, y: 0, width: end_time_picker.frame.width, height: end_time_picker.frame.height))
         endTimeLabel.text = "End Time:"
-        endTimeLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        endTimeLabel.font = UIFont.boldSystemFont(ofSize: 17)
         endTimeLabel.textColor = .white
         endTimeLabel.textAlignment = .left
         end_time_picker.addSubview(endTimeLabel)
@@ -158,6 +214,7 @@ class ListVC: UIViewController {
         // connect @objc func to buttons
         start_time_picker.addTarget(self, action: #selector(startTimeChanged(picker: )), for: .valueChanged)
         end_time_picker.addTarget(self, action: #selector(endTimeChanged(picker: )), for: .valueChanged)
+        create_listing_bt.addTarget(self, action: #selector(handle_create(sender: )), for: .touchUpInside)
         
         view.addSubview(header_lb)
         view.addSubview(title_field)
@@ -165,5 +222,7 @@ class ListVC: UIViewController {
         view.addSubview(pickup_location_field)
         view.addSubview(start_time_picker)
         view.addSubview(end_time_picker)
+        view.addSubview(contact_field)
+        view.addSubview(create_listing_bt)
     }
 }

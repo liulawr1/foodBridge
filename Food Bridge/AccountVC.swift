@@ -26,7 +26,7 @@ class AccountVC: UIViewController {
     
     let myProfile_view: UIView = {
         let v = UIView()
-        v.backgroundColor = skyBlue
+        v.backgroundColor = lightRobinBlue
         v.layer.borderColor = UIColor.white.cgColor
         v.layer.borderWidth = 2
         v.layer.cornerRadius = 20
@@ -44,7 +44,7 @@ class AccountVC: UIViewController {
     
     let myListings_view: UIView = {
         let v = UIView()
-        v.backgroundColor = skyBlue
+        v.backgroundColor = lightRobinBlue
         v.layer.borderColor = UIColor.white.cgColor
         v.layer.borderWidth = 2
         v.layer.cornerRadius = 10
@@ -62,7 +62,7 @@ class AccountVC: UIViewController {
     
     let savedListings_view: UIView = {
         let v = UIView()
-        v.backgroundColor = skyBlue
+        v.backgroundColor = lightRobinBlue
         v.layer.borderColor = UIColor.white.cgColor
         v.layer.borderWidth = 2
         v.layer.cornerRadius = 10
@@ -101,7 +101,7 @@ class AccountVC: UIViewController {
     func setup_UI() {
         let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        scrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        scrollView.frame = view.frame
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 275)
         myProfile_view.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: 250)
         myProfile_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
