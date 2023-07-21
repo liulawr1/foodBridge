@@ -17,7 +17,6 @@ class LaunchVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         setup_UI()
-        display_admin()
     }
     
     let title_lb: UILabel = {
@@ -92,13 +91,6 @@ class LaunchVC: UIViewController {
         iv.contentMode = .scaleAspectFit
         return iv
     }()
-    
-    func display_admin() {
-        print(user_db.dictionary(forKey: "user_0")!["email"]!)
-        print(user_db.dictionary(forKey: "user_0")!["password"]!)
-        users.append(user_db.dictionary(forKey: "user_0")!)
-        print(users)
-    }
     
     func setup_UI() {
         let top_margin: CGFloat = 75

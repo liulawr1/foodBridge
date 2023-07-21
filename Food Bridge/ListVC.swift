@@ -16,6 +16,11 @@ class ListVC: UIViewController {
         setup_UI()
     }
     
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
+    
     let header_lb: UILabel = {
         let lb = UILabel()
         lb.text = "Create a Listing"
@@ -133,10 +138,10 @@ class ListVC: UIViewController {
         }
     }
     
-    let contact_field: UITextField = {
+    let contact_info_field: UITextField = {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
-            string: "Contact",
+            string: "Contact Info",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
@@ -169,18 +174,54 @@ class ListVC: UIViewController {
         return bt
     }()
     
+    let error_lb: UILabel = {
+        let lb = UILabel()
+        lb.text = "Error occurred while creating listing!"
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
+        lb.backgroundColor = robinBlue
+        lb.textColor = .red
+        lb.textAlignment = .center
+        return lb
+    }()
+    
+    let success_lb: UILabel = {
+        let lb = UILabel()
+        lb.text = "Listing successfully created!"
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
+        lb.backgroundColor = robinBlue
+        lb.textColor = .green
+        lb.textAlignment = .center
+        return lb
+    }()
+    
+    func display_error() {
+        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        error_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        view.addSubview(error_lb)
+    }
+    
+    func display_success() {
+        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        success_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        view.addSubview(success_lb)
+    }
+    
     @objc func handle_create(sender: UIButton) {
         var ref: DocumentReference? = nil
-        ref = listing_db.collection("listings").addDocument(data: [
-            "first": "Ada",
-            "last": "Lovelace",
-            "born": 1815,
-            "location": [634.2344, 123124.44]
-        ]) { err in
+        ref = db.collection("listings").addDocument(data: [
+            "title": title_field.text!,
+            "description": description_field.text!,
+            "pickup_location": pickup_location_field.text!,
+            "start_time": start_time_picker.date,
+            "end_time": end_time_picker.date,
+            "contact_info": (contact_info_field.text!)
+        ]) { [self] err in
             if let err = err {
                 print("Error adding document: \(err)")
+                display_error()
             } else {
                 print("Document added with ID: \(ref!.documentID)")
+                display_success()
             }
         }
     }
@@ -194,8 +235,8 @@ class ListVC: UIViewController {
         pickup_location_field.frame = CGRect(x: left_margin, y: description_field.center.y + description_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_picker.frame = CGRect(x: left_margin, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
         end_time_picker.frame = CGRect(x: left_margin + elem_w / 2 + 10, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
-        contact_field.frame = CGRect(x: left_margin, y: start_time_picker.center.y + start_time_picker.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        create_listing_bt.frame = CGRect(x: left_margin, y: contact_field.center.y + contact_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        contact_info_field.frame = CGRect(x: left_margin, y: start_time_picker.center.y + start_time_picker.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        create_listing_bt.frame = CGRect(x: left_margin, y: contact_info_field.center.y + contact_info_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         let startTimeLabel = UILabel(frame: CGRect(x: 5, y: 0, width: start_time_picker.frame.width, height: start_time_picker.frame.height))
         startTimeLabel.text = "Start Time:"
@@ -222,7 +263,7 @@ class ListVC: UIViewController {
         view.addSubview(pickup_location_field)
         view.addSubview(start_time_picker)
         view.addSubview(end_time_picker)
-        view.addSubview(contact_field)
+        view.addSubview(contact_info_field)
         view.addSubview(create_listing_bt)
     }
 }

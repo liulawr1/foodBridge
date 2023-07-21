@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class AccountVC: UIViewController {
     override func viewDidLoad() {
@@ -39,6 +40,15 @@ class AccountVC: UIViewController {
         lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
         lb.textAlignment = .center
+        return lb
+    }()
+    
+    let email_lb: UILabel = {
+        let lb = UILabel()
+        lb.text = "Email: \(USER_EMAIL ?? "Loading")"
+        lb.font = UIFont.boldSystemFont(ofSize: 15)
+        lb.textColor = .white
+        lb.textAlignment = .left
         return lb
     }()
     
@@ -105,6 +115,7 @@ class AccountVC: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 275)
         myProfile_view.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: 250)
         myProfile_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
+        email_lb.frame = CGRect(x: left_margin * 2, y: top_margin + 35, width: elem_w, height: elem_h)
         myListings_view.frame = CGRect(x: left_margin, y: myProfile_view.center.y + myProfile_view.frame.height / 2 + elem_margin, width: elem_w, height: 400)
         myListings_lb.frame = CGRect(x: left_margin, y: myProfile_view.center.y + myProfile_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         savedListings_view.frame = CGRect(x: left_margin, y: myListings_view.center.y + myListings_view.frame.height / 2 + elem_margin, width: elem_w, height: 400)
@@ -117,6 +128,7 @@ class AccountVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(myProfile_view)
         scrollView.addSubview(myProfile_lb)
+        scrollView.addSubview(email_lb)
         scrollView.addSubview(myListings_view)
         scrollView.addSubview(myListings_lb)
         scrollView.addSubview(savedListings_view)

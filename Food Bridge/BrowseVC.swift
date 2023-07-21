@@ -7,13 +7,14 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestore
 
 class BrowseVC: UIViewController {
     var arr = [1, 2, 3, 4, 5]
     var listings_arr = [Listing]()
     lazy var h: CGFloat = view.frame.height / 5
     lazy var w: CGFloat = view.frame.width - 20
-    var margin: CGFloat = 1.2
+    var margin: CGFloat = 1.1
     lazy var sv_h: CGFloat = CGFloat(arr.count) * h * margin + 100
     
     override func viewDidLoad() {
@@ -91,6 +92,8 @@ class BrowseVC: UIViewController {
             listings_arr[i].layer.cornerRadius = 10
             scrollView.addSubview(listings_arr[i])
         }
+        
+        
     }
     
     func setup_UI() {

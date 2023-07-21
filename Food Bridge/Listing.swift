@@ -9,11 +9,10 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
-let listing_db = Firestore.firestore()
-
 class Listing: UIView {
     let product_view: UIImageView = {
        let iv = UIImageView()
+        //iv.image = UIImage(data: <#T##Data#>)
         iv.frame = CGRect(x: 10, y: 10, width: 100, height: 100)
         iv.backgroundColor = UIColor.gray
         return iv

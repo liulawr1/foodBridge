@@ -97,6 +97,18 @@ class LoginVC: UIViewController {
         return lb
     }()
     
+    func display_warning1() {
+        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        view.addSubview(warning1_lb)
+    }
+    
+    func display_warning2() {
+        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        warning2_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        view.addSubview(warning2_lb)
+    }
+    
     func login(email: String, password: String) {
         let cb = ControlBar()
         let nav = UINavigationController(rootViewController: cb)
@@ -106,9 +118,7 @@ class LoginVC: UIViewController {
             [self] (result, error) in
             if let error = error {
                 print(error.localizedDescription)
-                let elem_w: CGFloat = view.frame.width - 2 * left_margin
-                warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-                view.addSubview(warning1_lb)
+                display_warning1()
             } else {
                 print("Login successful")
                 self.present(nav, animated: true)
@@ -123,9 +133,7 @@ class LoginVC: UIViewController {
         if (email != "" && password != "") {
             login(email: email!, password: password!)
         } else {
-            let elem_w: CGFloat = view.frame.width - 2 * left_margin
-            warning2_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-            view.addSubview(warning2_lb)
+            display_warning2()
         }
     }
     
