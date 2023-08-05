@@ -10,12 +10,11 @@ import UIKit
 import FirebaseFirestore
 
 class BrowseVC: UIViewController {
-    var arr = [1, 2, 3, 4, 5]
     var listings_arr = [Listing]()
     lazy var h: CGFloat = view.frame.height / 5
     lazy var w: CGFloat = view.frame.width - 20
     var margin: CGFloat = 1.1
-    lazy var sv_h: CGFloat = CGFloat(arr.count) * h * margin + 100
+    lazy var sv_h: CGFloat = CGFloat(listings_arr.count) * h * margin + 100
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,31 +68,64 @@ class BrowseVC: UIViewController {
     }()
     
     @objc func handle_enter(sender: UIButton) {
+        let search_query = search_bar.text!
         
-    }
-    
-    func create_rows(n : Int) {
-        for i in 0 ..< n {
-            let listing = Listing()
-            // fx = ax + b
-            let x_cor: CGFloat = 10
-            let y_cor: CGFloat = CGFloat(i) * h * margin + 75
-            listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-            listing.tag = i
-            listings_arr.append(listing)
+        listings_arr.forEach { $0.removeFromSuperview() }
+        listings_arr.removeAll()
+        
+        db.collection("listings").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                var i = 0
+                for document in querySnapshot!.documents {
+                    if search_query.isEmpty || (document.get("title") as! String).contains(search_query) {
+                        let listing = Listing()
+                        // fx = ax + b
+                        let x_cor: CGFloat = 10
+                        let y_cor: CGFloat = CGFloat(i) * h * margin + 75
+                        listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
+                        listing.tag = i
+                        listings_arr.append(listing)
+                        
+                        listings_arr[i].backgroundColor = lightRobinBlue
+                        listings_arr[i].layer.borderColor = UIColor.white.cgColor
+                        listings_arr[i].layer.borderWidth = 2
+                        listings_arr[i].layer.cornerRadius = 10
+                        listings_arr[i].title_lb.text = (document.get("title") as! String)
+                        scrollView.addSubview(listings_arr[i])
+                        i += 1
+                    }
+                }
+            }
         }
     }
     
     func display_rows() {
-        for i in 0 ..< listings_arr.count {
-            listings_arr[i].backgroundColor = lightRobinBlue
-            listings_arr[i].layer.borderColor = UIColor.white.cgColor
-            listings_arr[i].layer.borderWidth = 2
-            listings_arr[i].layer.cornerRadius = 10
-            scrollView.addSubview(listings_arr[i])
+        db.collection("listings").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                var i = 0
+                for document in querySnapshot!.documents {
+                    let listing = Listing()
+                    // fx = ax + b
+                    let x_cor: CGFloat = 10
+                    let y_cor: CGFloat = CGFloat(i) * h * margin + 75
+                    listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
+                    listing.tag = i
+                    listings_arr.append(listing)
+                    
+                    listings_arr[i].backgroundColor = lightRobinBlue
+                    listings_arr[i].layer.borderColor = UIColor.white.cgColor
+                    listings_arr[i].layer.borderWidth = 2
+                    listings_arr[i].layer.cornerRadius = 10
+                    listings_arr[i].title_lb.text = (document.get("title") as! String)
+                    scrollView.addSubview(listings_arr[i])
+                    i += 1
+                }
+            }
         }
-        
-        
     }
     
     func setup_UI() {
@@ -111,7 +143,6 @@ class BrowseVC: UIViewController {
         scrollView.addSubview(search_bar)
         scrollView.addSubview(enter_bt)
         
-        create_rows(n: arr.count)
         display_rows()
     }
 }
