@@ -24,7 +24,7 @@ class ListVC: UIViewController {
     let header_lb: UILabel = {
         let lb = UILabel()
         lb.text = "Create a Listing"
-        lb.font = UIFont.boldSystemFont(ofSize: 40)
+        lb.font = UIFont.boldSystemFont(ofSize: 45)
         lb.textColor = .white
         lb.textAlignment = .center
         return lb
@@ -53,8 +53,8 @@ class ListVC: UIViewController {
         return tf
     }()
     
-    let description_field: UITextView = {
-        let tv = UITextView()
+    let description_field: UITextField = {
+        let tv = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "Description",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -68,7 +68,7 @@ class ListVC: UIViewController {
         tv.layer.borderColor = UIColor.white.cgColor
         tv.layer.borderWidth = 2
         tv.layer.cornerRadius = 20
-        tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        //tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return tv
     }()
     
@@ -230,7 +230,7 @@ class ListVC: UIViewController {
         let top_margin: CGFloat = 80
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
-        title_field.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 20, width: elem_w, height: elem_h)
+        title_field.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
         description_field.frame = CGRect(x: left_margin, y: title_field.center.y + title_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 5)
         pickup_location_field.frame = CGRect(x: left_margin, y: description_field.center.y + description_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_picker.frame = CGRect(x: left_margin, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)

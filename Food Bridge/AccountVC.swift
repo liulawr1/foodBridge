@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import FirebaseAuth
 
-class AccountVC: UIViewController {
+class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
@@ -20,12 +20,16 @@ class AccountVC: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
     }
     
-    let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        return sv
+    let header_lb: UILabel = {
+        let lb = UILabel()
+        lb.text = "My Profile"
+        lb.font = UIFont.boldSystemFont(ofSize: 45)
+        lb.textColor = .white
+        lb.textAlignment = .center
+        return lb
     }()
     
-    let myProfile_view: UIView = {
+    let pfp_view: UIView = {
         let v = UIView()
         v.backgroundColor = lightRobinBlue
         v.layer.borderColor = UIColor.white.cgColor
@@ -34,95 +38,44 @@ class AccountVC: UIViewController {
         return v
     }()
     
-    let myProfile_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "My Profile"
-        lb.font = UIFont.boldSystemFont(ofSize: 25)
-        lb.textColor = .white
-        lb.textAlignment = .center
-        return lb
+    let profile_picture: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = robinBlue
+        iv.layer.borderColor = UIColor.white.cgColor
+        iv.layer.borderWidth = 2
+        iv.layer.cornerRadius = 100
+        iv.clipsToBounds = true
+        return iv
     }()
     
-    let email_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Email: \(USER_EMAIL ?? "Loading")"
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
-        lb.textAlignment = .left
-        return lb
+    let set_pfp_bt: UIButton = {
+        let bt = UIButton()
+        bt.setTitle("Set Profile Picture", for: .normal)
+        bt.backgroundColor = robinBlue
+        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        bt.setTitleColor(.white, for: .normal)
+        bt.titleLabel?.textAlignment = .center
+        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderWidth = 2
+        bt.layer.cornerRadius = 20
+        bt.titleLabel?.numberOfLines = 0
+        return bt
     }()
     
-    let donor_type_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Donor Type: "
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
-        lb.textAlignment = .left
-        return lb
-    }()
+    @objc func handle_pfp_upload(sender: UIButton) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        self.present(picker, animated: true)
+    }
     
-    let location_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Location: "
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
-        lb.textAlignment = .left
-        return lb
-    }()
-    
-    let total_listings_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Total Listings: "
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
-        lb.textAlignment = .left
-        return lb
-    }()
-    
-    let active_listings_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Active Listings: "
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
-        lb.textAlignment = .left
-        return lb
-    }()
-    
-    let myListings_view: UIView = {
-        let v = UIView()
-        v.backgroundColor = lightRobinBlue
-        v.layer.borderColor = UIColor.white.cgColor
-        v.layer.borderWidth = 2
-        v.layer.cornerRadius = 10
-        return v
-    }()
-    
-    let myListings_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "My Listings"
-        lb.font = UIFont.boldSystemFont(ofSize: 25)
-        lb.textColor = .white
-        lb.textAlignment = .center
-        return lb
-    }()
-    
-    let savedListings_view: UIView = {
-        let v = UIView()
-        v.backgroundColor = lightRobinBlue
-        v.layer.borderColor = UIColor.white.cgColor
-        v.layer.borderWidth = 2
-        v.layer.cornerRadius = 10
-        return v
-    }()
-    
-    let savedListings_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Saved Listings"
-        lb.font = UIFont.boldSystemFont(ofSize: 25)
-        lb.textColor = .white
-        lb.textAlignment = .center
-        return lb
-    }()
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        guard let selected_image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
+        profile_picture.image = selected_image
+        self.dismiss(animated: true)
+    }
     
     let signout_bt: UIButton = {
         let bt = UIButton()
@@ -143,40 +96,32 @@ class AccountVC: UIViewController {
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: false)
     }
-
+    
     func setup_UI() {
-        let top_margin: CGFloat = 0
+        let top_margin: CGFloat = 80
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        scrollView.frame = view.frame
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 275)
-        myProfile_view.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: 250)
-        myProfile_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
-        email_lb.frame = CGRect(x: left_margin + 10, y: top_margin + 35, width: elem_w, height: elem_h)
-        donor_type_lb.frame = CGRect(x: left_margin + 10, y: top_margin + 65, width: elem_w, height: elem_h)
-        location_lb.frame = CGRect(x: left_margin + 10, y: top_margin + 95, width: elem_w, height: elem_h)
-        total_listings_lb.frame = CGRect(x: left_margin + 10, y: top_margin + 125, width: elem_w, height: elem_h)
-        active_listings_lb.frame = CGRect(x: left_margin + 10, y: top_margin + 155, width: elem_w, height: elem_h)
-        myListings_view.frame = CGRect(x: left_margin, y: myProfile_view.center.y + myProfile_view.frame.height / 2 + elem_margin, width: elem_w, height: 400)
-        myListings_lb.frame = CGRect(x: left_margin, y: myProfile_view.center.y + myProfile_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        savedListings_view.frame = CGRect(x: left_margin, y: myListings_view.center.y + myListings_view.frame.height / 2 + elem_margin, width: elem_w, height: 400)
-        savedListings_lb.frame = CGRect(x: left_margin, y: myListings_view.center.y + myListings_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        signout_bt.frame = CGRect(x: left_margin, y: savedListings_view.center.y + savedListings_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        let pfp_dim: CGFloat = 200
+        header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
+        pfp_view.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin, width: elem_w, height: 225)
+        profile_picture.frame = CGRect(x: left_margin + 12, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 12, width: pfp_dim, height: pfp_dim)
+        set_pfp_bt.frame = CGRect(x: view.frame.width / 2 + 40, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 80, width: elem_w / 3, height: elem_h + 10)
+        let my_profile_view = ProfileView()
+        my_profile_view.frame = CGRect(x: left_margin, y: pfp_view.center.y + pfp_view.frame.height / 2 + elem_margin, width: elem_w, height: 350)
+        my_profile_view.backgroundColor = lightRobinBlue
+        my_profile_view.layer.borderColor = UIColor.white.cgColor
+        my_profile_view.layer.borderWidth = 2
+        my_profile_view.layer.cornerRadius = 20
+        signout_bt.frame = CGRect(x: left_margin, y: my_profile_view.center.y + my_profile_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         signout_bt.addTarget(self, action: #selector(handle_signout(sender: )), for: .touchUpInside)
+        set_pfp_bt.addTarget(self, action: #selector(handle_pfp_upload(sender: )), for: .touchUpInside)
         
-        view.addSubview(scrollView)
-        scrollView.addSubview(myProfile_view)
-        scrollView.addSubview(myProfile_lb)
-        scrollView.addSubview(email_lb)
-        scrollView.addSubview(donor_type_lb)
-        scrollView.addSubview(location_lb)
-        scrollView.addSubview(total_listings_lb)
-        scrollView.addSubview(active_listings_lb)
-        scrollView.addSubview(myListings_view)
-        scrollView.addSubview(myListings_lb)
-        scrollView.addSubview(savedListings_view)
-        scrollView.addSubview(savedListings_lb)
-        scrollView.addSubview(signout_bt)
+        view.addSubview(header_lb)
+        view.addSubview(pfp_view)
+        view.addSubview(profile_picture)
+        view.addSubview(set_pfp_bt)
+        view.addSubview(my_profile_view)
+        view.addSubview(signout_bt)
     }
 }

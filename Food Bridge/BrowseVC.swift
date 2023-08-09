@@ -10,9 +10,9 @@ import UIKit
 import FirebaseFirestore
 
 class BrowseVC: UIViewController {
-    var listings_arr = [Listing]()
-    lazy var h: CGFloat = view.frame.height / 5
-    lazy var w: CGFloat = view.frame.width - 20
+    var listings_arr = [ListingView]()
+    lazy var h: CGFloat = view.frame.height / 6
+    lazy var w: CGFloat = view.frame.width - 40
     var margin: CGFloat = 1.1
     lazy var sv_h: CGFloat = CGFloat(listings_arr.count) * h * margin + 100
     
@@ -80,9 +80,9 @@ class BrowseVC: UIViewController {
                 var i = 0
                 for document in querySnapshot!.documents {
                     if search_query.isEmpty || (document.get("title") as! String).contains(search_query) {
-                        let listing = Listing()
+                        let listing = ListingView()
                         // fx = ax + b
-                        let x_cor: CGFloat = 10
+                        let x_cor: CGFloat = 20
                         let y_cor: CGFloat = CGFloat(i) * h * margin + 75
                         listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
                         listing.tag = i
@@ -91,7 +91,7 @@ class BrowseVC: UIViewController {
                         listings_arr[i].backgroundColor = lightRobinBlue
                         listings_arr[i].layer.borderColor = UIColor.white.cgColor
                         listings_arr[i].layer.borderWidth = 2
-                        listings_arr[i].layer.cornerRadius = 10
+                        listings_arr[i].layer.cornerRadius = 20
                         listings_arr[i].title_lb.text = (document.get("title") as! String)
                         scrollView.addSubview(listings_arr[i])
                         i += 1
@@ -108,9 +108,9 @@ class BrowseVC: UIViewController {
             } else {
                 var i = 0
                 for document in querySnapshot!.documents {
-                    let listing = Listing()
+                    let listing = ListingView()
                     // fx = ax + b
-                    let x_cor: CGFloat = 10
+                    let x_cor: CGFloat = 20
                     let y_cor: CGFloat = CGFloat(i) * h * margin + 75
                     listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
                     listing.tag = i
@@ -119,7 +119,7 @@ class BrowseVC: UIViewController {
                     listings_arr[i].backgroundColor = lightRobinBlue
                     listings_arr[i].layer.borderColor = UIColor.white.cgColor
                     listings_arr[i].layer.borderWidth = 2
-                    listings_arr[i].layer.cornerRadius = 10
+                    listings_arr[i].layer.cornerRadius = 20
                     listings_arr[i].title_lb.text = (document.get("title") as! String)
                     scrollView.addSubview(listings_arr[i])
                     i += 1

@@ -21,8 +21,8 @@ class LaunchVC: UIViewController {
     
     let title_lb: UILabel = {
         let lb = UILabel()
-        lb.text = "Welcome to Food Bridge!"
-        lb.font = UIFont.boldSystemFont(ofSize: 40)
+        lb.text = "Food Bridge"
+        lb.font = UIFont.boldSystemFont(ofSize: 60)
         lb.textColor = .white
         lb.textAlignment = .center
         lb.numberOfLines = 0
