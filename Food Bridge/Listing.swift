@@ -58,13 +58,6 @@ class ListingView: UIView {
         return bt
     }()
     
-    @objc func handle_details(sender: UIButton) {
-        let vc = ListingVC()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        //self.present(nav, animated: false)
-    }
-    
     let donor_lb: UILabel = {
         let lb = UILabel()
         return lb
@@ -77,9 +70,6 @@ class ListingView: UIView {
         self.addSubview(list_date_lb)
         self.addSubview(list_author_lb)
         self.addSubview(details_bt)
-        
-        // connect @objc func to buttons
-        details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -94,19 +84,21 @@ class ListingVC: UIViewController {
         setup_UI()
         
         let back_bt = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(handle_back))
-        //back_bt.tintColor = .white
+        back_bt.tintColor = .white
         navigationItem.leftBarButtonItem = back_bt
     }
     
     @objc func handle_back() {
-        let vc = BrowseVC()
-        let nav = UINavigationController(rootViewController: vc)
+        let cb = ControlBar()
+        let nav = UINavigationController(rootViewController: cb)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: false)
     }
     
     func setup_UI() {
-        let top_margin: CGFloat = 80
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+//        let top_margin: CGFloat = 80
+//        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        
+        
     }
 }

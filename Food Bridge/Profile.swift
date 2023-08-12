@@ -54,8 +54,32 @@ class ProfileView: UIView {
         return lb
     }()
     
+    func display_user_info() {
+        db.collection("users").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if ((document.get("email") as! String) == USER_EMAIL) {
+                        donor_type_lb.text! += (document.get("donor_type") as! String)
+                        location_lb.text! += (document.get("location") as! String)
+                        
+                        guard let active_listings = (document.get("active_listings") as? Int) else {return}
+                        let converted_int_active_listings = String(active_listings)
+                        active_listings_lb.text! += converted_int_active_listings
+                        
+                        guard let total_listings = (document.get("total_listings") as? Int) else {return}
+                        let converted_int_total_listings = String(total_listings)
+                        total_listings_lb.text! += converted_int_total_listings
+                    }
+                }
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        display_user_info()
         self.addSubview(email_lb)
         self.addSubview(donor_type_lb)
         self.addSubview(location_lb)

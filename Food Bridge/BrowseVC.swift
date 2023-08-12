@@ -67,6 +67,13 @@ class BrowseVC: UIViewController {
         return bt
     }()
     
+    @objc func handle_details(sender: UIButton) {
+        let vc = ListingVC()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: false)
+    }
+    
     @objc func handle_enter(sender: UIButton) {
         let search_query = search_bar.text!
         
@@ -93,6 +100,7 @@ class BrowseVC: UIViewController {
                         listings_arr[i].layer.borderWidth = 2
                         listings_arr[i].layer.cornerRadius = 20
                         listings_arr[i].title_lb.text = (document.get("title") as! String)
+                        listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
                         scrollView.addSubview(listings_arr[i])
                         i += 1
                     }
@@ -121,6 +129,7 @@ class BrowseVC: UIViewController {
                     listings_arr[i].layer.borderWidth = 2
                     listings_arr[i].layer.cornerRadius = 20
                     listings_arr[i].title_lb.text = (document.get("title") as! String)
+                    listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
                     scrollView.addSubview(listings_arr[i])
                     i += 1
                 }

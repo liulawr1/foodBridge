@@ -10,9 +10,12 @@ import UIKit
 import FirebaseAuth
 
 class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    var image_data = Data()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
+        download_image_to_app()
         setup_UI()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -74,7 +77,38 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let selected_image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
         profile_picture.image = selected_image
-        self.dismiss(animated: true)
+        image_data = selected_image.pngData()!
+        self.dismiss(animated: true) {
+            self.upload_image_to_firebase_storage()
+        }
+    }
+    
+    func upload_image_to_firebase_storage() {
+        storage_ref.child("users/\(USER_ID)").child(PROFILE_PICTURE_PATH).child("\(USER_ID)_image.png").putData(image_data) { (metadata, err) in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            } else {
+                print("successfully uploaded image to firebase storage")
+            }
+        }
+    }
+    
+    func download_image_to_app() {
+        storage_ref.child("users/\(USER_ID)").child(PROFILE_PICTURE_PATH).child("\(USER_ID)_image.png").downloadURL { (url, err) in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            } else {
+                guard let downloadURL = url else {return}
+                self.profile_picture.image = UIImage(systemName: "camera")
+                
+                if let data = try? Data(contentsOf: downloadURL) {
+                    self.profile_picture.image = UIImage(data: data)
+                }
+                print("successfully downloaded image to app")
+            }
+        }
     }
     
     let signout_bt: UIButton = {

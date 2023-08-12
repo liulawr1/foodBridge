@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class SignUpVC: UIViewController {
     override func viewDidLoad() {
@@ -87,6 +88,52 @@ class SignUpVC: UIViewController {
         return tf
     }()
     
+    let donor_type_field: UITextField = {
+        let tf = UITextField()
+        let attributedPlaceholder = NSAttributedString(
+            string: "Donor Type",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        tf.attributedPlaceholder = attributedPlaceholder
+        tf.backgroundColor = lightRobinBlue
+        tf.font = UIFont.boldSystemFont(ofSize: 20)
+        tf.textColor = .white
+        tf.autocapitalizationType = .none
+        tf.autocorrectionType = .no
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 2
+        tf.layer.cornerRadius = 20
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
+        
+        return tf
+    }()
+    
+    let location_field: UITextField = {
+        let tf = UITextField()
+        let attributedPlaceholder = NSAttributedString(
+            string: "Location",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        tf.attributedPlaceholder = attributedPlaceholder
+        tf.backgroundColor = lightRobinBlue
+        tf.font = UIFont.boldSystemFont(ofSize: 20)
+        tf.textColor = .white
+        tf.autocapitalizationType = .none
+        tf.autocorrectionType = .no
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 2
+        tf.layer.cornerRadius = 20
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
+        
+        return tf
+    }()
+    
     let submit_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Submit", for: .normal)
@@ -132,7 +179,7 @@ class SignUpVC: UIViewController {
         view.addSubview(warning2_lb)
     }
     
-    func sign_up(email: String, password: String) {
+    func sign_up(email: String, password: String, donor_type: String, location: String) {
         let vc = LaunchVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
@@ -146,16 +193,34 @@ class SignUpVC: UIViewController {
                 self.present(nav, animated: true)
             }
         }
+        
+        var ref: DocumentReference? = nil
+        ref = db.collection("\(USER_ID)").addDocument(data: [
+            "email": email,
+            "password": password,
+            "donor_type": donor_type,
+            "location": location,
+            "active_listings": 0,
+            "total_listings": 0
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
     }
     
     @objc func handle_submit(sender: UIButton) {
         let email = email_field.text
         let password = password_field.text
         let password_confirmation = password_confirmation_field.text
+        let donor_type = donor_type_field.text
+        let location = location_field.text
         
         if (email != "" && password != "" && password_confirmation != "") {
             if (password == password_confirmation) {
-                sign_up(email: email!, password: password!)
+                sign_up(email: email!, password: password!, donor_type: donor_type!, location: location!)
             } else {
                 display_warning1()
             }
@@ -170,7 +235,9 @@ class SignUpVC: UIViewController {
         email_field.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         password_field.frame = CGRect(x: left_margin, y: email_field.center.y + email_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         password_confirmation_field.frame = CGRect(x: left_margin, y: password_field.center.y + password_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        submit_bt.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        donor_type_field.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        location_field.frame = CGRect(x: left_margin, y: donor_type_field.center.y + donor_type_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        submit_bt.frame = CGRect(x: left_margin, y: location_field.center.y + location_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         submit_bt.addTarget(self, action: #selector(handle_submit(sender: )), for: .touchUpInside)
@@ -178,6 +245,8 @@ class SignUpVC: UIViewController {
         view.addSubview(email_field)
         view.addSubview(password_field)
         view.addSubview(password_confirmation_field)
+        view.addSubview(donor_type_field)
+        view.addSubview(location_field)
         view.addSubview(submit_bt)
     }
 }
