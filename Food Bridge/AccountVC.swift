@@ -125,10 +125,15 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }()
     
     @objc func handle_signout(sender: UIButton) {
-        let vc = LaunchVC()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: false)
+        do {
+            try Auth.auth().signOut()
+            let vc = LaunchVC()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: false)
+        } catch let signOutError as NSError {
+          print("Error signing out: %@", signOutError)
+        }
     }
     
     func setup_UI() {

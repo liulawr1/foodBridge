@@ -180,33 +180,31 @@ class SignUpVC: UIViewController {
     }
     
     func sign_up(email: String, password: String, donor_type: String, location: String) {
-        let vc = LaunchVC()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        
-        Auth.auth().createUser(withEmail: email, password: password) {
-            (result, error) in
+        Auth.auth().createUser(withEmail: email, password: password) { [self] (authResult, error) in
             if let error = error {
                 print(error.localizedDescription)
-            } else {
+            } else if let authResult = authResult {
                 print("Sign-up successful")
-                self.present(nav, animated: true)
-            }
-        }
-        
-        var ref: DocumentReference? = nil
-        ref = db.collection("\(USER_ID)").addDocument(data: [
-            "email": email,
-            "password": password,
-            "donor_type": donor_type,
-            "location": location,
-            "active_listings": 0,
-            "total_listings": 0
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
+                let uid = authResult.user.uid
+                
+                db.collection("users").document(uid).setData([
+                    "email": email,
+                    "donor_type": donor_type,
+                    "location": location,
+                    "active_listings": 0,
+                    "total_listings": 0
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        print("Document successfully written!")
+                        
+                        let vc = LaunchVC()
+                        let nav = UINavigationController(rootViewController: vc)
+                        nav.modalPresentationStyle = .fullScreen
+                        self.present(nav, animated: true)
+                    }
+                }
             }
         }
     }

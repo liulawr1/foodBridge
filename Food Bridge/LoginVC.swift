@@ -110,7 +110,7 @@ class LoginVC: UIViewController {
     }
     
     func login(email: String, password: String) {
-        let cb = ControlBar()
+        let cb = LaunchVC()
         let nav = UINavigationController(rootViewController: cb)
         nav.modalPresentationStyle = .fullScreen
         
