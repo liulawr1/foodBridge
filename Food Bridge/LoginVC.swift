@@ -110,7 +110,7 @@ class LoginVC: UIViewController {
     }
     
     func login(email: String, password: String) {
-        let cb = LaunchVC()
+        let cb = ControlBar()
         let nav = UINavigationController(rootViewController: cb)
         nav.modalPresentationStyle = .fullScreen
         
@@ -121,6 +121,12 @@ class LoginVC: UIViewController {
                 display_warning1()
             } else {
                 print("Login successful")
+                
+                if let currentUser = Auth.auth().currentUser {
+                    USER_EMAIL = currentUser.email ?? ""
+                    USER_ID = currentUser.uid
+                }
+                
                 self.present(nav, animated: true)
             }
         }

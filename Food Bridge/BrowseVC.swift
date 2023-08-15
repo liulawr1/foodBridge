@@ -14,7 +14,7 @@ class BrowseVC: UIViewController {
     lazy var h: CGFloat = view.frame.height / 6
     lazy var w: CGFloat = view.frame.width - 40
     var margin: CGFloat = 1.1
-    lazy var sv_h: CGFloat = CGFloat(listings_arr.count) * h * margin + 100
+    lazy var sv_h: CGFloat = CGFloat(listings_arr.count) * h * margin + 1500
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +100,8 @@ class BrowseVC: UIViewController {
                         listings_arr[i].layer.borderWidth = 2
                         listings_arr[i].layer.cornerRadius = 20
                         listings_arr[i].title_lb.text = (document.get("title") as! String)
+                        listings_arr[i].list_date_lb.text! += (document.get("list_date") as! String)
+                        listings_arr[i].list_author_lb.text! += (document.get("list_author") as! String)
                         listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
                         scrollView.addSubview(listings_arr[i])
                         i += 1
@@ -129,6 +131,8 @@ class BrowseVC: UIViewController {
                     listings_arr[i].layer.borderWidth = 2
                     listings_arr[i].layer.cornerRadius = 20
                     listings_arr[i].title_lb.text = (document.get("title") as! String)
+                    listings_arr[i].list_date_lb.text! += (document.get("list_date") as! String)
+                    listings_arr[i].list_author_lb.text! += (document.get("list_author") as! String)
                     listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
                     scrollView.addSubview(listings_arr[i])
                     i += 1

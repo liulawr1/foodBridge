@@ -55,29 +55,32 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return tf
     }()
     
-    let description_field: UITextField = {
-        let tf = UITextField()
+    let description_field: UITextView = {
+        let tv = UITextView()
         let attributedPlaceholder = NSAttributedString(
             string: "Description",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
-        tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
-        tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
-        tf.contentVerticalAlignment = .top
-        tf.autocapitalizationType = .none
-        tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
-        tf.layer.borderWidth = 2
-        tf.layer.cornerRadius = 20
+        tv.attributedText = attributedPlaceholder
+        tv.backgroundColor = lightRobinBlue
+        tv.font = UIFont.boldSystemFont(ofSize: 20)
+        tv.textColor = .white
+        tv.autocapitalizationType = .none
+        tv.autocorrectionType = .no
+        tv.layer.borderColor = UIColor.white.cgColor
+        tv.layer.borderWidth = 2
+        tv.layer.cornerRadius = 20
         
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = paddingView
-        tf.leftViewMode = .always
+//        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tv.frame.height))
+//        tv.leftView = paddingView
+//        tv.leftViewMode = .always
         
-        return tf
+        return tv
     }()
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.text = ""
+    }
     
     let pickup_location_field: UITextField = {
         let tf = UITextField()
@@ -112,7 +115,6 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         dp.layer.borderWidth = 2
         dp.layer.cornerRadius = 20
         dp.clipsToBounds = true
-        dp.setValue(UIColor.white, forKeyPath: "textColor")
         return dp
     }()
 
@@ -251,6 +253,13 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return bt
     }()
     
+    let list_date: String = {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        return dateFormatter.string(from: date)
+    }()
+    
     let error_lb: UILabel = {
         let lb = UILabel()
         lb.text = "Error occurred while creating listing!"
@@ -290,10 +299,14 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             } else {
                 for document in querySnapshot!.documents {
                     if ((document.get("email") as! String) == USER_EMAIL) {
-                        let listingRef = db.collection("users").document("DC")
+                        let listingRef = db.collection("users").document(USER_ID)
+                        
+                        let active_listings_data = document.get("active_listings") as! Int
+                        let total_listings_data = document.get("total_listings") as! Int
                         
                         listingRef.updateData([
-                            "active_listings": true
+                            "active_listings": active_listings_data + 1,
+                            "total_listings": total_listings_data + 1
                         ]) { err in
                             if let err = err {
                                 print("Error updating document: \(err)")
@@ -315,13 +328,19 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             "pickup_location": pickup_location_field.text!,
             "start_time": start_time_picker.date,
             "end_time": end_time_picker.date,
-            "contact_info": (contact_info_field.text!)
+            "contact_info": contact_info_field.text!,
+            "list_date": list_date,
+            "list_author": USER_EMAIL!.split(separator: "@").first ?? ""
         ]) { [self] err in
             if let err = err {
                 print("Error adding document: \(err)")
                 display_error()
             } else {
                 print("Document added with ID: \(ref!.documentID)")
+                title_field.text = ""
+                description_field.text = ""
+                pickup_location_field.text = ""
+                contact_info_field.text = ""
                 display_success()
                 increase_listings_counter()
             }
@@ -333,7 +352,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         title_field.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
-        description_field.frame = CGRect(x: left_margin, y: title_field.center.y + title_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 5)
+        description_field.frame = CGRect(x: left_margin, y: title_field.center.y + title_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 4)
         pickup_location_field.frame = CGRect(x: left_margin, y: description_field.center.y + description_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_picker.frame = CGRect(x: left_margin, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
         end_time_picker.frame = CGRect(x: left_margin + elem_w / 2 + 10, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)

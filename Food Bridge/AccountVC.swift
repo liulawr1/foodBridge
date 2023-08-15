@@ -12,11 +12,23 @@ import FirebaseAuth
 class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var image_data = Data()
     
+    let refresher = UIRefreshControl()
+    
+    @objc func handle_refresh(sender: UIView) {
+        let v = ProfileView()
+        v.display_user_info()
+        refresher.endRefreshing()
+        print("refreshing...")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         download_image_to_app()
         setup_UI()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handle_refresh(sender: )))
+        view.addGestureRecognizer(tap)
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -127,6 +139,8 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @objc func handle_signout(sender: UIButton) {
         do {
             try Auth.auth().signOut()
+            USER_EMAIL = ""
+            USER_ID = ""
             let vc = LaunchVC()
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen

@@ -22,16 +22,16 @@ class ListingView: UIView {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 28)
         lb.textColor = .white
-        lb.frame = CGRect(x: 160, y: 10, width: 500, height: 30)
+        lb.frame = CGRect(x: 155, y: 15, width: 500, height: 30)
         return lb
     }()
     
     let list_date_lb: UILabel = {
         let lb = UILabel()
-        lb.text = "Listed on: mm/dd/yy"
+        lb.text = "Listed on: "
         lb.font = UIFont.boldSystemFont(ofSize: 18)
         lb.textColor = .white
-        lb.frame = CGRect(x: 160, y: 45, width: 500, height: 20)
+        lb.frame = CGRect(x: 155, y: 60, width: 500, height: 20)
         return lb
     }()
     
@@ -40,27 +40,24 @@ class ListingView: UIView {
         lb.text = "Listed by: "
         lb.font = UIFont.boldSystemFont(ofSize: 18)
         lb.textColor = .white
-        lb.frame = CGRect(x: 160, y: 70, width: 500, height: 20)
+        lb.frame = CGRect(x: 155, y: 85, width: 500, height: 20)
         return lb
     }()
     
     let details_bt: UIButton = {
         let bt = UIButton()
-        bt.setTitle("Details", for: .normal)
-        bt.backgroundColor = robinBlue
-        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.setTitleColor(.white, for: .normal)
-        bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
-        bt.layer.borderWidth = 2
-        bt.layer.cornerRadius = 15
-        bt.frame = CGRect(x: 190, y: 105, width: 150, height: 40)
+        bt.tintColor = .white
+        
+        let innerImageView = UIImageView()
+        innerImageView.image = UIImage(systemName: "plus.magnifyingglass")
+        innerImageView.frame.size.width = 35
+        innerImageView.frame.size.height = 35
+        innerImageView.frame.origin.x = 0
+        innerImageView.frame.origin.y = 0
+        bt.addSubview(innerImageView)
+        
+        bt.frame = CGRect(x: 350, y: 10, width: 35, height: 35)
         return bt
-    }()
-    
-    let donor_lb: UILabel = {
-        let lb = UILabel()
-        return lb
     }()
     
     override init(frame: CGRect) {
