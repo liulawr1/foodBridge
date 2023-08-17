@@ -288,6 +288,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     
     @objc func handle_create(sender: UIButton) {
         var ref: DocumentReference? = nil
+        
         ref = db.collection("listings").addDocument(data: [
             "title": title_field.text!,
             "description": description_field.text!,
@@ -307,6 +308,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                 description_field.text = ""
                 pickup_location_field.text = ""
                 contact_info_field.text = ""
+                listing_image.image = nil
                 increase_listings_counter()
                 
                 storage_ref.child("listings/\(ref!.documentID)").child(LISTING_IMAGE_PATH).child("\(ref!.documentID)_image.png").putData(image_data) { (metadata, err) in
@@ -317,6 +319,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                         print("successfully uploaded image to firebase storage")
                     }
                 }
+                
                 //display_success()
             }
         }

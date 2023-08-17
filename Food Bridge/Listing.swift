@@ -30,7 +30,7 @@ class ListingView: UIView {
     
     let list_date_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
+        lb.font = UIFont.boldSystemFont(ofSize: 16)
         lb.textColor = .white
         lb.frame = CGRect(x: 155, y: 60, width: 500, height: 20)
         return lb
@@ -38,7 +38,7 @@ class ListingView: UIView {
     
     let list_author_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 18)
+        lb.font = UIFont.boldSystemFont(ofSize: 16)
         lb.textColor = .white
         lb.frame = CGRect(x: 155, y: 85, width: 500, height: 20)
         return lb
@@ -92,10 +92,19 @@ class ListingVC: UIViewController {
         self.present(nav, animated: false)
     }
     
+    let title_lb: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont.boldSystemFont(ofSize: 28)
+        lb.textColor = .white
+        lb.frame = CGRect(x: 155, y: 15, width: 500, height: 30)
+        return lb
+    }()
+    
     func setup_UI() {
-//        let top_margin: CGFloat = 80
-//        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        let top_margin: CGFloat = 80
+        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         
-        
+        view.addSubview(title_lb)
     }
 }

@@ -41,44 +41,39 @@ class BrowseVC: UIViewController {
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                var i = 0
-                var j = 0
-                for document in querySnapshot!.documents {
+                for (index, document) in querySnapshot!.documents.enumerated() {
                     let listing = ListingView()
                     // fx = ax + b
                     let x_cor: CGFloat = 20
-                    let y_cor: CGFloat = CGFloat(i) * h * margin + 75
+                    let y_cor: CGFloat = CGFloat(index) * h * margin + 75
                     listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-                    listing.tag = i
+                    listing.tag = index
                     listings_arr.append(listing)
                     
-                    listings_arr[i].backgroundColor = lightRobinBlue
-                    listings_arr[i].layer.borderColor = UIColor.white.cgColor
-                    listings_arr[i].layer.borderWidth = 2
-                    listings_arr[i].layer.cornerRadius = 20
+                    listings_arr[index].backgroundColor = lightRobinBlue
+                    listings_arr[index].layer.borderColor = UIColor.white.cgColor
+                    listings_arr[index].layer.borderWidth = 2
+                    listings_arr[index].layer.cornerRadius = 20
                     
                     storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
                         if let err = err {
                             print(err.localizedDescription)
-                            j += 1
                             return
                         } else {
                             guard let downloadURL = url else { return }
 
                             if let data = try? Data(contentsOf: downloadURL) {
-                                listings_arr[j].listing_image.image = UIImage(data: data)
-                                j += 1
+                                listings_arr[index].listing_image.image = UIImage(data: data)
                             }
                             print("successfully downloaded image to app")
                         }
                     }
                     
-                    listings_arr[i].title_lb.text = (document.get("title") as! String)
-                    listings_arr[i].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-                    listings_arr[i].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-                    listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-                    scrollView.addSubview(listings_arr[i])
-                    i += 1
+                    listings_arr[index].title_lb.text = (document.get("title") as! String)
+                    listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+                    listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+                    listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+                    scrollView.addSubview(listings_arr[index])
                 }
             }
         }
@@ -148,45 +143,40 @@ class BrowseVC: UIViewController {
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                var i = 0
-                var j = 0
-                for document in querySnapshot!.documents {
+                for (index, document) in querySnapshot!.documents.enumerated() {
                     if search_query.isEmpty || (document.get("title") as! String).contains(search_query) {
                         let listing = ListingView()
                         // fx = ax + b
                         let x_cor: CGFloat = 20
-                        let y_cor: CGFloat = CGFloat(i) * h * margin + 75
+                        let y_cor: CGFloat = CGFloat(index) * h * margin + 75
                         listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-                        listing.tag = i
+                        listing.tag = index
                         listings_arr.append(listing)
                         
-                        listings_arr[i].backgroundColor = lightRobinBlue
-                        listings_arr[i].layer.borderColor = UIColor.white.cgColor
-                        listings_arr[i].layer.borderWidth = 2
-                        listings_arr[i].layer.cornerRadius = 20
+                        listings_arr[index].backgroundColor = lightRobinBlue
+                        listings_arr[index].layer.borderColor = UIColor.white.cgColor
+                        listings_arr[index].layer.borderWidth = 2
+                        listings_arr[index].layer.cornerRadius = 20
                         
                         storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
                             if let err = err {
                                 print(err.localizedDescription)
-                                j += 1
                                 return
                             } else {
                                 guard let downloadURL = url else { return }
 
                                 if let data = try? Data(contentsOf: downloadURL) {
-                                    listings_arr[j].listing_image.image = UIImage(data: data)
-                                    j += 1
+                                    listings_arr[index].listing_image.image = UIImage(data: data)
                                 }
                                 print("successfully downloaded image to app")
                             }
                         }
                         
-                        listings_arr[i].title_lb.text = (document.get("title") as! String)
-                        listings_arr[i].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-                        listings_arr[i].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-                        listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-                        scrollView.addSubview(listings_arr[i])
-                        i += 1
+                        listings_arr[index].title_lb.text = (document.get("title") as! String)
+                        listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+                        listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+                        listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+                        scrollView.addSubview(listings_arr[index])
                     }
                 }
             }
@@ -198,47 +188,40 @@ class BrowseVC: UIViewController {
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                var i = 0
-                var j = 0
-                for document in querySnapshot!.documents {
+                for (index, document) in querySnapshot!.documents.enumerated() {
                     let listing = ListingView()
                     // fx = ax + b
                     let x_cor: CGFloat = 20
-                    let y_cor: CGFloat = CGFloat(i) * h * margin + 75
+                    let y_cor: CGFloat = CGFloat(index) * h * margin + 75
                     listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-                    listing.tag = i
+                    listing.tag = index
                     listings_arr.append(listing)
                     
-                    listings_arr[i].backgroundColor = lightRobinBlue
-                    listings_arr[i].layer.borderColor = UIColor.white.cgColor
-                    listings_arr[i].layer.borderWidth = 2
-                    listings_arr[i].layer.cornerRadius = 20
+                    listings_arr[index].backgroundColor = lightRobinBlue
+                    listings_arr[index].layer.borderColor = UIColor.white.cgColor
+                    listings_arr[index].layer.borderWidth = 2
+                    listings_arr[index].layer.cornerRadius = 20
                     
                     storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
                         if let err = err {
                             print(err.localizedDescription)
-                            j += 1
                             return
                         } else {
                             guard let downloadURL = url else { return }
-                            
+
                             if let data = try? Data(contentsOf: downloadURL) {
-                                print("\(document.get("title")) image: \(document.documentID)")
-                                let image = UIImage(data: data)
-                                image?.jpegData(compressionQuality: 0.1)
-                                listings_arr[j].listing_image.image = image
-                                j += 1
+                                print("\(document.get("title") ?? "image not found") image: \(document.documentID)")
+                                listings_arr[index].listing_image.image = UIImage(data: data)
                             }
                             print("successfully downloaded image to app")
                         }
                     }
                     
-                    listings_arr[i].title_lb.text = (document.get("title") as! String)
-                    listings_arr[i].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-                    listings_arr[i].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-                    listings_arr[i].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-                    scrollView.addSubview(listings_arr[i])
-                    i += 1
+                    listings_arr[index].title_lb.text = (document.get("title") as! String)
+                    listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+                    listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+                    listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+                    scrollView.addSubview(listings_arr[index])
                 }
             }
         }

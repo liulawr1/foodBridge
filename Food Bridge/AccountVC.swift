@@ -163,9 +163,9 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let pfp_dim: CGFloat = 200
         scrollView.frame = view.bounds
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
-        pfp_view.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin, width: elem_w, height: 225)
-        profile_picture.frame = CGRect(x: left_margin + 12, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 12, width: pfp_dim, height: pfp_dim)
-        set_pfp_bt.frame = CGRect(x: view.frame.width / 2 + 40, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 80, width: elem_w / 3, height: elem_h + 10)
+        pfp_view.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 5, width: elem_w, height: 225)
+        profile_picture.frame = CGRect(x: left_margin + 12, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 17, width: pfp_dim, height: pfp_dim)
+        set_pfp_bt.frame = CGRect(x: view.frame.width / 2 + 40, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 85, width: elem_w / 3, height: elem_h + 10)
         let my_profile_view = ProfileView()
         my_profile_view.frame = CGRect(x: left_margin, y: pfp_view.center.y + pfp_view.frame.height / 2 + elem_margin, width: elem_w, height: 350)
         my_profile_view.backgroundColor = lightRobinBlue
