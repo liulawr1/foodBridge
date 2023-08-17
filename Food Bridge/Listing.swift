@@ -10,11 +10,13 @@ import UIKit
 import FirebaseFirestore
 
 class ListingView: UIView {
-    let product_view: UIImageView = {
+    let listing_image: UIImageView = {
        let iv = UIImageView()
         iv.frame = CGRect(x: 10, y: 10, width: 135, height: 135)
-        iv.backgroundColor = UIColor.gray
+        iv.backgroundColor = .gray
+        iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 10
+        iv.clipsToBounds = true
         return iv
     }()
     
@@ -28,7 +30,6 @@ class ListingView: UIView {
     
     let list_date_lb: UILabel = {
         let lb = UILabel()
-        lb.text = "Listed on: "
         lb.font = UIFont.boldSystemFont(ofSize: 18)
         lb.textColor = .white
         lb.frame = CGRect(x: 155, y: 60, width: 500, height: 20)
@@ -37,7 +38,6 @@ class ListingView: UIView {
     
     let list_author_lb: UILabel = {
         let lb = UILabel()
-        lb.text = "Listed by: "
         lb.font = UIFont.boldSystemFont(ofSize: 18)
         lb.textColor = .white
         lb.frame = CGRect(x: 155, y: 85, width: 500, height: 20)
@@ -62,7 +62,7 @@ class ListingView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubview(product_view)
+        self.addSubview(listing_image)
         self.addSubview(title_lb)
         self.addSubview(list_date_lb)
         self.addSubview(list_author_lb)

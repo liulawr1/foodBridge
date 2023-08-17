@@ -11,17 +11,13 @@ import FirebaseFirestore
 
 class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var image_data = Data()
+    let scrollView = UIScrollView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         setup_UI()
     }
-    
-    let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        return sv
-    }()
     
     let header_lb: UILabel = {
         let lb = UILabel()
@@ -173,17 +169,17 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let listing_image: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = robinBlue
+        iv.backgroundColor = .gray
         iv.layer.borderColor = UIColor.white.cgColor
         iv.layer.borderWidth = 2
-        iv.layer.cornerRadius = 10
+        iv.layer.cornerRadius = 15
         iv.clipsToBounds = true
         return iv
     }()
     
-    let upload_listing_image_bt: UIButton = {
+    let set_listing_image_bt: UIButton = {
         let bt = UIButton()
-        bt.setTitle("Upload Listing Image", for: .normal)
+        bt.setTitle("Set Listing Image", for: .normal)
         bt.backgroundColor = robinBlue
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         bt.setTitleColor(.white, for: .normal)
@@ -195,7 +191,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return bt
     }()
     
-    @objc func handle_pfp_upload(sender: UIButton) {
+    @objc func handle_listing_image_upload(sender: UIButton) {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
@@ -204,40 +200,10 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let selected_image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
+        guard let selected_image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         listing_image.image = selected_image
         image_data = selected_image.pngData()!
-        self.dismiss(animated: true) {
-            self.upload_image_to_firebase_storage()
-        }
-    }
-    
-    func upload_image_to_firebase_storage() {
-        storage_ref.child("listings/\(USER_ID)").child(LISTING_IMAGE_PATH).child("\(USER_ID)_image.png").putData(image_data) { (metadata, err) in
-            if let err = err {
-                print(err.localizedDescription)
-                return
-            } else {
-                print("successfully uploaded image to firebase storage")
-            }
-        }
-    }
-    
-    func download_image_to_app() {
-        storage_ref.child("listings/\(USER_ID)").child(LISTING_IMAGE_PATH).child("\(USER_ID)_image.png").downloadURL { (url, err) in
-            if let err = err {
-                print(err.localizedDescription)
-                return
-            } else {
-                guard let downloadURL = url else {return}
-                self.listing_image.image = UIImage(systemName: "camera")
-                
-                if let data = try? Data(contentsOf: downloadURL) {
-                    self.listing_image.image = UIImage(data: data)
-                }
-                print("successfully downloaded image to app")
-            }
-        }
+        self.dismiss(animated: true)
     }
     
     let create_listing_bt: UIButton = {
@@ -260,37 +226,37 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return dateFormatter.string(from: date)
     }()
     
-    let error_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Error occurred while creating listing!"
-        lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.backgroundColor = robinBlue
-        lb.textColor = .red
-        lb.textAlignment = .center
-        return lb
-    }()
-    
-    let success_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Listing successfully created!"
-        lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.backgroundColor = robinBlue
-        lb.textColor = .green
-        lb.textAlignment = .center
-        return lb
-    }()
-    
-    func display_error() {
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        error_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(error_lb)
-    }
-    
-    func display_success() {
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        success_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(success_lb)
-    }
+//    let error_lb: UILabel = {
+//        let lb = UILabel()
+//        lb.text = "Error occurred while creating listing!"
+//        lb.font = UIFont.boldSystemFont(ofSize: 20)
+//        lb.backgroundColor = robinBlue
+//        lb.textColor = .red
+//        lb.textAlignment = .center
+//        return lb
+//    }()
+//
+//    let success_lb: UILabel = {
+//        let lb = UILabel()
+//        lb.text = "Listing successfully created!"
+//        lb.font = UIFont.boldSystemFont(ofSize: 20)
+//        lb.backgroundColor = robinBlue
+//        lb.textColor = .green
+//        lb.textAlignment = .center
+//        return lb
+//    }()
+//
+//    func display_error() {
+//        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+//        error_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+//        view.addSubview(error_lb)
+//    }
+//
+//    func display_success() {
+//        let elem_w: CGFloat = view.frame.width - 2 * left_margin
+//        success_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+//        view.addSubview(success_lb)
+//    }
     
     func increase_listings_counter() {
         db.collection("users").getDocuments() { (querySnapshot, err) in
@@ -334,30 +300,43 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         ]) { [self] err in
             if let err = err {
                 print("Error adding document: \(err)")
-                display_error()
+                //display_error()
             } else {
                 print("Document added with ID: \(ref!.documentID)")
                 title_field.text = ""
                 description_field.text = ""
                 pickup_location_field.text = ""
                 contact_info_field.text = ""
-                display_success()
                 increase_listings_counter()
+                
+                storage_ref.child("listings/\(ref!.documentID)").child(LISTING_IMAGE_PATH).child("\(ref!.documentID)_image.png").putData(image_data) { (metadata, err) in
+                    if let err = err {
+                        print(err.localizedDescription)
+                        return
+                    } else {
+                        print("successfully uploaded image to firebase storage")
+                    }
+                }
+                //display_success()
             }
         }
     }
     
     func setup_UI() {
-        let top_margin: CGFloat = 80
+        let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        let listing_image_dim: CGFloat = 150
+        scrollView.frame = view.bounds
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         title_field.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
-        description_field.frame = CGRect(x: left_margin, y: title_field.center.y + title_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 4)
+        description_field.frame = CGRect(x: left_margin, y: title_field.center.y + title_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)
         pickup_location_field.frame = CGRect(x: left_margin, y: description_field.center.y + description_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_picker.frame = CGRect(x: left_margin, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
         end_time_picker.frame = CGRect(x: left_margin + elem_w / 2 + 10, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
         contact_info_field.frame = CGRect(x: left_margin, y: start_time_picker.center.y + start_time_picker.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        create_listing_bt.frame = CGRect(x: left_margin, y: contact_info_field.center.y + contact_info_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        listing_image.frame = CGRect(x: left_margin, y: contact_info_field.center.y + contact_info_field.frame.height / 2 + elem_margin, width: listing_image_dim, height: listing_image_dim)
+        set_listing_image_bt.frame = CGRect(x: view.frame.width / 2 - 15, y: listing_image.center.y - 15, width: elem_w / 2, height: elem_h)
+        create_listing_bt.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         let startTimeLabel = UILabel(frame: CGRect(x: 5, y: 0, width: start_time_picker.frame.width, height: start_time_picker.frame.height))
         startTimeLabel.text = "Start Time:"
@@ -376,15 +355,19 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         // connect @objc func to buttons
         start_time_picker.addTarget(self, action: #selector(startTimeChanged(picker: )), for: .valueChanged)
         end_time_picker.addTarget(self, action: #selector(endTimeChanged(picker: )), for: .valueChanged)
+        set_listing_image_bt.addTarget(self, action: #selector(handle_listing_image_upload(sender: )), for: .touchUpInside)
         create_listing_bt.addTarget(self, action: #selector(handle_create(sender: )), for: .touchUpInside)
         
-        view.addSubview(header_lb)
-        view.addSubview(title_field)
-        view.addSubview(description_field)
-        view.addSubview(pickup_location_field)
-        view.addSubview(start_time_picker)
-        view.addSubview(end_time_picker)
-        view.addSubview(contact_info_field)
-        view.addSubview(create_listing_bt)
+        view.addSubview(scrollView)
+        scrollView.addSubview(header_lb)
+        scrollView.addSubview(title_field)
+        scrollView.addSubview(description_field)
+        scrollView.addSubview(pickup_location_field)
+        scrollView.addSubview(start_time_picker)
+        scrollView.addSubview(end_time_picker)
+        scrollView.addSubview(contact_info_field)
+        scrollView.addSubview(listing_image)
+        scrollView.addSubview(set_listing_image_bt)
+        scrollView.addSubview(create_listing_bt)
     }
 }

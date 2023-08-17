@@ -11,14 +11,23 @@ import FirebaseAuth
 
 class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var image_data = Data()
+    let scrollView = UIScrollView()
     
-    let refresher = UIRefreshControl()
+    func setup_refresh_control() {
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl!.tintColor = .white
+        scrollView.refreshControl?.addTarget(self, action: #selector(handle_refresh), for: .valueChanged)
+    }
     
-    @objc func handle_refresh(sender: UIView) {
-        let v = ProfileView()
-        v.display_user_info()
-        refresher.endRefreshing()
+    @objc func handle_refresh() {
+        if let profileView = scrollView.subviews.first(where: { $0 is ProfileView }) as? ProfileView {
+            profileView.display_user_info()
+        }
         print("refreshing...")
+        
+        DispatchQueue.main.async {
+            self.scrollView.refreshControl?.endRefreshing()
+        }
     }
     
     override func viewDidLoad() {
@@ -26,9 +35,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         view.backgroundColor = robinBlue
         download_image_to_app()
         setup_UI()
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handle_refresh(sender: )))
-        view.addGestureRecognizer(tap)
+        setup_refresh_control()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -55,8 +62,8 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     let profile_picture: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
         iv.backgroundColor = robinBlue
+        iv.contentMode = .scaleAspectFill
         iv.layer.borderColor = UIColor.white.cgColor
         iv.layer.borderWidth = 2
         iv.layer.cornerRadius = 100
@@ -87,7 +94,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let selected_image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
+        guard let selected_image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
         profile_picture.image = selected_image
         image_data = selected_image.pngData()!
         self.dismiss(animated: true) {
@@ -112,8 +119,8 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 print(err.localizedDescription)
                 return
             } else {
-                guard let downloadURL = url else {return}
-                self.profile_picture.image = UIImage(systemName: "camera")
+                guard let downloadURL = url else { return }
+                self.profile_picture.image = UIImage(systemName: "person.slash")
                 
                 if let data = try? Data(contentsOf: downloadURL) {
                     self.profile_picture.image = UIImage(data: data)
@@ -151,9 +158,10 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     func setup_UI() {
-        let top_margin: CGFloat = 80
+        let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         let pfp_dim: CGFloat = 200
+        scrollView.frame = view.bounds
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         pfp_view.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin, width: elem_w, height: 225)
         profile_picture.frame = CGRect(x: left_margin + 12, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 12, width: pfp_dim, height: pfp_dim)
@@ -170,11 +178,12 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         signout_bt.addTarget(self, action: #selector(handle_signout(sender: )), for: .touchUpInside)
         set_pfp_bt.addTarget(self, action: #selector(handle_pfp_upload(sender: )), for: .touchUpInside)
         
-        view.addSubview(header_lb)
-        view.addSubview(pfp_view)
-        view.addSubview(profile_picture)
-        view.addSubview(set_pfp_bt)
-        view.addSubview(my_profile_view)
-        view.addSubview(signout_bt)
+        view.addSubview(scrollView)
+        scrollView.addSubview(header_lb)
+        scrollView.addSubview(pfp_view)
+        scrollView.addSubview(profile_picture)
+        scrollView.addSubview(set_pfp_bt)
+        scrollView.addSubview(my_profile_view)
+        scrollView.addSubview(signout_bt)
     }
 }
