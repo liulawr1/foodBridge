@@ -97,7 +97,7 @@ class LaunchVC: UIViewController {
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: 110)
         about_bt.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: 48)
-        signup_bt.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + 530, width: elem_w, height: 48)
+        signup_bt.frame = CGRect(x: left_margin, y: view.frame.height - 200, width: elem_w, height: 48)
         login_bt.frame = CGRect(x: left_margin, y: signup_bt.center.y + signup_bt.frame.height / 2 + elem_margin, width: elem_w, height: 48)
         bg_iv.frame = view.frame
         

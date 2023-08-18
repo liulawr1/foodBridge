@@ -226,37 +226,9 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return dateFormatter.string(from: date)
     }()
     
-//    let error_lb: UILabel = {
-//        let lb = UILabel()
-//        lb.text = "Error occurred while creating listing!"
-//        lb.font = UIFont.boldSystemFont(ofSize: 20)
-//        lb.backgroundColor = robinBlue
-//        lb.textColor = .red
-//        lb.textAlignment = .center
-//        return lb
-//    }()
-//
-//    let success_lb: UILabel = {
-//        let lb = UILabel()
-//        lb.text = "Listing successfully created!"
-//        lb.font = UIFont.boldSystemFont(ofSize: 20)
-//        lb.backgroundColor = robinBlue
-//        lb.textColor = .green
-//        lb.textAlignment = .center
-//        return lb
-//    }()
-//
-//    func display_error() {
-//        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-//        error_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-//        view.addSubview(error_lb)
-//    }
-//
-//    func display_success() {
-//        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-//        success_lb.frame = CGRect(x: left_margin, y: create_listing_bt.center.y + create_listing_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-//        view.addSubview(success_lb)
-//    }
+    let success_alert = UIAlertController(title: "Success!", message: "Listing successfully created!", preferredStyle: .alert)
+    let error_alert = UIAlertController(title: "Error!", message: "Error occurred while creating listing!", preferredStyle: .alert)
+    let dismiss_alert = UIAlertAction(title: "OK", style: .default)
     
     func increase_listings_counter() {
         db.collection("users").getDocuments() { (querySnapshot, err) in
@@ -301,7 +273,8 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         ]) { [self] err in
             if let err = err {
                 print("Error adding document: \(err)")
-                //display_error()
+                error_alert.addAction(dismiss_alert)
+                present(error_alert, animated: true)
             } else {
                 print("Document added with ID: \(ref!.documentID)")
                 title_field.text = ""
@@ -320,7 +293,8 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                     }
                 }
                 
-                //display_success()
+                present(success_alert, animated: true)
+                success_alert.addAction(dismiss_alert)
             }
         }
     }

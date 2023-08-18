@@ -130,6 +130,17 @@ class BrowseVC: UIViewController {
         let vc = ListingVC()
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
+		
+        let index = sender.tag
+        vc.title_string = listings_arr[index].title_lb.text
+        vc.list_date_string = listings_arr[index].list_date_lb.text
+        vc.list_author_string = listings_arr[index].list_author_lb.text
+        vc.description_string = listings_arr[index].description_lb.text
+        vc.location_string = listings_arr[index].location_lb.text
+        vc.start_time_string = listings_arr[index].start_time_lb.text
+        vc.end_time_string = listings_arr[index].end_time_lb.text
+        vc.contact_info_string = listings_arr[index].contact_info_lb.text
+		
         self.present(nav, animated: false)
     }
     
@@ -151,6 +162,7 @@ class BrowseVC: UIViewController {
                         let y_cor: CGFloat = CGFloat(index) * h * margin + 75
                         listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
                         listing.tag = index
+                        print(index)
                         listings_arr.append(listing)
                         
                         listings_arr[index].backgroundColor = lightRobinBlue
@@ -197,6 +209,7 @@ class BrowseVC: UIViewController {
                     listing.tag = index
                     listings_arr.append(listing)
                     
+                    listings_arr[index].details_bt.tag = index
                     listings_arr[index].backgroundColor = lightRobinBlue
                     listings_arr[index].layer.borderColor = UIColor.white.cgColor
                     listings_arr[index].layer.borderWidth = 2
@@ -211,7 +224,11 @@ class BrowseVC: UIViewController {
 
                             if let data = try? Data(contentsOf: downloadURL) {
                                 print("\(document.get("title") ?? "image not found") image: \(document.documentID)")
-                                listings_arr[index].listing_image.image = UIImage(data: data)
+								let image = UIImage(data: data)
+								print(image?.size)
+								image!.jpegData(compressionQuality: 0.1)
+								print(image?.size)
+								listings_arr[index].listing_image.image = image
                             }
                             print("successfully downloaded image to app")
                         }

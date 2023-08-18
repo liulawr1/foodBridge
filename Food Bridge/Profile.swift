@@ -11,7 +11,7 @@ import UIKit
 class ProfileView: UIView {
     let email_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 22)
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
         lb.frame = CGRect(x: 15, y: 5, width: 500, height: elem_h)
         return lb
@@ -19,7 +19,7 @@ class ProfileView: UIView {
     
     let donor_type_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 22)
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
         lb.frame = CGRect(x: 15, y: 40, width: 500, height: elem_h)
         return lb
@@ -27,7 +27,7 @@ class ProfileView: UIView {
     
     let location_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 22)
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
         lb.frame = CGRect(x: 15, y: 75, width: 500, height: elem_h)
         return lb
@@ -35,7 +35,7 @@ class ProfileView: UIView {
     
     let active_listings_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 22)
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
         lb.frame = CGRect(x: 15, y: 110, width: 500, height: elem_h)
         return lb
@@ -43,7 +43,7 @@ class ProfileView: UIView {
     
     let total_listings_lb: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 22)
+        lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
         lb.frame = CGRect(x: 15, y: 145, width: 500, height: elem_h)
         return lb
