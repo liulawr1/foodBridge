@@ -70,6 +70,11 @@ class BrowseVC: UIViewController {
                     }
                     
                     listings_arr[index].title_lb.text = (document.get("title") as! String)
+					listings_arr[index].description_lb.text = (document.get("description") as! String)
+					listings_arr[index].pickup_location_lb.text = (document.get("pickup_location") as! String)
+					//listings_arr[index].start_time_lb.text = (document.get("start_time") as! String)
+					//listings_arr[index].end_time_lb.text = (document.get("end_time") as! String)
+					listings_arr[index].contact_info_lb.text = (document.get("contact_info") as! String)
                     listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                     listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                     listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
@@ -128,19 +133,20 @@ class BrowseVC: UIViewController {
     
     @objc func handle_details(sender: UIButton) {
         let vc = ListingVC()
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-		
         let index = sender.tag
+		
+		vc.listing_image.image = listings_arr[index].listing_image.image
         vc.title_string = listings_arr[index].title_lb.text
-        vc.list_date_string = listings_arr[index].list_date_lb.text
-        vc.list_author_string = listings_arr[index].list_author_lb.text
         vc.description_string = listings_arr[index].description_lb.text
-        vc.location_string = listings_arr[index].location_lb.text
+        vc.pickup_location_string = listings_arr[index].pickup_location_lb.text
         vc.start_time_string = listings_arr[index].start_time_lb.text
         vc.end_time_string = listings_arr[index].end_time_lb.text
         vc.contact_info_string = listings_arr[index].contact_info_lb.text
+		vc.list_date_string = listings_arr[index].list_date_lb.text
+		vc.list_author_string = listings_arr[index].list_author_lb.text
 		
+		let nav = UINavigationController(rootViewController: vc)
+		nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: false)
     }
     
@@ -185,10 +191,15 @@ class BrowseVC: UIViewController {
                         }
                         
                         listings_arr[index].title_lb.text = (document.get("title") as! String)
+						listings_arr[index].description_lb.text = (document.get("description") as! String)
+						listings_arr[index].pickup_location_lb.text = (document.get("pickup_location") as! String)
+						//listings_arr[index].start_time_lb.text = (document.get("start_time") as! String)
+						//listings_arr[index].end_time_lb.text = (document.get("end_time") as! String)
+						listings_arr[index].contact_info_lb.text = (document.get("contact_info") as! String)
                         listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                         listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                         listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-                        scrollView.addSubview(listings_arr[index])
+						scrollView.addSubview(listings_arr[index])
                     }
                 }
             }
@@ -235,6 +246,11 @@ class BrowseVC: UIViewController {
                     }
                     
                     listings_arr[index].title_lb.text = (document.get("title") as! String)
+					listings_arr[index].description_lb.text = (document.get("description") as! String)
+					listings_arr[index].pickup_location_lb.text = (document.get("pickup_location") as! String)
+					//listings_arr[index].start_time_lb.text = (document.get("start_time") as! String)
+					//listings_arr[index].end_time_lb.text = (document.get("end_time") as! String)
+					listings_arr[index].contact_info_lb.text = (document.get("contact_info") as! String)
                     listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                     listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                     listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)

@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 class ListingView: UIView {
     let listing_image: UIImageView = {
-       let iv = UIImageView()
+        let iv = UIImageView()
         iv.backgroundColor = .gray
         iv.contentMode = .scaleAspectFill
         iv.layer.borderColor = UIColor.white.cgColor
@@ -66,22 +66,22 @@ class ListingView: UIView {
         let lb = UILabel()
         return lb
     }()
-    
-    let location_lb: UILabel = {
+
+    let pickup_location_lb: UILabel = {
         let lb = UILabel()
         return lb
     }()
-    
+
     let start_time_lb: UILabel = {
         let lb = UILabel()
         return lb
     }()
-    
+
     let end_time_lb: UILabel = {
         let lb = UILabel()
         return lb
     }()
-    
+
     let contact_info_lb: UILabel = {
         let lb = UILabel()
         return lb
@@ -104,7 +104,7 @@ class ListingView: UIView {
 class ListingVC: UIViewController {
     var title_string: String?
     var description_string: String?
-    var location_string: String?
+    var pickup_location_string: String?
     var start_time_string: String?
     var end_time_string: String?
     var contact_info_string: String?
@@ -114,17 +114,20 @@ class ListingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
+        setup_UI()
         
         let back_bt = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(handle_back))
         back_bt.tintColor = .white
         navigationItem.leftBarButtonItem = back_bt
         
         title_lb.text = title_string
-        setup_UI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        title_lb.text = title_string
+        description_lb.text = description_string
+        pickup_location_lb.text = pickup_location_string
+        start_time_lb.text = start_time_string
+        end_time_lb.text = end_time_string
+        contact_info_lb.text = contact_info_string
+        list_date_lb.text = list_date_string
+        list_author_lb.text = list_author_string
     }
     
     @objc func handle_back() {
@@ -133,6 +136,17 @@ class ListingVC: UIViewController {
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: false)
     }
+    
+    let listing_image: UIImageView = {
+        let iv = UIImageView()
+        iv.backgroundColor = .gray
+        iv.contentMode = .scaleAspectFill
+        iv.layer.borderColor = UIColor.white.cgColor
+        iv.layer.borderWidth = 2
+        iv.layer.cornerRadius = 15
+        iv.clipsToBounds = true
+        return iv
+    }()
     
     let title_lb: UILabel = {
         let lb = UILabel()
@@ -154,6 +168,7 @@ class ListingVC: UIViewController {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
         lb.textColor = .white
+        lb.numberOfLines = 0
         return lb
     }()
     
@@ -208,25 +223,27 @@ class ListingVC: UIViewController {
     func setup_UI() {
         let top_margin: CGFloat = 90
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
+        let listing_image_dim: CGFloat = 175
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
-        description_lb.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)
+        listing_image.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: listing_image_dim, height: listing_image_dim)
+        list_date_lb.frame = CGRect(x: view.frame.width / 2, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        list_author_lb.frame = CGRect(x: view.frame.width / 2, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        description_lb.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)
         pickup_location_lb.frame = CGRect(x: left_margin, y: description_lb.center.y + description_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_lb.frame = CGRect(x: left_margin, y: pickup_location_lb.center.y + pickup_location_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         end_time_lb.frame = CGRect(x: left_margin, y: start_time_lb.center.y + start_time_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         contact_info_lb.frame = CGRect(x: left_margin, y: end_time_lb.center.y + end_time_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        list_date_lb.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        list_author_lb.frame = CGRect(x: left_margin, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        end_listing_bt.frame = CGRect(x: left_margin, y: list_author_lb.center.y + list_author_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        end_listing_bt.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         view.addSubview(title_lb)
+        view.addSubview(listing_image)
+        view.addSubview(list_date_lb)
+        view.addSubview(list_author_lb)
         view.addSubview(description_lb)
         view.addSubview(pickup_location_lb)
         view.addSubview(start_time_lb)
         view.addSubview(end_time_lb)
         view.addSubview(contact_info_lb)
-        view.addSubview(list_date_lb)
-        view.addSubview(list_author_lb)
         view.addSubview(end_listing_bt)
     }
 }
-                                    
