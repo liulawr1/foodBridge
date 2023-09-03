@@ -55,19 +55,28 @@ class BrowseVC: UIViewController {
                     listings_arr[index].layer.borderWidth = 2
                     listings_arr[index].layer.cornerRadius = 20
                     
-                    storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
-                        if let err = err {
-                            print(err.localizedDescription)
-                            return
-                        } else {
-                            guard let downloadURL = url else { return }
-
-                            if let data = try? Data(contentsOf: downloadURL) {
-                                listings_arr[index].listing_image.image = UIImage(data: data)
-                            }
-                            print("successfully downloaded image to app")
-                        }
-                    }
+					storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
+						if let err = err {
+							print(err.localizedDescription)
+							return
+						} else {
+							guard let downloadURL = url else { return }
+							URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+								if let error = error {
+									print("Error downloading image: \(error)")
+									return
+								}
+								
+								if let data = data, let image = UIImage(data: data) {
+									DispatchQueue.main.async { [self] in
+										listings_arr[index].listing_image.image = image
+									}
+								}
+							}.resume()
+							
+							print("successfully downloaded image to app")
+						}
+					}
                     
                     listings_arr[index].title_lb.text = (document.get("title") as! String)
 					listings_arr[index].description_lb.text = (document.get("description") as! String)
@@ -176,19 +185,28 @@ class BrowseVC: UIViewController {
                         listings_arr[index].layer.borderWidth = 2
                         listings_arr[index].layer.cornerRadius = 20
                         
-                        storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
-                            if let err = err {
-                                print(err.localizedDescription)
-                                return
-                            } else {
-                                guard let downloadURL = url else { return }
-
-                                if let data = try? Data(contentsOf: downloadURL) {
-                                    listings_arr[index].listing_image.image = UIImage(data: data)
-                                }
-                                print("successfully downloaded image to app")
-                            }
-                        }
+						storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
+							if let err = err {
+								print(err.localizedDescription)
+								return
+							} else {
+								guard let downloadURL = url else { return }
+								URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+									if let error = error {
+										print("Error downloading image: \(error)")
+										return
+									}
+									
+									if let data = data, let image = UIImage(data: data) {
+										DispatchQueue.main.async { [self] in
+											listings_arr[index].listing_image.image = image
+										}
+									}
+								}.resume()
+								
+								print("successfully downloaded image to app")
+							}
+						}
                         
                         listings_arr[index].title_lb.text = (document.get("title") as! String)
 						listings_arr[index].description_lb.text = (document.get("description") as! String)
@@ -232,15 +250,19 @@ class BrowseVC: UIViewController {
                             return
                         } else {
                             guard let downloadURL = url else { return }
-
-                            if let data = try? Data(contentsOf: downloadURL) {
-                                print("\(document.get("title") ?? "image not found") image: \(document.documentID)")
-								let image = UIImage(data: data)
-								print(image?.size)
-								image!.jpegData(compressionQuality: 0.1)
-								print(image?.size)
-								listings_arr[index].listing_image.image = image
-                            }
+							URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+								if let error = error {
+									print("Error downloading image: \(error)")
+									return
+								}
+								
+								if let data = data, let image = UIImage(data: data) {
+									DispatchQueue.main.async { [self] in
+										listings_arr[index].listing_image.image = image
+									}
+								}
+							}.resume()
+							
                             print("successfully downloaded image to app")
                         }
                     }
