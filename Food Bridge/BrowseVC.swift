@@ -9,6 +9,20 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
+extension UIImage {
+	enum JPEGQuality : CGFloat {
+		case lowest = 0
+		case low = 0.25
+		case medium = 0.5
+		case high = 0.75
+		case highest = 1
+	}
+	
+	func jpeg(_ jpegQuality : JPEGQuality) -> Data? {
+		return jpegData(compressionQuality: jpegQuality.rawValue)
+	}
+}
+
 class BrowseVC: UIViewController {
     let scrollView = UIScrollView()
     var listings_arr = [ListingView]()
@@ -69,7 +83,8 @@ class BrowseVC: UIViewController {
 								
 								if let data = data, let image = UIImage(data: data) {
 									DispatchQueue.main.async { [self] in
-										listings_arr[index].listing_image.image = image
+										let compressedImage = image.jpeg(UIImage.JPEGQuality.low)
+										listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
 									}
 								}
 							}.resume()
@@ -87,6 +102,13 @@ class BrowseVC: UIViewController {
                     listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                     listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                     listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+					
+					listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
+					listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+					listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
+					listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
+					listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+					
                     scrollView.addSubview(listings_arr[index])
                 }
             }
@@ -199,7 +221,8 @@ class BrowseVC: UIViewController {
 									
 									if let data = data, let image = UIImage(data: data) {
 										DispatchQueue.main.async { [self] in
-											listings_arr[index].listing_image.image = image
+											let compressedImage = image.jpeg(UIImage.JPEGQuality.low)
+											listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
 										}
 									}
 								}.resume()
@@ -217,6 +240,13 @@ class BrowseVC: UIViewController {
                         listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                         listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                         listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+						
+						listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
+						listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+						listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
+						listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
+						listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+						
 						scrollView.addSubview(listings_arr[index])
                     }
                 }
@@ -258,7 +288,10 @@ class BrowseVC: UIViewController {
 								
 								if let data = data, let image = UIImage(data: data) {
 									DispatchQueue.main.async { [self] in
-										listings_arr[index].listing_image.image = image
+										print(image.pngData()?.count)
+										let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+										print(compressedImage?.count)
+										listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
 									}
 								}
 							}.resume()
@@ -276,6 +309,13 @@ class BrowseVC: UIViewController {
                     listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                     listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                     listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+					
+					listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
+					listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+					listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
+					listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
+					listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+					
                     scrollView.addSubview(listings_arr[index])
                 }
             }

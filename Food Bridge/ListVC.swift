@@ -17,6 +17,10 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         setup_UI()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     let header_lb: UILabel = {
@@ -304,6 +308,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         let listing_image_dim: CGFloat = 150
         scrollView.frame = view.bounds
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         title_field.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
         description_field.frame = CGRect(x: left_margin, y: title_field.center.y + title_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)

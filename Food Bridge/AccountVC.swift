@@ -122,9 +122,19 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 guard let downloadURL = url else { return }
                 self.profile_picture.image = UIImage(systemName: "person.slash")
                 
-                if let data = try? Data(contentsOf: downloadURL) {
-                    self.profile_picture.image = UIImage(data: data)
-                }
+                URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+                    if let error = error {
+                        print("Error downloading image: \(error)")
+                        return
+                    }
+                    
+                    if let data = data, let image = UIImage(data: data) {
+                        DispatchQueue.main.async { [self] in
+                            self.profile_picture.image = image
+                        }
+                    }
+                }.resume()
+                
                 print("successfully downloaded image to app")
             }
         }
@@ -162,6 +172,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         let pfp_dim: CGFloat = 200
         scrollView.frame = view.bounds
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         pfp_view.frame = CGRect(x: left_margin, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 5, width: elem_w, height: 225)
         profile_picture.frame = CGRect(x: left_margin + 12, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 17, width: pfp_dim, height: pfp_dim)

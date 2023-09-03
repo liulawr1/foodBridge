@@ -13,21 +13,11 @@ class AboutVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         setup_UI()
+        
+        let back_bt = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(handle_back))
+        back_bt.tintColor = .white
+        navigationItem.leftBarButtonItem = back_bt
     }
-    
-    let back_bt: UIButton = {
-        let bt = UIButton()
-        bt.setTitle("Back", for: .normal)
-        bt.backgroundColor = robinBlue
-        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.setTitleColor(.white, for: .normal)
-        bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
-        bt.layer.borderWidth = 2
-        bt.layer.cornerRadius = 20
-        bt.isUserInteractionEnabled = true
-        return bt
-    }()
     
     let title_lb: UILabel = {
         let lb = UILabel()
@@ -59,14 +49,9 @@ class AboutVC: UIViewController {
         let top_margin: CGFloat = 90
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         let description_h: CGFloat = view.frame.height / 2
-        back_bt.frame = CGRect(x: view.frame.width / 2, y: top_margin, width: elem_w / 2, height: elem_h)
-        title_lb.frame = CGRect(x: left_margin, y: back_bt.center.y + back_bt.frame.height / 2 + elem_margin + 50, width: elem_w, height: elem_h)
+        title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         description_lb.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin - 15, width: elem_w, height: description_h)
         
-        // connect @objc func to buttons
-        back_bt.addTarget(self, action: #selector(handle_back(sender: )), for: .touchUpInside)
-        
-        view.addSubview(back_bt)
         view.addSubview(title_lb)
         view.addSubview(description_lb)
     }

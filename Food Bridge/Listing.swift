@@ -18,7 +18,6 @@ class ListingView: UIView {
         iv.layer.borderWidth = 2
         iv.layer.cornerRadius = 10
         iv.clipsToBounds = true
-        iv.frame = CGRect(x: 10, y: 10, width: 135, height: 135)
         return iv
     }()
     
@@ -26,7 +25,6 @@ class ListingView: UIView {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 28)
         lb.textColor = .white
-        lb.frame = CGRect(x: 155, y: 15, width: 500, height: 30)
         return lb
     }()
     
@@ -34,7 +32,6 @@ class ListingView: UIView {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 16)
         lb.textColor = .white
-        lb.frame = CGRect(x: 155, y: 60, width: 500, height: 20)
         return lb
     }()
     
@@ -42,7 +39,6 @@ class ListingView: UIView {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 16)
         lb.textColor = .white
-        lb.frame = CGRect(x: 155, y: 85, width: 500, height: 20)
         return lb
     }()
     
