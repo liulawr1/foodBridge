@@ -130,7 +130,10 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
                     
                     if let data = data, let image = UIImage(data: data) {
                         DispatchQueue.main.async { [self] in
-                            self.profile_picture.image = image
+                            print(image.pngData()?.count as Any)
+                            let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+                            print(compressedImage?.count as Any)
+                            self.profile_picture.image = UIImage(data: compressedImage!)
                         }
                     }
                 }.resume()
@@ -170,7 +173,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     func setup_UI() {
         let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        let pfp_dim: CGFloat = 200
+        let pfp_dim: CGFloat = view.frame.width / 2 - left_margin * 2
         scrollView.frame = view.bounds
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)

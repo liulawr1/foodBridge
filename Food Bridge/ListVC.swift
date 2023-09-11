@@ -21,6 +21,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+        self.hideKeyboardWhenTappedAround()
     }
     
     let header_lb: UILabel = {
@@ -317,7 +318,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         end_time_picker.frame = CGRect(x: left_margin + elem_w / 2 + 10, y: pickup_location_field.center.y + pickup_location_field.frame.height / 2 + elem_margin, width: elem_w / 2 - 10, height: elem_h)
         contact_info_field.frame = CGRect(x: left_margin, y: start_time_picker.center.y + start_time_picker.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         listing_image.frame = CGRect(x: left_margin, y: contact_info_field.center.y + contact_info_field.frame.height / 2 + elem_margin, width: listing_image_dim, height: listing_image_dim)
-        set_listing_image_bt.frame = CGRect(x: view.frame.width / 2 - 15, y: listing_image.center.y - 15, width: elem_w / 2, height: elem_h)
+        set_listing_image_bt.frame = CGRect(x: view.frame.width / 2, y: listing_image.center.y - 15, width: elem_w / 2, height: elem_h)
         create_listing_bt.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         let startTimeLabel = UILabel(frame: CGRect(x: 5, y: 0, width: start_time_picker.frame.width, height: start_time_picker.frame.height))

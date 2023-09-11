@@ -14,6 +14,8 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         setup_UI()
+        
+        self.hideKeyboardWhenTappedAround()
     }
     
     let email_field: UITextField = {

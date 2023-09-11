@@ -9,20 +9,6 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
-extension UIImage {
-	enum JPEGQuality : CGFloat {
-		case lowest = 0
-		case low = 0.25
-		case medium = 0.5
-		case high = 0.75
-		case highest = 1
-	}
-	
-	func jpeg(_ jpegQuality : JPEGQuality) -> Data? {
-		return jpegData(compressionQuality: jpegQuality.rawValue)
-	}
-}
-
 class BrowseVC: UIViewController {
     let scrollView = UIScrollView()
     var listings_arr = [ListingView]()
@@ -83,7 +69,9 @@ class BrowseVC: UIViewController {
 								
 								if let data = data, let image = UIImage(data: data) {
 									DispatchQueue.main.async { [self] in
-										let compressedImage = image.jpeg(UIImage.JPEGQuality.low)
+										print(image.pngData()?.count as Any)
+										let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+										print(compressedImage?.count as Any)
 										listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
 									}
 								}
@@ -124,6 +112,7 @@ class BrowseVC: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+		self.hideKeyboardWhenTappedAround()
     }
     
     let search_bar: UITextField = {
@@ -221,7 +210,9 @@ class BrowseVC: UIViewController {
 									
 									if let data = data, let image = UIImage(data: data) {
 										DispatchQueue.main.async { [self] in
-											let compressedImage = image.jpeg(UIImage.JPEGQuality.low)
+											print(image.pngData()?.count as Any)
+											let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+											print(compressedImage?.count as Any)
 											listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
 										}
 									}
@@ -288,9 +279,9 @@ class BrowseVC: UIViewController {
 								
 								if let data = data, let image = UIImage(data: data) {
 									DispatchQueue.main.async { [self] in
-										print(image.pngData()?.count)
+										print(image.pngData()?.count as Any)
 										let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
-										print(compressedImage?.count)
+										print(compressedImage?.count as Any)
 										listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
 									}
 								}

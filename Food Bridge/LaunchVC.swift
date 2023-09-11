@@ -113,3 +113,29 @@ class LaunchVC: UIViewController {
         view.addSubview(login_bt)
     }
 }
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension UIImage {
+    enum JPEGQuality: CGFloat {
+        case lowest = 0
+        case low = 0.25
+        case medium = 0.5
+        case high = 0.75
+        case highest = 1
+    }
+    
+    func jpeg(_ jpegQuality : JPEGQuality) -> Data? {
+        return jpegData(compressionQuality: jpegQuality.rawValue)
+    }
+}

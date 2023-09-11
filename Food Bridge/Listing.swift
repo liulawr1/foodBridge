@@ -98,6 +98,7 @@ class ListingView: UIView {
 }
 
 class ListingVC: UIViewController {
+    let scrollView = UIScrollView()
     var title_string: String?
     var description_string: String?
     var pickup_location_string: String?
@@ -111,6 +112,10 @@ class ListingVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = robinBlue
         setup_UI()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
         
         let back_bt = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(handle_back))
         back_bt.tintColor = .white
@@ -217,13 +222,15 @@ class ListingVC: UIViewController {
     }()
     
     func setup_UI() {
-        let top_margin: CGFloat = 90
+        let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        let listing_image_dim: CGFloat = 175
+        let listing_image_dim: CGFloat = view.frame.width / 2 - left_margin * 2
+        scrollView.frame = view.bounds
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         listing_image.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: listing_image_dim, height: listing_image_dim)
-        list_date_lb.frame = CGRect(x: view.frame.width / 2, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        list_author_lb.frame = CGRect(x: view.frame.width / 2, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        list_date_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        list_author_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         description_lb.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)
         pickup_location_lb.frame = CGRect(x: left_margin, y: description_lb.center.y + description_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_lb.frame = CGRect(x: left_margin, y: pickup_location_lb.center.y + pickup_location_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
@@ -231,15 +238,16 @@ class ListingVC: UIViewController {
         contact_info_lb.frame = CGRect(x: left_margin, y: end_time_lb.center.y + end_time_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         end_listing_bt.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
-        view.addSubview(title_lb)
-        view.addSubview(listing_image)
-        view.addSubview(list_date_lb)
-        view.addSubview(list_author_lb)
-        view.addSubview(description_lb)
-        view.addSubview(pickup_location_lb)
-        view.addSubview(start_time_lb)
-        view.addSubview(end_time_lb)
-        view.addSubview(contact_info_lb)
-        view.addSubview(end_listing_bt)
+        view.addSubview(scrollView)
+        scrollView.addSubview(title_lb)
+        scrollView.addSubview(listing_image)
+        scrollView.addSubview(list_date_lb)
+        scrollView.addSubview(list_author_lb)
+        scrollView.addSubview(description_lb)
+        scrollView.addSubview(pickup_location_lb)
+        scrollView.addSubview(start_time_lb)
+        scrollView.addSubview(end_time_lb)
+        scrollView.addSubview(contact_info_lb)
+        scrollView.addSubview(end_listing_bt)
     }
 }
