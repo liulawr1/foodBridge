@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
+var current_listing_id: String?
+
 class ListingView: UIView {
     let listing_image: UIImageView = {
         let iv = UIImageView()
@@ -221,6 +223,42 @@ class ListingVC: UIViewController {
         return bt
     }()
     
+    @objc func handle_end_listing(sender: UIButton) {
+        var updated_active_listings: Int?
+        
+        db.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    if ((document.get("email") as! String) == USER_EMAIL) {
+                        updated_active_listings = (document.get("active_listings") as! Int) - 1
+                        
+                        let ref = db.collection("users").document(USER_ID)
+
+                        ref.updateData([
+                            "active_listings": updated_active_listings!
+                        ]) { err in
+                            if let err = err {
+                                print("Error updating document: \(err)")
+                            } else {
+                                print("Document successfully updated")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+//        db.collection("listings").document(current_listing_id).delete() { err in
+//            if let err = err {
+//                print("Error removing document: \(err)")
+//            } else {
+//                print("Document successfully removed!")
+//            }
+//        }
+    }
+    
     func setup_UI() {
         let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
@@ -238,6 +276,9 @@ class ListingVC: UIViewController {
         contact_info_lb.frame = CGRect(x: left_margin, y: end_time_lb.center.y + end_time_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         end_listing_bt.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
+        // connect @objc func to buttons
+        end_listing_bt.addTarget(self, action: #selector(handle_end_listing(sender: )), for: .touchUpInside)
+        
         view.addSubview(scrollView)
         scrollView.addSubview(title_lb)
         scrollView.addSubview(listing_image)
@@ -248,6 +289,13 @@ class ListingVC: UIViewController {
         scrollView.addSubview(start_time_lb)
         scrollView.addSubview(end_time_lb)
         scrollView.addSubview(contact_info_lb)
-        scrollView.addSubview(end_listing_bt)
+        
+        let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
+        let start_index = list_author_string?.index(list_author_string!.startIndex, offsetBy: 11)
+        let list_author = list_author_string?.suffix(from: start_index!)
+        
+        if current_user == list_author {
+            scrollView.addSubview(end_listing_bt)
+        }
     }
 }

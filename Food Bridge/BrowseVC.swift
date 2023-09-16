@@ -165,6 +165,20 @@ class BrowseVC: UIViewController {
 		vc.list_date_string = listings_arr[index].list_date_lb.text
 		vc.list_author_string = listings_arr[index].list_author_lb.text
 		
+		db.collection("listings").getDocuments() { (querySnapshot, err) in
+			if let err = err {
+				print("Error getting documents: \(err)")
+			} else {
+				for document in querySnapshot!.documents {
+					let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
+					
+					if ((document.get("list_author") as! String) == current_user) {
+						current_listing_id = document.documentID
+					}
+				}
+			}
+		}
+		
 		let nav = UINavigationController(rootViewController: vc)
 		nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: false)
