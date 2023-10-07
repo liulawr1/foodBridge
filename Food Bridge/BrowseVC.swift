@@ -150,6 +150,33 @@ class BrowseVC: UIViewController {
         bt.layer.cornerRadius = 15
         return bt
     }()
+	
+//	FIX
+//
+//	func getCurrentListingID(for index: Int, completion: @escaping (String?) -> Void) {
+//		guard index >= 0, index < listings_arr.count else {
+//			completion(nil)
+//			return
+//		}
+//
+//		let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
+//
+//		db.collection("listings").getDocuments() { (querySnapshot, err) in
+//			if let err = err {
+//				print("Error getting documents: \(err)")
+//				completion(nil)
+//			} else {
+//				for document in querySnapshot!.documents {
+//					if (document.get("list_author") as! String) == current_user {
+//						let documentID = document.documentID
+//						completion(documentID)
+//						return
+//					}
+//				}
+//				completion(nil)
+//			}
+//		}
+//	}
     
     @objc func handle_details(sender: UIButton) {
         let vc = ListingVC()
@@ -164,24 +191,20 @@ class BrowseVC: UIViewController {
         vc.contact_info_string = listings_arr[index].contact_info_lb.text
 		vc.list_date_string = listings_arr[index].list_date_lb.text
 		vc.list_author_string = listings_arr[index].list_author_lb.text
-		
-		db.collection("listings").getDocuments() { (querySnapshot, err) in
-			if let err = err {
-				print("Error getting documents: \(err)")
-			} else {
-				for document in querySnapshot!.documents {
-					let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
-					
-					if ((document.get("list_author") as! String) == current_user) {
-						current_listing_id = document.documentID
-					}
-				}
-			}
-		}
-		
-		let nav = UINavigationController(rootViewController: vc)
-		nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: false)
+	
+//		FIX
+//
+//		getCurrentListingID(for: index) { [weak self] currentListingID in
+//			if let id = currentListingID {
+//				current_listing_id = id
+//
+//				let nav = UINavigationController(rootViewController: vc)
+//				nav.modalPresentationStyle = .fullScreen
+//				self?.present(nav, animated: false)
+//			} else {
+//				print("No matching document found.")
+//			}
+//		}
     }
     
     @objc func handle_enter(sender: UIButton) {

@@ -25,7 +25,7 @@ class ProfileView: UIView {
         return lb
     }()
     
-    let location_lb: UILabel = {
+    let active_listings_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
@@ -33,19 +33,11 @@ class ProfileView: UIView {
         return lb
     }()
     
-    let active_listings_lb: UILabel = {
-        let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.textColor = .white
-        lb.frame = CGRect(x: 15, y: 110, width: 500, height: elem_h)
-        return lb
-    }()
-    
     let total_listings_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
-        lb.frame = CGRect(x: 15, y: 145, width: 500, height: elem_h)
+        lb.frame = CGRect(x: 15, y: 110, width: 500, height: elem_h)
         return lb
     }()
     
@@ -58,7 +50,6 @@ class ProfileView: UIView {
                     if ((document.get("email") as! String) == USER_EMAIL) {
                         email_lb.text = "Email: \(USER_EMAIL ?? "Loading")"
                         donor_type_lb.text = "Donor Type: \(document.get("donor_type") as! String)"
-                        location_lb.text = "Location: \(document.get("location") as! String)"
                         
                         guard let active_listings = (document.get("active_listings") as? Int) else { return }
                         let converted_int_active_listings = String(active_listings)
@@ -78,7 +69,6 @@ class ProfileView: UIView {
         display_user_info()
         self.addSubview(email_lb)
         self.addSubview(donor_type_lb)
-        self.addSubview(location_lb)
         self.addSubview(active_listings_lb)
         self.addSubview(total_listings_lb)
     }

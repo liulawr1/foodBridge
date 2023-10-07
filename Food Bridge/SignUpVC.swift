@@ -192,7 +192,6 @@ class SignUpVC: UIViewController {
                 db.collection("users").document(uid).setData([
                     "email": email,
                     "donor_type": donor_type,
-                    "location": location,
                     "active_listings": 0,
                     "total_listings": 0
                 ]) { err in

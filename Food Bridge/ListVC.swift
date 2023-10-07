@@ -232,6 +232,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }()
     
     let success_alert = UIAlertController(title: "Success!", message: "Listing successfully created!", preferredStyle: .alert)
+    let failure_alert = UIAlertController(title: "Failure!", message: "Please fill in all required fields!", preferredStyle: .alert)
     let error_alert = UIAlertController(title: "Error!", message: "Error occurred while creating listing!", preferredStyle: .alert)
     let dismiss_alert = UIAlertAction(title: "OK", style: .default)
     
@@ -264,43 +265,58 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
     
     @objc func handle_create(sender: UIButton) {
-        var ref: DocumentReference? = nil
+        let title = title_field.text
+        let description = description_field.text
+        let pickup_location = pickup_location_field.text
+        let start_time = start_time_picker.date
+        let end_time = end_time_picker.date
+        let contact_info = contact_info_field.text
+        let list_author = USER_EMAIL!.split(separator: "@").first ?? ""
         
-        ref = db.collection("listings").addDocument(data: [
-            "title": title_field.text!,
-            "description": description_field.text!,
-            "pickup_location": pickup_location_field.text!,
-            "start_time": start_time_picker.date,
-            "end_time": end_time_picker.date,
-            "contact_info": contact_info_field.text!,
-            "list_date": list_date,
-            "list_author": USER_EMAIL!.split(separator: "@").first ?? ""
-        ]) { [self] err in
-            if let err = err {
-                print("Error adding document: \(err)")
-                error_alert.addAction(dismiss_alert)
-                present(error_alert, animated: true)
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-                title_field.text = ""
-                description_field.text = ""
-                pickup_location_field.text = ""
-                contact_info_field.text = ""
-                listing_image.image = nil
-                increase_listings_counter()
-                
-                storage_ref.child("listings/\(ref!.documentID)").child(LISTING_IMAGE_PATH).child("\(ref!.documentID)_image.png").putData(image_data) { (metadata, err) in
-                    if let err = err {
-                        print(err.localizedDescription)
-                        return
-                    } else {
-                        print("successfully uploaded image to firebase storage")
+        if (title != "" && description != "" && pickup_location != "" && contact_info != "") {
+            var ref: DocumentReference? = nil
+            
+            ref = db.collection("listings").addDocument(data: [
+                "title": title!,
+                "description": description!,
+                "pickup_location": pickup_location!,
+                "start_time": start_time,
+                "end_time": end_time,
+                "contact_info": contact_info!,
+                "list_date": list_date,
+                "list_author": list_author
+            ]) { [self] err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                    error_alert.addAction(dismiss_alert)
+                    present(error_alert, animated: true)
+                } else {
+                    print("Document added with ID: \(ref!.documentID)")
+                    title_field.text = ""
+                    description_field.text = ""
+                    pickup_location_field.text = ""
+                    contact_info_field.text = ""
+                    listing_image.image = nil
+                    increase_listings_counter()
+                    
+                    storage_ref.child("listings/\(ref!.documentID)").child(LISTING_IMAGE_PATH).child("\(ref!.documentID)_image.png").putData(image_data) { [self] (metadata, err) in
+                        if let err = err {
+                            print(err.localizedDescription)
+                            present(error_alert, animated: true)
+                            error_alert.addAction(dismiss_alert)
+                            return
+                        } else {
+                            print("successfully uploaded image to firebase storage")
+                        }
                     }
+                    
+                    present(success_alert, animated: true)
+                    success_alert.addAction(dismiss_alert)
                 }
-                
-                present(success_alert, animated: true)
-                success_alert.addAction(dismiss_alert)
             }
+        } else {
+            present(failure_alert, animated: true)
+            failure_alert.addAction(dismiss_alert)
         }
     }
     

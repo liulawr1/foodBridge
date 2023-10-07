@@ -250,13 +250,13 @@ class ListingVC: UIViewController {
             }
         }
         
-//        db.collection("listings").document(current_listing_id).delete() { err in
-//            if let err = err {
-//                print("Error removing document: \(err)")
-//            } else {
-//                print("Document successfully removed!")
-//            }
-//        }
+        db.collection("listings").document(current_listing_id!).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
     }
     
     func setup_UI() {

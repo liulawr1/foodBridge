@@ -106,7 +106,7 @@ class LaunchVC: UIViewController {
         signup_bt.addTarget(self, action: #selector(handle_signup(sender: )), for: .touchUpInside)
         login_bt.addTarget(self, action: #selector(handle_login(sender: )), for: .touchUpInside)
         
-        view.addSubview(bg_iv)
+        //view.addSubview(bg_iv)
         view.addSubview(title_lb)
         view.addSubview(about_bt)
         view.addSubview(signup_bt)
