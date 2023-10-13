@@ -17,7 +17,7 @@ class ProfileView: UIView {
         return lb
     }()
     
-    let donor_type_lb: UILabel = {
+    let user_type_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 20)
         lb.textColor = .white
@@ -49,7 +49,7 @@ class ProfileView: UIView {
                 for document in querySnapshot!.documents {
                     if ((document.get("email") as! String) == USER_EMAIL) {
                         email_lb.text = "Email: \(USER_EMAIL ?? "Loading")"
-                        donor_type_lb.text = "Donor Type: \(document.get("donor_type") as! String)"
+                        user_type_lb.text = "User Type: \(document.get("user_type") as! String)"
                         
                         guard let active_listings = (document.get("active_listings") as? Int) else { return }
                         let converted_int_active_listings = String(active_listings)
@@ -68,7 +68,7 @@ class ProfileView: UIView {
         super.init(frame: frame)
         display_user_info()
         self.addSubview(email_lb)
-        self.addSubview(donor_type_lb)
+        self.addSubview(user_type_lb)
         self.addSubview(active_listings_lb)
         self.addSubview(total_listings_lb)
     }

@@ -15,7 +15,7 @@ class ControlBar: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UITabBar.appearance().backgroundColor = skyBlue
+        UITabBar.appearance().backgroundColor = lightGreen
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().tintColor = .white
         

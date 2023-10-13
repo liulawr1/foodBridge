@@ -32,7 +32,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         download_image_to_app()
         setup_UI()
         setup_refresh_control()
@@ -53,7 +53,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     let pfp_view: UIView = {
         let v = UIView()
-        v.backgroundColor = lightRobinBlue
+        v.backgroundColor = lightGreen
         v.layer.borderColor = UIColor.white.cgColor
         v.layer.borderWidth = 2
         v.layer.cornerRadius = 20
@@ -62,7 +62,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     let profile_picture: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = robinBlue
+        iv.backgroundColor = lightGreen
         iv.contentMode = .scaleAspectFill
         iv.layer.borderColor = UIColor.white.cgColor
         iv.layer.borderWidth = 2
@@ -74,7 +74,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     let set_pfp_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Set Profile Picture", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -146,7 +146,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     let signout_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Sign Out", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -182,7 +182,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         set_pfp_bt.frame = CGRect(x: view.frame.width / 2 + 40, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 85, width: elem_w / 3, height: elem_h + 10)
         let my_profile_view = ProfileView()
         my_profile_view.frame = CGRect(x: left_margin, y: pfp_view.center.y + pfp_view.frame.height / 2 + elem_margin, width: elem_w, height: 165)
-        my_profile_view.backgroundColor = lightRobinBlue
+        my_profile_view.backgroundColor = lightGreen
         my_profile_view.layer.borderColor = UIColor.white.cgColor
         my_profile_view.layer.borderWidth = 2
         my_profile_view.layer.cornerRadius = 20

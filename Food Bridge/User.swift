@@ -13,7 +13,7 @@ var user_info = User()
 public struct User {
     var email: String = ""
     var password: String = ""
-    var donor_type: String = ""
+    var user_type: String = ""
     var location: String = ""
     var active_listings: Int = 0
     var total_listings: Int = 0
@@ -28,7 +28,7 @@ public struct User {
         return [
             "email": email,
             "password": password,
-            "donor_type": donor_type,
+            "user_type": user_type,
             "location": location,
             "active_listings": active_listings,
             "total_listings": total_listings,

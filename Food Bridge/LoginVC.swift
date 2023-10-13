@@ -12,7 +12,7 @@ import FirebaseAuth
 class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
         
         self.hideKeyboardWhenTappedAround()
@@ -22,15 +22,15 @@ class LoginVC: UIViewController {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "Email",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
+        tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderColor = forestGreen.cgColor
         tf.layer.borderWidth = 2
         tf.layer.cornerRadius = 20
         
@@ -45,16 +45,16 @@ class LoginVC: UIViewController {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "Password",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.isSecureTextEntry = true
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
+        tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderColor = forestGreen.cgColor
         tf.layer.borderWidth = 2
         tf.layer.cornerRadius = 20
         
@@ -68,47 +68,28 @@ class LoginVC: UIViewController {
     let submit_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Submit", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.setTitleColor(forestGreen, for: .normal)
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
     }()
     
-    let warning1_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Incorrect email or password.\nTry again or create new account."
-        lb.font = UIFont.boldSystemFont(ofSize: 16)
-        lb.backgroundColor = robinBlue
-        lb.textColor = .red
-        lb.textAlignment = .center
-        lb.numberOfLines = 0
-        return lb
-    }()
-    
-    let warning2_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Please fill in all required fields!"
-        lb.font = UIFont.boldSystemFont(ofSize: 16)
-        lb.backgroundColor = robinBlue
-        lb.textColor = .red
-        lb.textAlignment = .center
-        return lb
-    }()
+    let warning1_alert = UIAlertController(title: "Failure!", message: "Incorrect email or password. Try again or create new account.", preferredStyle: .alert)
+    let warning2_alert = UIAlertController(title: "Failure!", message: "Please fill in all required fields!", preferredStyle: .alert)
+    let dismiss_alert = UIAlertAction(title: "OK", style: .default)
     
     func display_warning1() {
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(warning1_lb)
+        present(warning1_alert, animated: true)
+        warning1_alert.addAction(dismiss_alert)
     }
     
     func display_warning2() {
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        warning2_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(warning2_lb)
+        present(warning2_alert, animated: true)
+        warning2_alert.addAction(dismiss_alert)
     }
     
     func login(email: String, password: String) {

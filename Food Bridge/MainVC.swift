@@ -13,7 +13,7 @@ class MainVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
     }
     
@@ -27,7 +27,7 @@ class MainVC: UIViewController {
     let logout_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Logout", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center

@@ -20,7 +20,7 @@ var USER_ID = USER!.uid
 
 let EMAIL = "email"
 let PASSWORD = "password"
-let DONOR_TYPE = "donor_type"
+let USER_TYPE = "user_type"
 let LOCATION = "location"
 let ACTIVE_LISTINGS = "active_listings"
 let TOTAL_LISTINGS = "total_listings"

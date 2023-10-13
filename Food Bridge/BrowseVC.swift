@@ -50,7 +50,7 @@ class BrowseVC: UIViewController {
                     listing.tag = index
                     listings_arr.append(listing)
                     
-                    listings_arr[index].backgroundColor = lightRobinBlue
+                    listings_arr[index].backgroundColor = lightGreen
                     listings_arr[index].layer.borderColor = UIColor.white.cgColor
                     listings_arr[index].layer.borderWidth = 2
                     listings_arr[index].layer.cornerRadius = 20
@@ -82,11 +82,26 @@ class BrowseVC: UIViewController {
 					}
                     
                     listings_arr[index].title_lb.text = (document.get("title") as! String)
-					listings_arr[index].description_lb.text = (document.get("description") as! String)
-					listings_arr[index].pickup_location_lb.text = (document.get("pickup_location") as! String)
-					//listings_arr[index].start_time_lb.text = (document.get("start_time") as! String)
-					//listings_arr[index].end_time_lb.text = (document.get("end_time") as! String)
-					listings_arr[index].contact_info_lb.text = (document.get("contact_info") as! String)
+					listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
+					listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
+					
+					if let startTimeTimestamp = document.get("start_time") as? Timestamp {
+						let startTimeDate = startTimeTimestamp.dateValue()
+						let dateFormatter = DateFormatter()
+						dateFormatter.dateFormat = "h:mm a"
+						let startTimeString = dateFormatter.string(from: startTimeDate)
+						listings_arr[index].start_time_lb.text = "Start Time: \(startTimeString)"
+					}
+					
+					if let endTimeTimestamp = document.get("end_time") as? Timestamp {
+						let endTimeDate = endTimeTimestamp.dateValue()
+						let dateFormatter = DateFormatter()
+						dateFormatter.dateFormat = "h:mm a"
+						let endTimeString = dateFormatter.string(from: endTimeDate)
+						listings_arr[index].end_time_lb.text = "End Time: \(endTimeString)"
+					}
+					
+					listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
                     listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
                     listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
                     listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
@@ -105,7 +120,7 @@ class BrowseVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
         setup_refresh_control()
         
@@ -122,7 +137,7 @@ class BrowseVC: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
         tf.autocapitalizationType = .none
@@ -141,7 +156,7 @@ class BrowseVC: UIViewController {
     let enter_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("→", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -205,6 +220,10 @@ class BrowseVC: UIViewController {
 //				print("No matching document found.")
 //			}
 //		}
+		
+		let nav = UINavigationController(rootViewController: vc)
+		nav.modalPresentationStyle = .fullScreen
+		self.present(nav, animated: false)
     }
     
     @objc func handle_enter(sender: UIButton) {
@@ -228,7 +247,7 @@ class BrowseVC: UIViewController {
                         print(index)
                         listings_arr.append(listing)
                         
-                        listings_arr[index].backgroundColor = lightRobinBlue
+                        listings_arr[index].backgroundColor = lightGreen
                         listings_arr[index].layer.borderColor = UIColor.white.cgColor
                         listings_arr[index].layer.borderWidth = 2
                         listings_arr[index].layer.cornerRadius = 20
@@ -259,15 +278,30 @@ class BrowseVC: UIViewController {
 							}
 						}
                         
-                        listings_arr[index].title_lb.text = (document.get("title") as! String)
-						listings_arr[index].description_lb.text = (document.get("description") as! String)
-						listings_arr[index].pickup_location_lb.text = (document.get("pickup_location") as! String)
-						//listings_arr[index].start_time_lb.text = (document.get("start_time") as! String)
-						//listings_arr[index].end_time_lb.text = (document.get("end_time") as! String)
-						listings_arr[index].contact_info_lb.text = (document.get("contact_info") as! String)
-                        listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-                        listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-                        listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+						listings_arr[index].title_lb.text = (document.get("title") as! String)
+						listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
+						listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
+						
+						if let startTimeTimestamp = document.get("start_time") as? Timestamp {
+							let startTimeDate = startTimeTimestamp.dateValue()
+							let dateFormatter = DateFormatter()
+							dateFormatter.dateFormat = "h:mm a"
+							let startTimeString = dateFormatter.string(from: startTimeDate)
+							listings_arr[index].start_time_lb.text = "Start Time: \(startTimeString)"
+						}
+						
+						if let endTimeTimestamp = document.get("end_time") as? Timestamp {
+							let endTimeDate = endTimeTimestamp.dateValue()
+							let dateFormatter = DateFormatter()
+							dateFormatter.dateFormat = "h:mm a"
+							let endTimeString = dateFormatter.string(from: endTimeDate)
+							listings_arr[index].end_time_lb.text = "End Time: \(endTimeString)"
+						}
+						
+						listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
+						listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+						listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+						listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
 						
 						listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
 						listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
@@ -297,7 +331,7 @@ class BrowseVC: UIViewController {
                     listings_arr.append(listing)
                     
                     listings_arr[index].details_bt.tag = index
-                    listings_arr[index].backgroundColor = lightRobinBlue
+                    listings_arr[index].backgroundColor = lightGreen
                     listings_arr[index].layer.borderColor = UIColor.white.cgColor
                     listings_arr[index].layer.borderWidth = 2
                     listings_arr[index].layer.cornerRadius = 20
@@ -328,15 +362,30 @@ class BrowseVC: UIViewController {
                         }
                     }
                     
-                    listings_arr[index].title_lb.text = (document.get("title") as! String)
-					listings_arr[index].description_lb.text = (document.get("description") as! String)
-					listings_arr[index].pickup_location_lb.text = (document.get("pickup_location") as! String)
-					//listings_arr[index].start_time_lb.text = (document.get("start_time") as! String)
-					//listings_arr[index].end_time_lb.text = (document.get("end_time") as! String)
-					listings_arr[index].contact_info_lb.text = (document.get("contact_info") as! String)
-                    listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-                    listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-                    listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+					listings_arr[index].title_lb.text = (document.get("title") as! String)
+					listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
+					listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
+					
+					if let startTimeTimestamp = document.get("start_time") as? Timestamp {
+						let startTimeDate = startTimeTimestamp.dateValue()
+						let dateFormatter = DateFormatter()
+						dateFormatter.dateFormat = "h:mm a"
+						let startTimeString = dateFormatter.string(from: startTimeDate)
+						listings_arr[index].start_time_lb.text = "Start Time: \(startTimeString)"
+					}
+					
+					if let endTimeTimestamp = document.get("end_time") as? Timestamp {
+						let endTimeDate = endTimeTimestamp.dateValue()
+						let dateFormatter = DateFormatter()
+						dateFormatter.dateFormat = "h:mm a"
+						let endTimeString = dateFormatter.string(from: endTimeDate)
+						listings_arr[index].end_time_lb.text = "End Time: \(endTimeString)"
+					}
+					
+					listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
+					listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+					listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+					listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
 					
 					listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
 					listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
@@ -344,7 +393,7 @@ class BrowseVC: UIViewController {
 					listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
 					listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
 					
-                    scrollView.addSubview(listings_arr[index])
+					scrollView.addSubview(listings_arr[index])
                 }
             }
         }

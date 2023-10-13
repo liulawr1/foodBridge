@@ -112,7 +112,7 @@ class ListingVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -213,7 +213,7 @@ class ListingVC: UIViewController {
     let end_listing_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("End Listing", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -250,13 +250,15 @@ class ListingVC: UIViewController {
             }
         }
         
-        db.collection("listings").document(current_listing_id!).delete() { err in
-            if let err = err {
-                print("Error removing document: \(err)")
-            } else {
-                print("Document successfully removed!")
-            }
-        }
+//       FIX
+//
+//        db.collection("listings").document(current_listing_id!).delete() { err in
+//            if let err = err {
+//                print("Error removing document: \(err)")
+//            } else {
+//                print("Document successfully removed!")
+//            }
+//        }
     }
     
     func setup_UI() {
@@ -267,8 +269,8 @@ class ListingVC: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         listing_image.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: listing_image_dim, height: listing_image_dim)
-        list_date_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        list_author_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        list_date_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
+        list_author_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
         description_lb.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)
         pickup_location_lb.frame = CGRect(x: left_margin, y: description_lb.center.y + description_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         start_time_lb.frame = CGRect(x: left_margin, y: pickup_location_lb.center.y + pickup_location_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)

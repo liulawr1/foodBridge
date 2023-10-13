@@ -15,7 +15,7 @@ let elem_h: CGFloat = 48
 class LaunchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
     }
     
@@ -23,7 +23,7 @@ class LaunchVC: UIViewController {
         let lb = UILabel()
         lb.text = "Food Bridge"
         lb.font = UIFont.boldSystemFont(ofSize: 60)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.textAlignment = .center
         lb.numberOfLines = 0
         return lb
@@ -32,11 +32,11 @@ class LaunchVC: UIViewController {
     let about_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("About Us", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.setTitleColor(forestGreen, for: .normal)
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
-        bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
@@ -45,11 +45,11 @@ class LaunchVC: UIViewController {
     let signup_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Sign Up", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.setTitleColor(forestGreen, for: .normal)
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
-        bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
@@ -58,11 +58,11 @@ class LaunchVC: UIViewController {
     let login_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Login", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.setTitleColor(forestGreen, for: .normal)
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
-        bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
@@ -87,7 +87,7 @@ class LaunchVC: UIViewController {
     
     let bg_iv: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "bridge")
+        iv.image = UIImage(named: "FoodBridgeLogoinverted")
         iv.contentMode = .scaleAspectFit
         return iv
     }()
@@ -97,16 +97,19 @@ class LaunchVC: UIViewController {
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: 110)
         about_bt.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: 48)
-        signup_bt.frame = CGRect(x: left_margin, y: view.frame.height - 200, width: elem_w, height: 48)
+        signup_bt.frame = CGRect(x: left_margin, y: view.frame.height - 210, width: elem_w, height: 48)
         login_bt.frame = CGRect(x: left_margin, y: signup_bt.center.y + signup_bt.frame.height / 2 + elem_margin, width: elem_w, height: 48)
-        bg_iv.frame = view.frame
+        
+        let bgX = (view.frame.width - elem_w) / 2
+        let bgY = (view.frame.height - (about_bt.center.y + about_bt.frame.height / 2 + elem_margin + elem_w)) + 40
+        bg_iv.frame = CGRect(x: bgX, y: bgY, width: elem_w, height: elem_w)
         
         // connect @objc func to buttons
         about_bt.addTarget(self, action: #selector(handle_about(sender: )), for: .touchUpInside)
         signup_bt.addTarget(self, action: #selector(handle_signup(sender: )), for: .touchUpInside)
         login_bt.addTarget(self, action: #selector(handle_login(sender: )), for: .touchUpInside)
         
-        //view.addSubview(bg_iv)
+        view.addSubview(bg_iv)
         view.addSubview(title_lb)
         view.addSubview(about_bt)
         view.addSubview(signup_bt)

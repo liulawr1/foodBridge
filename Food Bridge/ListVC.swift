@@ -15,7 +15,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -40,7 +40,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
         tf.autocapitalizationType = .none
@@ -63,7 +63,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tv.attributedText = attributedPlaceholder
-        tv.backgroundColor = lightRobinBlue
+        tv.backgroundColor = lightGreen
         tv.font = UIFont.boldSystemFont(ofSize: 20)
         tv.textColor = .white
         tv.autocapitalizationType = .none
@@ -79,10 +79,6 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return tv
     }()
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.text = ""
-    }
-    
     let pickup_location_field: UITextField = {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
@@ -90,7 +86,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
         tf.autocapitalizationType = .none
@@ -110,7 +106,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let dp = UIDatePicker()
         dp.datePickerMode = .time
         dp.minuteInterval = 15
-        dp.backgroundColor = lightRobinBlue
+        dp.backgroundColor = lightGreen
         dp.tintColor = .white
         dp.layer.borderColor = UIColor.white.cgColor
         dp.layer.borderWidth = 2
@@ -123,7 +119,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let dp = UIDatePicker()
         dp.datePickerMode = .time
         dp.minuteInterval = 15
-        dp.backgroundColor = lightRobinBlue
+        dp.backgroundColor = lightGreen
         dp.tintColor = .white
         dp.layer.borderColor = UIColor.white.cgColor
         dp.layer.borderWidth = 2
@@ -155,7 +151,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
         tf.autocapitalizationType = .none
@@ -185,7 +181,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let set_listing_image_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Set Listing Image", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -214,7 +210,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let create_listing_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Create Listing", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -235,6 +231,21 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let failure_alert = UIAlertController(title: "Failure!", message: "Please fill in all required fields!", preferredStyle: .alert)
     let error_alert = UIAlertController(title: "Error!", message: "Error occurred while creating listing!", preferredStyle: .alert)
     let dismiss_alert = UIAlertAction(title: "OK", style: .default)
+    
+    func display_success() {
+        present(success_alert, animated: true)
+        success_alert.addAction(dismiss_alert)
+    }
+    
+    func display_failure() {
+        present(failure_alert, animated: true)
+        failure_alert.addAction(dismiss_alert)
+    }
+    
+    func display_error() {
+        present(error_alert, animated: true)
+        error_alert.addAction(dismiss_alert)
+    }
     
     func increase_listings_counter() {
         db.collection("users").getDocuments() { (querySnapshot, err) in
@@ -288,8 +299,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             ]) { [self] err in
                 if let err = err {
                     print("Error adding document: \(err)")
-                    error_alert.addAction(dismiss_alert)
-                    present(error_alert, animated: true)
+                    display_error()
                 } else {
                     print("Document added with ID: \(ref!.documentID)")
                     title_field.text = ""
@@ -302,21 +312,18 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                     storage_ref.child("listings/\(ref!.documentID)").child(LISTING_IMAGE_PATH).child("\(ref!.documentID)_image.png").putData(image_data) { [self] (metadata, err) in
                         if let err = err {
                             print(err.localizedDescription)
-                            present(error_alert, animated: true)
-                            error_alert.addAction(dismiss_alert)
+                            display_error()
                             return
                         } else {
                             print("successfully uploaded image to firebase storage")
                         }
                     }
                     
-                    present(success_alert, animated: true)
-                    success_alert.addAction(dismiss_alert)
+                    display_success()
                 }
             }
         } else {
-            present(failure_alert, animated: true)
-            failure_alert.addAction(dismiss_alert)
+            display_failure()
         }
     }
     

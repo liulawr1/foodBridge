@@ -13,7 +13,7 @@ import FirebaseFirestore
 class SignUpVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = robinBlue
+        view.backgroundColor = lightGreen
         setup_UI()
         
         self.hideKeyboardWhenTappedAround()
@@ -26,9 +26,9 @@ class SignUpVC: UIViewController {
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
+        tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
         tf.layer.borderColor = UIColor.white.cgColor
@@ -50,9 +50,9 @@ class SignUpVC: UIViewController {
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.isSecureTextEntry = true
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
+        tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
         tf.layer.borderColor = UIColor.white.cgColor
@@ -74,7 +74,7 @@ class SignUpVC: UIViewController {
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.isSecureTextEntry = true
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
         tf.autocapitalizationType = .none
@@ -90,37 +90,14 @@ class SignUpVC: UIViewController {
         return tf
     }()
     
-    let donor_type_field: UITextField = {
+    let user_type_field: UITextField = {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
-            string: "Donor Type",
+            string: "User Type",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
         )
         tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
-        tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
-        tf.autocapitalizationType = .none
-        tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
-        tf.layer.borderWidth = 2
-        tf.layer.cornerRadius = 20
-        
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = paddingView
-        tf.leftViewMode = .always
-        
-        return tf
-    }()
-    
-    let location_field: UITextField = {
-        let tf = UITextField()
-        let attributedPlaceholder = NSAttributedString(
-            string: "Location",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
-        )
-        tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightRobinBlue
+        tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
         tf.textColor = .white
         tf.autocapitalizationType = .none
@@ -139,7 +116,7 @@ class SignUpVC: UIViewController {
     let submit_bt: UIButton = {
         let bt = UIButton()
         bt.setTitle("Submit", for: .normal)
-        bt.backgroundColor = robinBlue
+        bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         bt.setTitleColor(.white, for: .normal)
         bt.titleLabel?.textAlignment = .center
@@ -149,39 +126,33 @@ class SignUpVC: UIViewController {
         return bt
     }()
     
-    let warning1_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Passwords do not match!"
-        lb.font = UIFont.boldSystemFont(ofSize: 16)
-        lb.backgroundColor = robinBlue
-        lb.textColor = .red
-        lb.textAlignment = .center
-        return lb
-    }()
+    let success_alert = UIAlertController(title: "Success!", message: "Account successfully created!", preferredStyle: .alert)
+    let warning1_alert = UIAlertController(title: "Failure!", message: "Passwords do not match!", preferredStyle: .alert)
+    let warning2_alert = UIAlertController(title: "Failure!", message: "Please fill in all required fields!", preferredStyle: .alert)
+    let error_alert = UIAlertController(title: "Error!", message: "Error occurred while creating account!", preferredStyle: .alert)
+    let dismiss_alert = UIAlertAction(title: "OK", style: .default)
     
-    let warning2_lb: UILabel = {
-        let lb = UILabel()
-        lb.text = "Please fill in all required fields!"
-        lb.font = UIFont.boldSystemFont(ofSize: 16)
-        lb.backgroundColor = robinBlue
-        lb.textColor = .red
-        lb.textAlignment = .center
-        return lb
-    }()
+    func display_success() {
+        present(success_alert, animated: true)
+        success_alert.addAction(dismiss_alert)
+    }
     
     func display_warning1() {
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        warning1_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(warning1_lb)
+        present(warning1_alert, animated: true)
+        warning1_alert.addAction(dismiss_alert)
     }
     
     func display_warning2() {
-        let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        warning2_lb.frame = CGRect(x: left_margin, y: submit_bt.center.y + submit_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        view.addSubview(warning2_lb)
+        present(warning2_alert, animated: true)
+        warning2_alert.addAction(dismiss_alert)
     }
     
-    func sign_up(email: String, password: String, donor_type: String, location: String) {
+    func display_error() {
+        present(error_alert, animated: true)
+        error_alert.addAction(dismiss_alert)
+    }
+    
+    func sign_up(email: String, password: String, user_type: String) {
         Auth.auth().createUser(withEmail: email, password: password) { [self] (authResult, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -191,12 +162,13 @@ class SignUpVC: UIViewController {
                 
                 db.collection("users").document(uid).setData([
                     "email": email,
-                    "donor_type": donor_type,
+                    "user_type": user_type,
                     "active_listings": 0,
                     "total_listings": 0
-                ]) { err in
+                ]) { [self] err in
                     if let err = err {
                         print("Error adding document: \(err)")
+                        display_error()
                     } else {
                         print("Document successfully written!")
                         
@@ -214,12 +186,12 @@ class SignUpVC: UIViewController {
         let email = email_field.text
         let password = password_field.text
         let password_confirmation = password_confirmation_field.text
-        let donor_type = donor_type_field.text
-        let location = location_field.text
+        let user_type = user_type_field.text
         
         if (email != "" && password != "" && password_confirmation != "") {
             if (password == password_confirmation) {
-                sign_up(email: email!, password: password!, donor_type: donor_type!, location: location!)
+                sign_up(email: email!, password: password!, user_type: user_type!)
+                display_success()
             } else {
                 display_warning1()
             }
@@ -234,9 +206,8 @@ class SignUpVC: UIViewController {
         email_field.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         password_field.frame = CGRect(x: left_margin, y: email_field.center.y + email_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         password_confirmation_field.frame = CGRect(x: left_margin, y: password_field.center.y + password_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        donor_type_field.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        location_field.frame = CGRect(x: left_margin, y: donor_type_field.center.y + donor_type_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        submit_bt.frame = CGRect(x: left_margin, y: location_field.center.y + location_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        user_type_field.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        submit_bt.frame = CGRect(x: left_margin, y: user_type_field.center.y + user_type_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         submit_bt.addTarget(self, action: #selector(handle_submit(sender: )), for: .touchUpInside)
@@ -244,8 +215,7 @@ class SignUpVC: UIViewController {
         view.addSubview(email_field)
         view.addSubview(password_field)
         view.addSubview(password_confirmation_field)
-        view.addSubview(donor_type_field)
-        view.addSubview(location_field)
+        view.addSubview(user_type_field)
         view.addSubview(submit_bt)
     }
 }
