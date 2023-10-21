@@ -14,9 +14,9 @@ var current_listing_id: String?
 class ListingView: UIView {
     let listing_image: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .gray
+        iv.backgroundColor = lightGreen
         iv.contentMode = .scaleAspectFill
-        iv.layer.borderColor = UIColor.white.cgColor
+        iv.layer.borderColor = forestGreen.cgColor
         iv.layer.borderWidth = 2
         iv.layer.cornerRadius = 10
         iv.clipsToBounds = true
@@ -26,27 +26,27 @@ class ListingView: UIView {
     let title_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 28)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
     let list_date_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 16)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
     let list_author_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 16)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
     let details_bt: UIButton = {
         let bt = UIButton()
-        bt.tintColor = .white
+        bt.tintColor = forestGreen
         
         let innerImageView = UIImageView()
         innerImageView.image = UIImage(systemName: "plus.magnifyingglass")
@@ -64,18 +64,28 @@ class ListingView: UIView {
         let lb = UILabel()
         return lb
     }()
+    
+    let item_quantity_lb: UILabel = {
+        let lb = UILabel()
+        return lb
+    }()
+    
+    let item_weight_lb: UILabel = {
+        let lb = UILabel()
+        return lb
+    }()
 
     let pickup_location_lb: UILabel = {
         let lb = UILabel()
         return lb
     }()
 
-    let start_time_lb: UILabel = {
+    let start_date_lb: UILabel = {
         let lb = UILabel()
         return lb
     }()
 
-    let end_time_lb: UILabel = {
+    let end_date_lb: UILabel = {
         let lb = UILabel()
         return lb
     }()
@@ -103,9 +113,11 @@ class ListingVC: UIViewController {
     let scrollView = UIScrollView()
     var title_string: String?
     var description_string: String?
+    var item_quantity_string: String?
+    var item_weight_string: String?
     var pickup_location_string: String?
-    var start_time_string: String?
-    var end_time_string: String?
+    var start_date_string: String?
+    var end_date_string: String?
     var contact_info_string: String?
     var list_date_string: String?
     var list_author_string: String?
@@ -120,14 +132,16 @@ class ListingVC: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         
         let back_bt = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(handle_back))
-        back_bt.tintColor = .white
+        back_bt.tintColor = forestGreen
         navigationItem.leftBarButtonItem = back_bt
         
         title_lb.text = title_string
         description_lb.text = description_string
+        item_quantity_lb.text = item_quantity_string
+        item_weight_lb.text = item_weight_string
         pickup_location_lb.text = pickup_location_string
-        start_time_lb.text = start_time_string
-        end_time_lb.text = end_time_string
+        start_date_lb.text = start_date_string
+        end_date_lb.text = end_date_string
         contact_info_lb.text = contact_info_string
         list_date_lb.text = list_date_string
         list_author_lb.text = list_author_string
@@ -142,9 +156,9 @@ class ListingVC: UIViewController {
     
     let listing_image: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .gray
+        iv.backgroundColor = lightGreen
         iv.contentMode = .scaleAspectFill
-        iv.layer.borderColor = UIColor.white.cgColor
+        iv.layer.borderColor = forestGreen.cgColor
         iv.layer.borderWidth = 2
         iv.layer.cornerRadius = 15
         iv.clipsToBounds = true
@@ -154,7 +168,7 @@ class ListingVC: UIViewController {
     let title_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 35)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.textAlignment = .center
         return lb
     }()
@@ -162,7 +176,23 @@ class ListingVC: UIViewController {
     let description_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
+        lb.numberOfLines = 0
+        return lb
+    }()
+    
+    let item_quantity_lb: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont.boldSystemFont(ofSize: 18)
+        lb.textColor = forestGreen
+        lb.numberOfLines = 0
+        return lb
+    }()
+    
+    let item_weight_lb: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont.boldSystemFont(ofSize: 18)
+        lb.textColor = forestGreen
         lb.numberOfLines = 0
         return lb
     }()
@@ -170,43 +200,43 @@ class ListingVC: UIViewController {
     let pickup_location_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.numberOfLines = 0
         return lb
     }()
     
-    let start_time_lb: UILabel = {
+    let start_date_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
-    let end_time_lb: UILabel = {
+    let end_date_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
     let contact_info_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
     let list_date_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
     let list_author_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 18)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         return lb
     }()
     
@@ -215,71 +245,73 @@ class ListingVC: UIViewController {
         bt.setTitle("End Listing", for: .normal)
         bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.setTitleColor(.white, for: .normal)
+        bt.setTitleColor(forestGreen, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
     }()
     
-    @objc func handle_end_listing(sender: UIButton) {
-        var updated_active_listings: Int?
-        
-        db.collection("users").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    if ((document.get("email") as! String) == USER_EMAIL) {
-                        updated_active_listings = (document.get("active_listings") as! Int) - 1
-                        
-                        let ref = db.collection("users").document(USER_ID)
-
-                        ref.updateData([
-                            "active_listings": updated_active_listings!
-                        ]) { err in
-                            if let err = err {
-                                print("Error updating document: \(err)")
-                            } else {
-                                print("Document successfully updated")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-//       FIX
-//
-//        db.collection("listings").document(current_listing_id!).delete() { err in
+//    @objc func handle_end_listing(sender: UIButton) {
+//        var updated_active_listings: Int?
+//        
+//        db.collection("users").getDocuments() { (querySnapshot, err) in
 //            if let err = err {
-//                print("Error removing document: \(err)")
+//                print("Error getting documents: \(err)")
 //            } else {
-//                print("Document successfully removed!")
+//                for document in querySnapshot!.documents {
+//                    if ((document.get("email") as! String) == USER_EMAIL) {
+//                        updated_active_listings = (document.get("active_listings") as! Int) - 1
+//                        
+//                        let ref = db.collection("users").document(USER_ID)
+//
+//                        ref.updateData([
+//                            "active_listings": updated_active_listings!
+//                        ]) { err in
+//                            if let err = err {
+//                                print("Error updating document: \(err)")
+//                            } else {
+//                                print("Document successfully updated")
+//                            }
+//                        }
+//                    }
+//                }
 //            }
 //        }
-    }
+//        
+////       FIX
+////
+////        db.collection("listings").document(current_listing_id!).delete() { err in
+////            if let err = err {
+////                print("Error removing document: \(err)")
+////            } else {
+////                print("Document successfully removed!")
+////            }
+////        }
+//    }
     
     func setup_UI() {
         let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
         let listing_image_dim: CGFloat = view.frame.width / 2 - left_margin * 2
         scrollView.frame = view.bounds
-        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 75)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 150)
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         listing_image.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: listing_image_dim, height: listing_image_dim)
         list_date_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
         list_author_lb.frame = CGRect(x: view.frame.width / 2 - 10, y: list_date_lb.center.y + list_date_lb.frame.height / 2 + elem_margin + 10, width: elem_w, height: elem_h)
         description_lb.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 + elem_margin, width: elem_w, height: elem_h * 3.5)
-        pickup_location_lb.frame = CGRect(x: left_margin, y: description_lb.center.y + description_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        start_time_lb.frame = CGRect(x: left_margin, y: pickup_location_lb.center.y + pickup_location_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        end_time_lb.frame = CGRect(x: left_margin, y: start_time_lb.center.y + start_time_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        contact_info_lb.frame = CGRect(x: left_margin, y: end_time_lb.center.y + end_time_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        end_listing_bt.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        
-        // connect @objc func to buttons
-        end_listing_bt.addTarget(self, action: #selector(handle_end_listing(sender: )), for: .touchUpInside)
+        item_quantity_lb.frame = CGRect(x: left_margin, y: description_lb.center.y + description_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        item_weight_lb.frame = CGRect(x: left_margin, y: item_quantity_lb.center.y + item_quantity_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        pickup_location_lb.frame = CGRect(x: left_margin, y: item_weight_lb.center.y + item_weight_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        start_date_lb.frame = CGRect(x: left_margin, y: pickup_location_lb.center.y + pickup_location_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        end_date_lb.frame = CGRect(x: left_margin, y: start_date_lb.center.y + start_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        contact_info_lb.frame = CGRect(x: left_margin, y: end_date_lb.center.y + end_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+//        end_listing_bt.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+//        
+//        // connect @objc func to buttons
+//        end_listing_bt.addTarget(self, action: #selector(handle_end_listing(sender: )), for: .touchUpInside)
         
         view.addSubview(scrollView)
         scrollView.addSubview(title_lb)
@@ -287,17 +319,19 @@ class ListingVC: UIViewController {
         scrollView.addSubview(list_date_lb)
         scrollView.addSubview(list_author_lb)
         scrollView.addSubview(description_lb)
+        scrollView.addSubview(item_quantity_lb)
+        scrollView.addSubview(item_weight_lb)
         scrollView.addSubview(pickup_location_lb)
-        scrollView.addSubview(start_time_lb)
-        scrollView.addSubview(end_time_lb)
+        scrollView.addSubview(start_date_lb)
+        scrollView.addSubview(end_date_lb)
         scrollView.addSubview(contact_info_lb)
         
-        let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
-        let start_index = list_author_string?.index(list_author_string!.startIndex, offsetBy: 11)
-        let list_author = list_author_string?.suffix(from: start_index!)
-        
-        if current_user == list_author {
-            scrollView.addSubview(end_listing_bt)
-        }
+//        let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
+//        let start_index = list_author_string?.index(list_author_string!.startIndex, offsetBy: 11)
+//        let list_author = list_author_string?.suffix(from: start_index!)
+//        
+//        if current_user == list_author {
+//            scrollView.addSubview(end_listing_bt)
+//        }
     }
 }

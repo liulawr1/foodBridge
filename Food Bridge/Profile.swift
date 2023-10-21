@@ -12,7 +12,7 @@ class ProfileView: UIView {
     let email_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.frame = CGRect(x: 15, y: 5, width: 500, height: elem_h)
         return lb
     }()
@@ -20,24 +20,24 @@ class ProfileView: UIView {
     let user_type_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.frame = CGRect(x: 15, y: 40, width: 500, height: elem_h)
         return lb
     }()
     
-    let active_listings_lb: UILabel = {
-        let lb = UILabel()
-        lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.textColor = .white
-        lb.frame = CGRect(x: 15, y: 75, width: 500, height: elem_h)
-        return lb
-    }()
+//    let active_listings_lb: UILabel = {
+//        let lb = UILabel()
+//        lb.font = UIFont.boldSystemFont(ofSize: 20)
+//        lb.textColor = forestGreen
+//        lb.frame = CGRect(x: 15, y: 75, width: 500, height: elem_h)
+//        return lb
+//    }()
     
     let total_listings_lb: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.boldSystemFont(ofSize: 20)
-        lb.textColor = .white
-        lb.frame = CGRect(x: 15, y: 110, width: 500, height: elem_h)
+        lb.textColor = forestGreen
+        lb.frame = CGRect(x: 15, y: 75, width: 500, height: elem_h)
         return lb
     }()
     
@@ -51,9 +51,9 @@ class ProfileView: UIView {
                         email_lb.text = "Email: \(USER_EMAIL ?? "Loading")"
                         user_type_lb.text = "User Type: \(document.get("user_type") as! String)"
                         
-                        guard let active_listings = (document.get("active_listings") as? Int) else { return }
-                        let converted_int_active_listings = String(active_listings)
-                        active_listings_lb.text = "Active Listings: \(converted_int_active_listings)"
+//                        guard let active_listings = (document.get("active_listings") as? Int) else { return }
+//                        let converted_int_active_listings = String(active_listings)
+//                        active_listings_lb.text = "Active Listings: \(converted_int_active_listings)"
                         
                         guard let total_listings = (document.get("total_listings") as? Int) else { return }
                         let converted_int_total_listings = String(total_listings)
@@ -69,7 +69,7 @@ class ProfileView: UIView {
         display_user_info()
         self.addSubview(email_lb)
         self.addSubview(user_type_lb)
-        self.addSubview(active_listings_lb)
+        //self.addSubview(active_listings_lb)
         self.addSubview(total_listings_lb)
     }
     

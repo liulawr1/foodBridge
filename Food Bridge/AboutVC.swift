@@ -15,7 +15,7 @@ class AboutVC: UIViewController {
         setup_UI()
         
         let back_bt = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(handle_back))
-        back_bt.tintColor = .white
+        back_bt.tintColor = forestGreen
         navigationItem.leftBarButtonItem = back_bt
     }
     
@@ -23,7 +23,7 @@ class AboutVC: UIViewController {
         let lb = UILabel()
         lb.text = "About Us"
         lb.font = UIFont.boldSystemFont(ofSize: 45)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.textAlignment = .center
         return lb
     }()
@@ -31,12 +31,10 @@ class AboutVC: UIViewController {
     let description_lb: UILabel = {
         let lb = UILabel()
         lb.text = """
-        According to Feeding America, 119 billion pounds of food is wasted annually in the United States, while 34 million people, including 9 million children, face hunger. Food waste not only leads to environmental issues, such as climate change, but also relates to food insecurity. The wasted food in the landfill rots and produces methane, a greenhouse gas even more potent than carbon dioxide. Global food loss and waste generate 8%-10% of emissions of the gases responsible for global warming.
-        
-        Food Bridge aims to fight food waste and food insecurity issues. It connects organizations and individuals with extra food with other organizations and people in need. Users could be individuals or businesses, such as farms, food banks, grocery stores, and restaurants. Users can log in to the application and upload any food they wish to donate. They can list food items, addresses, pick-up times, and contact information. At the same time, organizations or individuals in need can discover different listings and pick up the food at their convenience. Food Bridge will prevent food waste and ensure that it reaches those in need, solving the problems of both food waste and food insecurity.
+        Food Bridge is the answer to two pressing issues - food waste and food insecurity. Every year in the United States, a whopping 119 billion pounds of food goes to waste, while 34 million people, including 9 million children, face hunger. Our platform bridges the gap by connecting individuals and businesses with extra food to those in need. Users can easily list their available food items, set pick-up details, and share contact information. On the other side, individuals and organizations can find and collect the food. Food Bridge not only prevents food waste but ensures it reaches those in need, making a meaningful impact on both food waste and food insecurity.
         """
-        lb.font = UIFont.systemFont(ofSize: 16)
-        lb.textColor = .white
+        lb.font = UIFont.systemFont(ofSize: 18)
+        lb.textColor = forestGreen
         lb.textAlignment = .center
         lb.numberOfLines = 0
         return lb

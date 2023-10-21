@@ -23,7 +23,7 @@ class SignUpVC: UIViewController {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "Email",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.backgroundColor = lightGreen
@@ -31,7 +31,7 @@ class SignUpVC: UIViewController {
         tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderColor = forestGreen.cgColor
         tf.layer.borderWidth = 2
         tf.layer.cornerRadius = 20
         
@@ -46,7 +46,7 @@ class SignUpVC: UIViewController {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "Password",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.isSecureTextEntry = true
@@ -55,7 +55,7 @@ class SignUpVC: UIViewController {
         tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderColor = forestGreen.cgColor
         tf.layer.borderWidth = 2
         tf.layer.cornerRadius = 20
         
@@ -70,16 +70,16 @@ class SignUpVC: UIViewController {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "Password Confirmation",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.isSecureTextEntry = true
         tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
+        tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderColor = forestGreen.cgColor
         tf.layer.borderWidth = 2
         tf.layer.cornerRadius = 20
         
@@ -90,27 +90,17 @@ class SignUpVC: UIViewController {
         return tf
     }()
     
-    let user_type_field: UITextField = {
-        let tf = UITextField()
-        let attributedPlaceholder = NSAttributedString(
-            string: "User Type",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
-        )
-        tf.attributedPlaceholder = attributedPlaceholder
-        tf.backgroundColor = lightGreen
-        tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
-        tf.autocapitalizationType = .none
-        tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
-        tf.layer.borderWidth = 2
-        tf.layer.cornerRadius = 20
-        
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = paddingView
-        tf.leftViewMode = .always
-        
-        return tf
+    let user_type_sc: UISegmentedControl = {
+        let types = ["Organization", "Individual"]
+        let sc = UISegmentedControl(items: types)
+        sc.backgroundColor = lightGreen
+        sc.selectedSegmentTintColor = forestGreen
+        sc.setTitleTextAttributes([.foregroundColor: lightGreen], for: .normal)
+        sc.setTitleTextAttributes([.foregroundColor: lightGreen], for: .selected)
+        sc.selectedSegmentIndex = 0
+        sc.layer.borderColor = forestGreen.cgColor
+        sc.layer.borderWidth = 2
+        return sc
     }()
     
     let submit_bt: UIButton = {
@@ -118,9 +108,9 @@ class SignUpVC: UIViewController {
         bt.setTitle("Submit", for: .normal)
         bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.setTitleColor(.white, for: .normal)
+        bt.setTitleColor(forestGreen, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
@@ -186,11 +176,17 @@ class SignUpVC: UIViewController {
         let email = email_field.text
         let password = password_field.text
         let password_confirmation = password_confirmation_field.text
-        let user_type = user_type_field.text
+        
+        let user_type: String
+        if user_type_sc.selectedSegmentIndex == 0 {
+            user_type = "Organization"
+        } else {
+            user_type = "Individual"
+        }
         
         if (email != "" && password != "" && password_confirmation != "") {
             if (password == password_confirmation) {
-                sign_up(email: email!, password: password!, user_type: user_type!)
+                sign_up(email: email!, password: password!, user_type: user_type)
                 display_success()
             } else {
                 display_warning1()
@@ -206,8 +202,8 @@ class SignUpVC: UIViewController {
         email_field.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         password_field.frame = CGRect(x: left_margin, y: email_field.center.y + email_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         password_confirmation_field.frame = CGRect(x: left_margin, y: password_field.center.y + password_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        user_type_field.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-        submit_bt.frame = CGRect(x: left_margin, y: user_type_field.center.y + user_type_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        user_type_sc.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        submit_bt.frame = CGRect(x: left_margin, y: user_type_sc.center.y + user_type_sc.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         submit_bt.addTarget(self, action: #selector(handle_submit(sender: )), for: .touchUpInside)
@@ -215,7 +211,7 @@ class SignUpVC: UIViewController {
         view.addSubview(email_field)
         view.addSubview(password_field)
         view.addSubview(password_confirmation_field)
-        view.addSubview(user_type_field)
+        view.addSubview(user_type_sc)
         view.addSubview(submit_bt)
     }
 }

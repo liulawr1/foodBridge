@@ -36,84 +36,95 @@ class BrowseVC: UIViewController {
     func update_listings() {
         listings_arr.forEach { $0.removeFromSuperview() }
         listings_arr.removeAll()
+		
+		let currentDateTime = Date()
         
         db.collection("listings").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                for (index, document) in querySnapshot!.documents.enumerated() {
-                    let listing = ListingView()
-                    // fx = ax + b
-                    let x_cor: CGFloat = 20
-                    let y_cor: CGFloat = CGFloat(index) * h * margin + 75
-                    listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-                    listing.tag = index
-                    listings_arr.append(listing)
-                    
-                    listings_arr[index].backgroundColor = lightGreen
-                    listings_arr[index].layer.borderColor = UIColor.white.cgColor
-                    listings_arr[index].layer.borderWidth = 2
-                    listings_arr[index].layer.cornerRadius = 20
-                    
-					storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
-						if let err = err {
-							print(err.localizedDescription)
-							return
-						} else {
-							guard let downloadURL = url else { return }
-							URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
-								if let error = error {
-									print("Error downloading image: \(error)")
-									return
-								}
-								
-								if let data = data, let image = UIImage(data: data) {
-									DispatchQueue.main.async { [self] in
-										print(image.pngData()?.count as Any)
-										let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
-										print(compressedImage?.count as Any)
-										listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
-									}
-								}
-							}.resume()
+				for (index, document) in querySnapshot!.documents.enumerated() {
+					if let endDateTimestamp = document.get("end_date") as? Timestamp {
+						
+						let endDate = endDateTimestamp.dateValue()
+						
+						if currentDateTime <= endDate {
+							let listing = ListingView()
+							// fx = ax + b
+							let x_cor: CGFloat = 20
+							let y_cor: CGFloat = CGFloat(index) * h * margin + 75
+							listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
+							listing.tag = index
+							listings_arr.append(listing)
 							
-							print("successfully downloaded image to app")
+							listings_arr[index].backgroundColor = lightGreen
+							listings_arr[index].layer.borderColor = forestGreen.cgColor
+							listings_arr[index].layer.borderWidth = 2
+							listings_arr[index].layer.cornerRadius = 20
+							
+							storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
+								if let err = err {
+									print(err.localizedDescription)
+									return
+								} else {
+									guard let downloadURL = url else { return }
+									URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+										if let error = error {
+											print("Error downloading image: \(error)")
+											return
+										}
+										
+										if let data = data, let image = UIImage(data: data) {
+											DispatchQueue.main.async { [self] in
+												print(image.pngData()?.count as Any)
+												let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+												print(compressedImage?.count as Any)
+												listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
+											}
+										}
+									}.resume()
+									
+									print("successfully downloaded image to app")
+								}
+							}
+							
+							listings_arr[index].title_lb.text = (document.get("title") as! String)
+							listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
+							listings_arr[index].item_quantity_lb.text = "Item Quantity: \(document.get("item_quantity") as! String)"
+							listings_arr[index].item_weight_lb.text = "Item Weight: \(document.get("item_weight") as! String)"
+							listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
+							
+							if let startDateTimestamp = document.get("start_date") as? Timestamp {
+								let startDate = startDateTimestamp.dateValue()
+								let dateFormatter = DateFormatter()
+								dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+								let startDateString = dateFormatter.string(from: startDate)
+								listings_arr[index].start_date_lb.text = "Start Date: \(startDateString)"
+							}
+							
+							if let endDateTimestamp = document.get("end_date") as? Timestamp {
+								let endDate = endDateTimestamp.dateValue()
+								let dateFormatter = DateFormatter()
+								dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+								let endDateString = dateFormatter.string(from: endDate)
+								listings_arr[index].end_date_lb.text = "End Date: \(endDateString)"
+							}
+							
+							listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
+							listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+							listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+							listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+							
+							listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
+							listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+							listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
+							listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
+							listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+							
+							scrollView.addSubview(listings_arr[index])
 						}
 					}
-                    
-                    listings_arr[index].title_lb.text = (document.get("title") as! String)
-					listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
-					listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
-					
-					if let startTimeTimestamp = document.get("start_time") as? Timestamp {
-						let startTimeDate = startTimeTimestamp.dateValue()
-						let dateFormatter = DateFormatter()
-						dateFormatter.dateFormat = "h:mm a"
-						let startTimeString = dateFormatter.string(from: startTimeDate)
-						listings_arr[index].start_time_lb.text = "Start Time: \(startTimeString)"
-					}
-					
-					if let endTimeTimestamp = document.get("end_time") as? Timestamp {
-						let endTimeDate = endTimeTimestamp.dateValue()
-						let dateFormatter = DateFormatter()
-						dateFormatter.dateFormat = "h:mm a"
-						let endTimeString = dateFormatter.string(from: endTimeDate)
-						listings_arr[index].end_time_lb.text = "End Time: \(endTimeString)"
-					}
-					
-					listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
-                    listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-                    listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-                    listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-					
-					listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
-					listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
-					listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
-					listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
-					listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
-					
-                    scrollView.addSubview(listings_arr[index])
-                }
+				}
             }
         }
     }
@@ -134,15 +145,15 @@ class BrowseVC: UIViewController {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
             string: "🔎 Search",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+            attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
         tf.backgroundColor = lightGreen
         tf.font = UIFont.boldSystemFont(ofSize: 20)
-        tf.textColor = .white
+        tf.textColor = forestGreen
         tf.autocapitalizationType = .none
         tf.autocorrectionType = .no
-        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderColor = forestGreen.cgColor
         tf.layer.borderWidth = 2
         tf.layer.cornerRadius = 20
         
@@ -158,9 +169,9 @@ class BrowseVC: UIViewController {
         bt.setTitle("→", for: .normal)
         bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        bt.setTitleColor(.white, for: .normal)
+        bt.setTitleColor(forestGreen, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 15
         return bt
@@ -200,9 +211,11 @@ class BrowseVC: UIViewController {
 		vc.listing_image.image = listings_arr[index].listing_image.image
         vc.title_string = listings_arr[index].title_lb.text
         vc.description_string = listings_arr[index].description_lb.text
+		vc.item_quantity_string = listings_arr[index].item_quantity_lb.text
+		vc.item_weight_string = listings_arr[index].item_weight_lb.text
         vc.pickup_location_string = listings_arr[index].pickup_location_lb.text
-        vc.start_time_string = listings_arr[index].start_time_lb.text
-        vc.end_time_string = listings_arr[index].end_time_lb.text
+        vc.start_date_string = listings_arr[index].start_date_lb.text
+        vc.end_date_string = listings_arr[index].end_date_lb.text
         vc.contact_info_string = listings_arr[index].contact_info_lb.text
 		vc.list_date_string = listings_arr[index].list_date_lb.text
 		vc.list_author_string = listings_arr[index].list_author_lb.text
@@ -212,6 +225,7 @@ class BrowseVC: UIViewController {
 //		getCurrentListingID(for: index) { [weak self] currentListingID in
 //			if let id = currentListingID {
 //				current_listing_id = id
+//				guard let uid = current_listing_id else { return }
 //
 //				let nav = UINavigationController(rootViewController: vc)
 //				nav.modalPresentationStyle = .fullScreen
@@ -231,170 +245,192 @@ class BrowseVC: UIViewController {
         
         listings_arr.forEach { $0.removeFromSuperview() }
         listings_arr.removeAll()
+		
+		let currentDateTime = Date()
         
         db.collection("listings").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                for (index, document) in querySnapshot!.documents.enumerated() {
-                    if search_query.isEmpty || (document.get("title") as! String).contains(search_query) {
-                        let listing = ListingView()
-                        // fx = ax + b
-                        let x_cor: CGFloat = 20
-                        let y_cor: CGFloat = CGFloat(index) * h * margin + 75
-                        listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-                        listing.tag = index
-                        print(index)
-                        listings_arr.append(listing)
-                        
-                        listings_arr[index].backgroundColor = lightGreen
-                        listings_arr[index].layer.borderColor = UIColor.white.cgColor
-                        listings_arr[index].layer.borderWidth = 2
-                        listings_arr[index].layer.cornerRadius = 20
-                        
-						storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
-							if let err = err {
-								print(err.localizedDescription)
-								return
-							} else {
-								guard let downloadURL = url else { return }
-								URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
-									if let error = error {
-										print("Error downloading image: \(error)")
-										return
-									}
-									
-									if let data = data, let image = UIImage(data: data) {
-										DispatchQueue.main.async { [self] in
-											print(image.pngData()?.count as Any)
-											let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
-											print(compressedImage?.count as Any)
-											listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
-										}
-									}
-								}.resume()
+				for (index, document) in querySnapshot!.documents.enumerated() {
+					if let endDateTimestamp = document.get("end_date") as? Timestamp {
+						
+						let endDate = endDateTimestamp.dateValue()
+						
+						if currentDateTime <= endDate {
+							if search_query.isEmpty || (document.get("title") as! String).contains(search_query) {
+								let listing = ListingView()
+								// fx = ax + b
+								let x_cor: CGFloat = 20
+								let y_cor: CGFloat = CGFloat(index) * h * margin + 75
+								listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
+								listing.tag = index
+								print(index)
+								listings_arr.append(listing)
 								
-								print("successfully downloaded image to app")
+								listings_arr[index].backgroundColor = lightGreen
+								listings_arr[index].layer.borderColor = forestGreen.cgColor
+								listings_arr[index].layer.borderWidth = 2
+								listings_arr[index].layer.cornerRadius = 20
+								
+								storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
+									if let err = err {
+										print(err.localizedDescription)
+										return
+									} else {
+										guard let downloadURL = url else { return }
+										URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+											if let error = error {
+												print("Error downloading image: \(error)")
+												return
+											}
+											
+											if let data = data, let image = UIImage(data: data) {
+												DispatchQueue.main.async { [self] in
+													print(image.pngData()?.count as Any)
+													let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+													print(compressedImage?.count as Any)
+													listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
+												}
+											}
+										}.resume()
+										
+										print("successfully downloaded image to app")
+									}
+								}
+								
+								listings_arr[index].title_lb.text = (document.get("title") as! String)
+								listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
+								listings_arr[index].item_quantity_lb.text = "Item Quantity: \(document.get("item_quantity") as! String)"
+								listings_arr[index].item_weight_lb.text = "Item Weight: \(document.get("item_weight") as! String)"
+								listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
+								
+								if let startDateTimestamp = document.get("start_date") as? Timestamp {
+									let startDate = startDateTimestamp.dateValue()
+									let dateFormatter = DateFormatter()
+									dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+									let startDateString = dateFormatter.string(from: startDate)
+									listings_arr[index].start_date_lb.text = "Start Date: \(startDateString)"
+								}
+								
+								if let endDateTimestamp = document.get("end_date") as? Timestamp {
+									let endDate = endDateTimestamp.dateValue()
+									let dateFormatter = DateFormatter()
+									dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+									let endDateString = dateFormatter.string(from: endDate)
+									listings_arr[index].end_date_lb.text = "End Date: \(endDateString)"
+								}
+								
+								listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
+								listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+								listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+								listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+								
+								listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
+								listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+								listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
+								listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
+								listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+								
+								scrollView.addSubview(listings_arr[index])
 							}
 						}
-                        
-						listings_arr[index].title_lb.text = (document.get("title") as! String)
-						listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
-						listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
-						
-						if let startTimeTimestamp = document.get("start_time") as? Timestamp {
-							let startTimeDate = startTimeTimestamp.dateValue()
-							let dateFormatter = DateFormatter()
-							dateFormatter.dateFormat = "h:mm a"
-							let startTimeString = dateFormatter.string(from: startTimeDate)
-							listings_arr[index].start_time_lb.text = "Start Time: \(startTimeString)"
-						}
-						
-						if let endTimeTimestamp = document.get("end_time") as? Timestamp {
-							let endTimeDate = endTimeTimestamp.dateValue()
-							let dateFormatter = DateFormatter()
-							dateFormatter.dateFormat = "h:mm a"
-							let endTimeString = dateFormatter.string(from: endTimeDate)
-							listings_arr[index].end_time_lb.text = "End Time: \(endTimeString)"
-						}
-						
-						listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
-						listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-						listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-						listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-						
-						listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
-						listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
-						listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
-						listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
-						listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
-						
-						scrollView.addSubview(listings_arr[index])
-                    }
-                }
+					}
+				}
             }
         }
     }
     
     func display_rows() {
+		let currentDateTime = Date()
+		
         db.collection("listings").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                for (index, document) in querySnapshot!.documents.enumerated() {
-                    let listing = ListingView()
-                    // fx = ax + b
-                    let x_cor: CGFloat = 20
-                    let y_cor: CGFloat = CGFloat(index) * h * margin + 75
-                    listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
-                    listing.tag = index
-                    listings_arr.append(listing)
-                    
-                    listings_arr[index].details_bt.tag = index
-                    listings_arr[index].backgroundColor = lightGreen
-                    listings_arr[index].layer.borderColor = UIColor.white.cgColor
-                    listings_arr[index].layer.borderWidth = 2
-                    listings_arr[index].layer.cornerRadius = 20
-                    
-                    storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
-                        if let err = err {
-                            print(err.localizedDescription)
-                            return
-                        } else {
-                            guard let downloadURL = url else { return }
-							URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
-								if let error = error {
-									print("Error downloading image: \(error)")
-									return
-								}
-								
-								if let data = data, let image = UIImage(data: data) {
-									DispatchQueue.main.async { [self] in
-										print(image.pngData()?.count as Any)
-										let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
-										print(compressedImage?.count as Any)
-										listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
-									}
-								}
-							}.resume()
+				for (index, document) in querySnapshot!.documents.enumerated() {
+					if let endDateTimestamp = document.get("end_date") as? Timestamp {
+						
+						let endDate = endDateTimestamp.dateValue()
+						
+						if currentDateTime <= endDate {
+							let listing = ListingView()
+							// fx = ax + b
+							let x_cor: CGFloat = 20
+							let y_cor: CGFloat = CGFloat(index) * h * margin + 75
+							listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)
+							listing.tag = index
+							listings_arr.append(listing)
 							
-                            print("successfully downloaded image to app")
-                        }
-                    }
-                    
-					listings_arr[index].title_lb.text = (document.get("title") as! String)
-					listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
-					listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
-					
-					if let startTimeTimestamp = document.get("start_time") as? Timestamp {
-						let startTimeDate = startTimeTimestamp.dateValue()
-						let dateFormatter = DateFormatter()
-						dateFormatter.dateFormat = "h:mm a"
-						let startTimeString = dateFormatter.string(from: startTimeDate)
-						listings_arr[index].start_time_lb.text = "Start Time: \(startTimeString)"
+							listings_arr[index].details_bt.tag = index
+							listings_arr[index].backgroundColor = lightGreen
+							listings_arr[index].layer.borderColor = forestGreen.cgColor
+							listings_arr[index].layer.borderWidth = 2
+							listings_arr[index].layer.cornerRadius = 20
+							
+							storage_ref.child("listings/\(document.documentID)").child(LISTING_IMAGE_PATH).child("\(document.documentID)_image.png").downloadURL { [self] (url, err) in
+								if let err = err {
+									print(err.localizedDescription)
+									return
+								} else {
+									guard let downloadURL = url else { return }
+									URLSession.shared.dataTask(with: downloadURL) { (data, response, error) in
+										if let error = error {
+											print("Error downloading image: \(error)")
+											return
+										}
+										
+										if let data = data, let image = UIImage(data: data) {
+											DispatchQueue.main.async { [self] in
+												print(image.pngData()?.count as Any)
+												let compressedImage = image.jpeg(UIImage.JPEGQuality.lowest)
+												print(compressedImage?.count as Any)
+												listings_arr[index].listing_image.image = UIImage(data: compressedImage!)
+											}
+										}
+									}.resume()
+									
+									print("successfully downloaded image to app")
+								}
+							}
+							
+							listings_arr[index].title_lb.text = (document.get("title") as! String)
+							listings_arr[index].description_lb.text = "Description: \(document.get("description") as! String)"
+							listings_arr[index].item_quantity_lb.text = "Item Quantity: \(document.get("item_quantity") as! String)"
+							listings_arr[index].item_weight_lb.text = "Item Weight: \(document.get("item_weight") as! String)"
+							listings_arr[index].pickup_location_lb.text = "Pickup Location: \(document.get("pickup_location") as! String)"
+							
+							if let startDateTimestamp = document.get("start_date") as? Timestamp {
+								let startDate = startDateTimestamp.dateValue()
+								let dateFormatter = DateFormatter()
+								dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+								let startDateString = dateFormatter.string(from: startDate)
+								listings_arr[index].start_date_lb.text = "Start Date: \(startDateString)"
+							}
+							
+							if let endDateTimestamp = document.get("end_date") as? Timestamp {
+								let endDate = endDateTimestamp.dateValue()
+								let dateFormatter = DateFormatter()
+								dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+								let endDateString = dateFormatter.string(from: endDate)
+								listings_arr[index].end_date_lb.text = "End Date: \(endDateString)"
+							}
+							
+							listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
+							listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
+							listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
+							listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+							
+							listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
+							listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+							listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
+							listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
+							listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+							
+							scrollView.addSubview(listings_arr[index])
+						}
 					}
-					
-					if let endTimeTimestamp = document.get("end_time") as? Timestamp {
-						let endTimeDate = endTimeTimestamp.dateValue()
-						let dateFormatter = DateFormatter()
-						dateFormatter.dateFormat = "h:mm a"
-						let endTimeString = dateFormatter.string(from: endTimeDate)
-						listings_arr[index].end_time_lb.text = "End Time: \(endTimeString)"
-					}
-					
-					listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
-					listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
-					listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-					listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
-					
-					listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
-					listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
-					listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
-					listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
-					listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
-					
-					scrollView.addSubview(listings_arr[index])
-                }
+				}
             }
         }
     }

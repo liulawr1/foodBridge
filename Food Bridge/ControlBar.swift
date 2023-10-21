@@ -17,7 +17,7 @@ class ControlBar: UITabBarController {
         super.viewDidLoad()
         UITabBar.appearance().backgroundColor = lightGreen
         UITabBar.appearance().backgroundImage = UIImage()
-        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().tintColor = forestGreen
         
         let item1 = UITabBarItem(title: "Browse", image: UIImage(systemName: "tray.full"), tag: 0)
         let item2 = UITabBarItem(title: "List", image: UIImage(systemName: "square.and.arrow.up"), tag: 1)

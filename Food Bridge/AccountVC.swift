@@ -46,7 +46,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let lb = UILabel()
         lb.text = "My Profile"
         lb.font = UIFont.boldSystemFont(ofSize: 45)
-        lb.textColor = .white
+        lb.textColor = forestGreen
         lb.textAlignment = .center
         return lb
     }()
@@ -54,7 +54,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     let pfp_view: UIView = {
         let v = UIView()
         v.backgroundColor = lightGreen
-        v.layer.borderColor = UIColor.white.cgColor
+        v.layer.borderColor = forestGreen.cgColor
         v.layer.borderWidth = 2
         v.layer.cornerRadius = 20
         return v
@@ -64,7 +64,7 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let iv = UIImageView()
         iv.backgroundColor = lightGreen
         iv.contentMode = .scaleAspectFill
-        iv.layer.borderColor = UIColor.white.cgColor
+        iv.layer.borderColor = forestGreen.cgColor
         iv.layer.borderWidth = 2
         iv.layer.cornerRadius = 100
         iv.clipsToBounds = true
@@ -76,9 +76,9 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         bt.setTitle("Set Profile Picture", for: .normal)
         bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        bt.setTitleColor(.white, for: .normal)
+        bt.setTitleColor(forestGreen, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         bt.titleLabel?.numberOfLines = 0
@@ -148,9 +148,9 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         bt.setTitle("Sign Out", for: .normal)
         bt.backgroundColor = lightGreen
         bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        bt.setTitleColor(.white, for: .normal)
+        bt.setTitleColor(forestGreen, for: .normal)
         bt.titleLabel?.textAlignment = .center
-        bt.layer.borderColor = UIColor.white.cgColor
+        bt.layer.borderColor = forestGreen.cgColor
         bt.layer.borderWidth = 2
         bt.layer.cornerRadius = 20
         return bt
@@ -181,9 +181,9 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         profile_picture.frame = CGRect(x: left_margin + 12, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 17, width: pfp_dim, height: pfp_dim)
         set_pfp_bt.frame = CGRect(x: view.frame.width / 2 + 40, y: header_lb.center.y + header_lb.frame.height / 2 + elem_margin + 85, width: elem_w / 3, height: elem_h + 10)
         let my_profile_view = ProfileView()
-        my_profile_view.frame = CGRect(x: left_margin, y: pfp_view.center.y + pfp_view.frame.height / 2 + elem_margin, width: elem_w, height: 165)
+        my_profile_view.frame = CGRect(x: left_margin, y: pfp_view.center.y + pfp_view.frame.height / 2 + elem_margin, width: elem_w, height: 130)
         my_profile_view.backgroundColor = lightGreen
-        my_profile_view.layer.borderColor = UIColor.white.cgColor
+        my_profile_view.layer.borderColor = forestGreen.cgColor
         my_profile_view.layer.borderWidth = 2
         my_profile_view.layer.cornerRadius = 20
         signout_bt.frame = CGRect(x: left_margin, y: my_profile_view.center.y + my_profile_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
