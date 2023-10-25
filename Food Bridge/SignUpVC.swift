@@ -116,6 +116,13 @@ class SignUpVC: UIViewController {
         return bt
     }()
     
+    let bg_iv: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "fruitsnveggies")
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+    
     let success_alert = UIAlertController(title: "Success!", message: "Account successfully created!", preferredStyle: .alert)
     let warning1_alert = UIAlertController(title: "Failure!", message: "Passwords do not match!", preferredStyle: .alert)
     let warning2_alert = UIAlertController(title: "Failure!", message: "Please fill in all required fields!", preferredStyle: .alert)
@@ -204,6 +211,7 @@ class SignUpVC: UIViewController {
         password_confirmation_field.frame = CGRect(x: left_margin, y: password_field.center.y + password_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         user_type_sc.frame = CGRect(x: left_margin, y: password_confirmation_field.center.y + password_confirmation_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         submit_bt.frame = CGRect(x: left_margin, y: user_type_sc.center.y + user_type_sc.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        bg_iv.frame = CGRect(x: (view.frame.width - elem_w) / 2, y: view.frame.height - 300, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         submit_bt.addTarget(self, action: #selector(handle_submit(sender: )), for: .touchUpInside)
@@ -213,5 +221,6 @@ class SignUpVC: UIViewController {
         view.addSubview(password_confirmation_field)
         view.addSubview(user_type_sc)
         view.addSubview(submit_bt)
+        view.addSubview(bg_iv)
     }
 }

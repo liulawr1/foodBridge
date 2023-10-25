@@ -87,7 +87,7 @@ class LaunchVC: UIViewController {
     
     let bg_iv: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "FoodBridgeLogoinverted")
+        iv.image = UIImage(named: "FoodBridgeLogoinverted2")
         iv.contentMode = .scaleAspectFit
         return iv
     }()

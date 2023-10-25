@@ -78,6 +78,13 @@ class LoginVC: UIViewController {
         return bt
     }()
     
+    let bg_iv: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "fruitsnveggies")
+        iv.contentMode = .scaleAspectFill
+        return iv
+    }()
+    
     let warning1_alert = UIAlertController(title: "Failure!", message: "Incorrect email or password. Try again or create new account.", preferredStyle: .alert)
     let warning2_alert = UIAlertController(title: "Failure!", message: "Please fill in all required fields!", preferredStyle: .alert)
     let dismiss_alert = UIAlertAction(title: "OK", style: .default)
@@ -132,6 +139,7 @@ class LoginVC: UIViewController {
         email_field.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         password_field.frame = CGRect(x: left_margin, y: email_field.center.y + email_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         submit_bt.frame = CGRect(x: left_margin, y: password_field.center.y + password_field.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        bg_iv.frame = CGRect(x: (view.frame.width - elem_w) / 2, y: view.frame.height - 300, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         submit_bt.addTarget(self, action: #selector(handle_submit(sender: )), for: .touchUpInside)
@@ -139,5 +147,6 @@ class LoginVC: UIViewController {
         view.addSubview(email_field)
         view.addSubview(password_field)
         view.addSubview(submit_bt)
+        view.addSubview(bg_iv)
     }
 }
