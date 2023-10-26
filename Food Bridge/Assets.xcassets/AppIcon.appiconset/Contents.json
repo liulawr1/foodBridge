@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "FoodBridgeLogo40 2.png",
+      "filename" : "FoodBridgeLogo40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
@@ -13,7 +13,7 @@
       "size" : "20x20"
     },
     {
-      "filename" : "FoodBridgeLogo58 1.png",
+      "filename" : "FoodBridgeLogo58.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
@@ -25,7 +25,7 @@
       "size" : "29x29"
     },
     {
-      "filename" : "FoodBridgeLogo80 1.png",
+      "filename" : "FoodBridgeLogo80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
@@ -55,7 +55,7 @@
       "size" : "20x20"
     },
     {
-      "filename" : "FoodBridgeLogo40.png",
+      "filename" : "FoodBridgeLogo40 1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
@@ -67,19 +67,19 @@
       "size" : "29x29"
     },
     {
-      "filename" : "FoodBridgeLogo58.png",
+      "filename" : "FoodBridgeLogo58 1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "FoodBridgeLogo40 1.png",
+      "filename" : "FoodBridgeLogo40 2.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "40x40"
     },
     {
-      "filename" : "FoodBridgeLogo80.png",
+      "filename" : "FoodBridgeLogo80 1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
