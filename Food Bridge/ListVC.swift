@@ -9,6 +9,61 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
+
+class LimitedTextField: UITextField, UITextFieldDelegate {
+    
+    var characterLimit: Int = 50 // default char limit
+    private var characterCountLabel: UILabel?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.delegate = self
+        setupCharacterCountLabel()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.delegate = self
+        setupCharacterCountLabel()
+    }
+    
+    private func setupCharacterCountLabel() {
+        characterCountLabel = UILabel()
+        characterCountLabel?.textColor = .gray
+        characterCountLabel?.font = UIFont.systemFont(ofSize: 12)
+        characterCountLabel?.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(characterCountLabel!)
+        updateCharacterCountLabel()
+
+        NSLayoutConstraint.activate([
+            characterCountLabel!.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            characterCountLabel!.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5)
+        ])
+    }
+    
+    private func updateCharacterCountLabel() {
+        guard let currentText = self.text else { return }
+        characterCountLabel?.text = "\(currentText.count)/\(characterLimit)"
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let currentText = textField.text else { return true }
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        if newText.count <= characterLimit {
+            updateCharacterCountLabel()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    override var text: String? {
+        didSet {
+            updateCharacterCountLabel()
+        }
+    }
+}
+
 class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var image_data = Data()
     let scrollView = UIScrollView()
@@ -33,8 +88,9 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return lb
     }()
     
-    let title_field: UITextField = {
-        let tf = UITextField()
+    let title_field: LimitedTextField = {
+        let tf = LimitedTextField()
+        tf.characterLimit = 25
         let attributedPlaceholder = NSAttributedString(
             string: "Title",
             attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
@@ -79,10 +135,11 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return tv
     }()
     
-    let item_quantity_field: UITextField = {
-        let tf = UITextField()
+    let item_quantity_field: LimitedTextField = {
+        let tf = LimitedTextField()
+        tf.characterLimit = 10
         let attributedPlaceholder = NSAttributedString(
-            string: "Item Quantity",
+            string: "Title",
             attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder

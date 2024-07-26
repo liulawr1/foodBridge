@@ -148,7 +148,7 @@ class BrowseVC: UIViewController {
 		
 		vc.listing_image.image = listings_arr[index].listing_image.image
         vc.title_string = listings_arr[index].title_lb.text
-        vc.description_string = listings_arr[index].description_lb.text
+		vc.description_string = listings_arr[index].description_lb.text
 		vc.item_quantity_string = listings_arr[index].item_quantity_lb.text
 		vc.item_weight_string = listings_arr[index].item_weight_lb.text
         vc.pickup_location_string = listings_arr[index].pickup_location_lb.text
@@ -241,7 +241,7 @@ class BrowseVC: UIViewController {
 		listing.tag = index
 		listings_arr.append(listing)
 		
-		listings_arr[index].details_bt.tag = index
+		//listings_arr[index].details_bt.tag = index
 		listings_arr[index].backgroundColor = lightGreen
 		listings_arr[index].layer.borderColor = forestGreen.cgColor
 		listings_arr[index].layer.borderWidth = 2
@@ -298,13 +298,13 @@ class BrowseVC: UIViewController {
 		listings_arr[index].contact_info_lb.text = "Contact Info: \(document.get("contact_info") as! String)"
 		listings_arr[index].list_date_lb.text = "Listed on: \(document.get("list_date") as! String)"
 		listings_arr[index].list_author_lb.text = "Listed by: \(document.get("list_author") as! String)"
-		listings_arr[index].details_bt.addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
+		listings_arr[index].addTarget(self, action: #selector(handle_details(sender: )), for: .touchUpInside)
 		
 		listings_arr[index].listing_image.frame = CGRect(x: 10, y: 10, width: h - 20, height: h - 20)
-		listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 500, height: 30)
+		listings_arr[index].title_lb.frame = CGRect(x: h, y: 15, width: 200, height: 30)
 		listings_arr[index].list_date_lb.frame = CGRect(x: h, y: 60, width: 500, height: 30)
 		listings_arr[index].list_author_lb.frame = CGRect(x: h, y: 85, width: 500, height: 30)
-		listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
+		//listings_arr[index].details_bt.frame = CGRect(x: w - 45, y: 10, width: 35, height: 35)
 
 		return listing
 	}
@@ -326,4 +326,93 @@ class BrowseVC: UIViewController {
         
         display_rows()
     }
+	
+	enum LocalStorage : String {
+		case localTitleData
+	}
+	
+	class Service {
+		func saveData(data : [Model], forKey key : LocalStorage) {
+			UserDefaults.standard.set(data, forKey: key.rawValue)
+		}
+	}
+	
+	class Model : Codable {
+		var title : String
+		
+		init(title : String) {
+			self.title = title
+		}
+	}
+	
+	let dummy_data = Model(name: "customized data....in case of no data", date: "n")
+	class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+		
+		let service = Service()
+		var data_arr : [String] = []
+		let localdata = UserDefaults.standard.array(forKey: LocalStorage.localTitleData.rawValue) as! [String]
+		
+		override func viewDidLoad() {
+			super.viewDidLoad()
+			// Do any additional setup after loading the view.
+			setupUI()
+			getFirebaseListings()
+		}
+		
+		func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+			if data_arr.count < 2 {
+				return localdata.count
+			} else {
+				return data_arr.count
+			}
+		}
+		
+		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+		   
+			
+			if data_arr.count < 2 {
+				cell.textLabel?.text = localdata[indexPath.row]
+			}else{
+				cell.textLabel?.text = data_arr[indexPath.row]
+			}
+			return cell
+		}
+		
+		lazy var tableView : UITableView = {
+		   let tb = UITableView()
+			tb.delegate = self
+			tb.dataSource = self
+			tb.frame = view.bounds
+			tb.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+			return tb
+		}()
+		
+		func setupUI() {
+			view.addSubview(tableView)
+			tableView.frame = view.bounds
+			tableView.delegate = self
+			tableView.dataSource = self
+		}
+		
+		func getFirebaseListings() {
+			db.collection("listings").getDocuments() { [weak self] (querySnapshot, err) in
+				guard let self = self else { return }
+				if let err = err {
+					print("Error getting documents: \(err)")
+				} else {
+					var models: [Model] = []
+					for document in querySnapshot!.documents {
+						if let title = document.get("title") as? String {
+							let model = Model(title: title)
+							models.append(model)
+						}
+					}
+					self.data_arr = models.map { $0.title }
+					self.tableView.reloadData()
+					self.service.saveData(data: models, forKey: .localTitleData)
+				}
+			}
+		}
+	}
 }

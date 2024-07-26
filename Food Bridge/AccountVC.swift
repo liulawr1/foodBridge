@@ -156,6 +156,39 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         return bt
     }()
     
+    let delete_account_bt: UIButton = {
+        let bt = UIButton()
+        bt.setTitle("Delete Account", for: .normal)
+        bt.backgroundColor = lightGreen
+        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        bt.setTitleColor(forestGreen, for: .normal)
+        bt.titleLabel?.textAlignment = .center
+        bt.layer.borderColor = forestGreen.cgColor
+        bt.layer.borderWidth = 2
+        bt.layer.cornerRadius = 20
+        return bt
+    }()
+    
+    let warning_alert = UIAlertController(title: "Warning!", message: "Are you sure you want to delete your account?", preferredStyle: .alert)
+    let success_alert = UIAlertController(title: "Success!", message: "Account successfully deleted", preferredStyle: .alert)
+    let error_alert = UIAlertController(title: "Error!", message: "Error occurred while creating listing!", preferredStyle: .alert)
+    let dismiss_alert = UIAlertAction(title: "OK", style: .default)
+    
+    func display_warning() {
+        warning_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(warning_alert, animated: true)
+    }
+    
+    func display_success() {
+        present(success_alert, animated: true)
+        success_alert.addAction(dismiss_alert)
+    }
+    
+    func display_error() {
+        present(error_alert, animated: true)
+        error_alert.addAction(dismiss_alert)
+    }
+    
     @objc func handle_signout(sender: UIButton) {
         do {
             try Auth.auth().signOut()
@@ -166,14 +199,42 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: false)
         } catch let signOutError as NSError {
-          print("Error signing out: %@", signOutError)
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    @objc func handle_delete_account(sender: UIButton) {
+        let confirmAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.deleteAccount()
+        }
+
+        warning_alert.addAction(confirmAction)
+        display_warning()
+    }
+    
+    func deleteAccount() {
+        let user = Auth.auth().currentUser
+
+        user?.delete { [weak self] error in
+            guard let self = self else { return }
+
+            if let error = error {
+                self.display_error()
+            } else {
+                let vc = LaunchVC()
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: false)
+                self.display_success()
+            }
         }
     }
     
     func setup_UI() {
         let top_margin: CGFloat = 0
         let elem_w: CGFloat = view.frame.width - 2 * left_margin
-        let pfp_dim = view.frame.width / 2
+        let pfp_dim: CGFloat = 200
+        
         scrollView.frame = view.bounds
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         header_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
@@ -187,9 +248,11 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         my_profile_view.layer.borderWidth = 2
         my_profile_view.layer.cornerRadius = 20
         signout_bt.frame = CGRect(x: left_margin, y: my_profile_view.center.y + my_profile_view.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
+        delete_account_bt.frame = CGRect(x: left_margin, y: signout_bt.center.y + signout_bt.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         
         // connect @objc func to buttons
         signout_bt.addTarget(self, action: #selector(handle_signout(sender: )), for: .touchUpInside)
+        delete_account_bt.addTarget(self, action: #selector(handle_delete_account(sender: )), for: .touchUpInside)
         set_pfp_bt.addTarget(self, action: #selector(handle_pfp_upload(sender: )), for: .touchUpInside)
         
         view.addSubview(scrollView)
@@ -199,5 +262,6 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         scrollView.addSubview(set_pfp_bt)
         scrollView.addSubview(my_profile_view)
         scrollView.addSubview(signout_bt)
+        scrollView.addSubview(delete_account_bt)
     }
 }
