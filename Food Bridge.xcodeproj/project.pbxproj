@@ -36,6 +36,7 @@
 		21B8C7412A5A1E64003139FD /* BrowseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C7402A5A1E64003139FD /* BrowseVC.swift */; };
 		21B8C7432A5A1E6F003139FD /* ListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C7422A5A1E6F003139FD /* ListVC.swift */; };
 		21B8C7452A5A1E79003139FD /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8C7442A5A1E79003139FD /* AccountVC.swift */; };
+		21C97C422D226E260038B3DB /* GuestControlBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C97C412D226E260038B3DB /* GuestControlBar.swift */; };
 		21E1C9432A47A20500E08F48 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1C9422A47A20500E08F48 /* User.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		21B8C7402A5A1E64003139FD /* BrowseVC.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BrowseVC.swift; sourceTree = "<group>"; usesTabs = 1; };
 		21B8C7422A5A1E6F003139FD /* ListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListVC.swift; sourceTree = "<group>"; };
 		21B8C7442A5A1E79003139FD /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
+		21C97C412D226E260038B3DB /* GuestControlBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestControlBar.swift; sourceTree = "<group>"; };
 		21E1C9422A47A20500E08F48 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +149,7 @@
 				21955C652A3A5D3900BC87D2 /* SignUpVC.swift */,
 				21955C692A3B98DD00BC87D2 /* LoginVC.swift */,
 				21B8C73D2A5A1CF6003139FD /* ControlBar.swift */,
+				21C97C412D226E260038B3DB /* GuestControlBar.swift */,
 				21955C612A396E0F00BC87D2 /* MainVC.swift */,
 				21B8C7402A5A1E64003139FD /* BrowseVC.swift */,
 				21B8C7422A5A1E6F003139FD /* ListVC.swift */,
@@ -334,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21A164252A7F0B010034522C /* Profile.swift in Sources */,
+				21C97C422D226E260038B3DB /* GuestControlBar.swift in Sources */,
 				21B8C7452A5A1E79003139FD /* AccountVC.swift in Sources */,
 				21E1C9432A47A20500E08F48 /* User.swift in Sources */,
 				21B8C7412A5A1E64003139FD /* BrowseVC.swift in Sources */,

@@ -184,9 +184,16 @@ class ListingVC: UIViewController {
     
     @objc func handle_back() {
         let cb = ControlBar()
-        let nav = UINavigationController(rootViewController: cb)
-        nav.modalPresentationStyle = .fullScreen
-        self.present(nav, animated: false)
+        let gcb = GuestControlBar()
+        if (isGuest) {
+            let nav = UINavigationController(rootViewController: gcb)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: false)
+        } else {
+            let nav = UINavigationController(rootViewController: cb)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: false)
+        }
     }
     
     let listing_image: UIImageView = {

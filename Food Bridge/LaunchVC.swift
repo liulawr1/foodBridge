@@ -68,6 +68,19 @@ class LaunchVC: UIViewController {
         return bt
     }()
     
+    let guest_bt: UIButton = {
+        let bt = UIButton()
+        bt.setTitle("Continue as Guest", for: .normal)
+        bt.setTitleColor(forestGreen, for: .normal)
+        bt.backgroundColor = lightGreen
+        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+        bt.titleLabel?.textAlignment = .center
+        bt.layer.borderColor = forestGreen.cgColor
+        bt.layer.borderWidth = 2
+        bt.layer.cornerRadius = 20
+        return bt
+    }()
+    
     @objc func handle_about(sender: UIButton) {
         let vc = AboutVC()
         let nav = UINavigationController(rootViewController: vc)
@@ -85,6 +98,14 @@ class LaunchVC: UIViewController {
         self.present(vc, animated: true)
     }
     
+    @objc func handle_guest(sender: UIButton) {
+        let cb = GuestControlBar()
+        let nav = UINavigationController(rootViewController: cb)
+        nav.modalPresentationStyle = .fullScreen
+        isGuest = true
+        self.present(nav, animated: true)
+    }
+    
     let bg_iv: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "FoodBridgeLogoinverted2")
@@ -99,6 +120,7 @@ class LaunchVC: UIViewController {
         about_bt.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + elem_margin, width: elem_w, height: 48)
         signup_bt.frame = CGRect(x: left_margin, y: view.frame.height - 210, width: elem_w, height: 48)
         login_bt.frame = CGRect(x: left_margin, y: signup_bt.center.y + signup_bt.frame.height / 2 + elem_margin, width: elem_w, height: 48)
+        guest_bt.frame = CGRect(x: left_margin, y: login_bt.center.y + login_bt.frame.height / 2 + elem_margin, width: elem_w, height: 48)
         
         let bgX = (view.frame.width - elem_w) / 2
         let bgY = (view.frame.height - (about_bt.center.y + about_bt.frame.height / 2 + elem_margin + elem_w)) + 40
@@ -108,12 +130,14 @@ class LaunchVC: UIViewController {
         about_bt.addTarget(self, action: #selector(handle_about(sender: )), for: .touchUpInside)
         signup_bt.addTarget(self, action: #selector(handle_signup(sender: )), for: .touchUpInside)
         login_bt.addTarget(self, action: #selector(handle_login(sender: )), for: .touchUpInside)
+        guest_bt.addTarget(self, action: #selector(handle_guest(sender: )), for: .touchUpInside)
         
         view.addSubview(bg_iv)
         view.addSubview(title_lb)
         view.addSubview(about_bt)
         view.addSubview(signup_bt)
         view.addSubview(login_bt)
+        view.addSubview(guest_bt)
     }
 }
 

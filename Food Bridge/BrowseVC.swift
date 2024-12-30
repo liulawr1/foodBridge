@@ -327,92 +327,92 @@ class BrowseVC: UIViewController {
         display_rows()
     }
 	
-	enum LocalStorage : String {
-		case localTitleData
-	}
-	
-	class Service {
-		func saveData(data : [Model], forKey key : LocalStorage) {
-			UserDefaults.standard.set(data, forKey: key.rawValue)
-		}
-	}
-	
-	class Model : Codable {
-		var title : String
-		
-		init(title : String) {
-			self.title = title
-		}
-	}
-	
-	let dummy_data = Model(name: "customized data....in case of no data", date: "n")
-	class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-		
-		let service = Service()
-		var data_arr : [String] = []
-		let localdata = UserDefaults.standard.array(forKey: LocalStorage.localTitleData.rawValue) as! [String]
-		
-		override func viewDidLoad() {
-			super.viewDidLoad()
-			// Do any additional setup after loading the view.
-			setupUI()
-			getFirebaseListings()
-		}
-		
-		func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-			if data_arr.count < 2 {
-				return localdata.count
-			} else {
-				return data_arr.count
-			}
-		}
-		
-		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-		   
-			
-			if data_arr.count < 2 {
-				cell.textLabel?.text = localdata[indexPath.row]
-			}else{
-				cell.textLabel?.text = data_arr[indexPath.row]
-			}
-			return cell
-		}
-		
-		lazy var tableView : UITableView = {
-		   let tb = UITableView()
-			tb.delegate = self
-			tb.dataSource = self
-			tb.frame = view.bounds
-			tb.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-			return tb
-		}()
-		
-		func setupUI() {
-			view.addSubview(tableView)
-			tableView.frame = view.bounds
-			tableView.delegate = self
-			tableView.dataSource = self
-		}
-		
-		func getFirebaseListings() {
-			db.collection("listings").getDocuments() { [weak self] (querySnapshot, err) in
-				guard let self = self else { return }
-				if let err = err {
-					print("Error getting documents: \(err)")
-				} else {
-					var models: [Model] = []
-					for document in querySnapshot!.documents {
-						if let title = document.get("title") as? String {
-							let model = Model(title: title)
-							models.append(model)
-						}
-					}
-					self.data_arr = models.map { $0.title }
-					self.tableView.reloadData()
-					self.service.saveData(data: models, forKey: .localTitleData)
-				}
-			}
-		}
-	}
+//	enum LocalStorage : String {
+//		case localTitleData
+//	}
+//	
+//	class Service {
+//		func saveData(data : [Model], forKey key : LocalStorage) {
+//			UserDefaults.standard.set(data, forKey: key.rawValue)
+//		}
+//	}
+//	
+//	class Model : Codable {
+//		var title : String
+//		
+//		init(title : String) {
+//			self.title = title
+//		}
+//	}
+//	
+//	let dummy_data = Model(name: "customized data....in case of no data", date: "n")
+//	class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+//		
+//		let service = Service()
+//		var data_arr : [String] = []
+//		let localdata = UserDefaults.standard.array(forKey: LocalStorage.localTitleData.rawValue) as! [String]
+//		
+//		override func viewDidLoad() {
+//			super.viewDidLoad()
+//			// Do any additional setup after loading the view.
+//			setupUI()
+//			getFirebaseListings()
+//		}
+//		
+//		func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//			if data_arr.count < 2 {
+//				return localdata.count
+//			} else {
+//				return data_arr.count
+//			}
+//		}
+//		
+//		func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//			let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+//		   
+//			
+//			if data_arr.count < 2 {
+//				cell.textLabel?.text = localdata[indexPath.row]
+//			}else{
+//				cell.textLabel?.text = data_arr[indexPath.row]
+//			}
+//			return cell
+//		}
+//		
+//		lazy var tableView : UITableView = {
+//		   let tb = UITableView()
+//			tb.delegate = self
+//			tb.dataSource = self
+//			tb.frame = view.bounds
+//			tb.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//			return tb
+//		}()
+//		
+//		func setupUI() {
+//			view.addSubview(tableView)
+//			tableView.frame = view.bounds
+//			tableView.delegate = self
+//			tableView.dataSource = self
+//		}
+//		
+//		func getFirebaseListings() {
+//			db.collection("listings").getDocuments() { [weak self] (querySnapshot, err) in
+//				guard let self = self else { return }
+//				if let err = err {
+//					print("Error getting documents: \(err)")
+//				} else {
+//					var models: [Model] = []
+//					for document in querySnapshot!.documents {
+//						if let title = document.get("title") as? String {
+//							let model = Model(title: title)
+//							models.append(model)
+//						}
+//					}
+//					self.data_arr = models.map { $0.title }
+//					self.tableView.reloadData()
+//					self.service.saveData(data: models, forKey: .localTitleData)
+//				}
+//			}
+//		}
+//	}
 }
