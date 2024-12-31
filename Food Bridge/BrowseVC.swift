@@ -20,7 +20,7 @@ class BrowseVC: UIViewController {
     
     func setup_refresh_control() {
         scrollView.refreshControl = UIRefreshControl()
-        scrollView.refreshControl!.tintColor = .white
+		scrollView.refreshControl!.tintColor = forestGreen
         scrollView.refreshControl?.addTarget(self, action: #selector(handle_refresh), for: .valueChanged)
     }
     

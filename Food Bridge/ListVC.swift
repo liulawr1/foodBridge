@@ -387,7 +387,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let start_date = start_date_picker.date
         let end_date = end_date_picker.date
         let contact_info = contact_info_field.text
-        let list_author = USER_EMAIL!.split(separator: "@").first ?? ""
+        let list_author = USER_EMAIL.split(separator: "@").first ?? ""
         
         if (title != "" && description != "" && pickup_location != "" && contact_info != "") {
             var ref: DocumentReference? = nil

@@ -10,3 +10,4 @@ import UIKit
 
 let forestGreen = UIColor(red: 37/255, green: 98/255, blue: 34/255, alpha: 1)
 let lightGreen = UIColor(red: 224/255, green: 232/255, blue: 223/255, alpha: 1)
+let googleRed = UIColor(red: 234/255, green: 67/255, blue: 53/255, alpha: 1)

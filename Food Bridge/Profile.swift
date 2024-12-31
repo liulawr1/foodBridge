@@ -48,7 +48,7 @@ class ProfileView: UIView {
             } else {
                 for document in querySnapshot!.documents {
                     if ((document.get("email") as! String) == USER_EMAIL) {
-                        email_lb.text = "Email: \(USER_EMAIL ?? "Loading")"
+                        email_lb.text = "Email: \(USER_EMAIL)"
                         user_type_lb.text = "User Type: \(document.get("user_type") as! String)"
                         
 //                        guard let active_listings = (document.get("active_listings") as? Int) else { return }

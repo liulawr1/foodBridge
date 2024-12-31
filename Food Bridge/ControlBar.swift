@@ -11,7 +11,8 @@ import UIKit
 class ControlBar: UITabBarController {
     let vc1 = BrowseVC()
     let vc2 = ListVC()
-    let vc3 = AccountVC()
+    let vc3 = LeaderboardVC()
+    let vc4 = AccountVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +22,14 @@ class ControlBar: UITabBarController {
         
         let item1 = UITabBarItem(title: "Browse", image: UIImage(systemName: "tray.full"), tag: 0)
         let item2 = UITabBarItem(title: "List", image: UIImage(systemName: "square.and.arrow.up"), tag: 1)
-        let item3 = UITabBarItem(title: "Account", image: UIImage(systemName: "person.crop.circle"), tag: 2)
+        let item3 = UITabBarItem(title: "Leaderboard", image: UIImage(systemName: "list.number"), tag: 2)
+        let item4 = UITabBarItem(title: "Account", image: UIImage(systemName: "person.crop.circle"), tag: 3)
         
         vc1.tabBarItem = item1
         vc2.tabBarItem = item2
         vc3.tabBarItem = item3
+        vc4.tabBarItem = item4
         
-        viewControllers = [vc1, vc2, vc3]
+        viewControllers = [vc1, vc2, vc3, vc4]
     }
 }
