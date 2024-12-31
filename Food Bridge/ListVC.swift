@@ -356,14 +356,14 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    if ((document.get("email") as! String) == USER_EMAIL) {
+                    if (USER_ID == document.documentID) {
                         let listingRef = db.collection("users").document(USER_ID)
                         
-                        let active_listings_data = document.get("active_listings") as! Int
+                        //let active_listings_data = document.get("active_listings") as! Int
                         let total_listings_data = document.get("total_listings") as! Int
                         
                         listingRef.updateData([
-                            "active_listings": active_listings_data + 1,
+                            //"active_listings": active_listings_data + 1,
                             "total_listings": total_listings_data + 1
                         ]) { err in
                             if let err = err {

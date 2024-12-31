@@ -169,14 +169,20 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         return bt
     }()
     
-    let warning_alert = UIAlertController(title: "Warning!", message: "Are you sure you want to delete your account?", preferredStyle: .alert)
+    let warning_alert1 = UIAlertController(title: "Warning!", message: "Are you sure you want to delete your account?", preferredStyle: .alert)
+    let warning_alert2 = UIAlertController(title: "Warning!", message: "Are you sure you want to sign out?", preferredStyle: .alert)
     let success_alert = UIAlertController(title: "Success!", message: "Account successfully deleted", preferredStyle: .alert)
-    let error_alert = UIAlertController(title: "Error!", message: "Error occurred while creating listing!", preferredStyle: .alert)
+    let error_alert = UIAlertController(title: "Error!", message: "Error occurred while deleting account!", preferredStyle: .alert)
     let dismiss_alert = UIAlertAction(title: "OK", style: .default)
     
-    func display_warning() {
-        warning_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(warning_alert, animated: true)
+    func display_warning1() {
+        warning_alert1.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(warning_alert1, animated: true)
+    }
+    
+    func display_warning2() {
+        warning_alert2.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(warning_alert2, animated: true)
     }
     
     func display_success() {
@@ -190,17 +196,23 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @objc func handle_signout(sender: UIButton) {
-        do {
-            try Auth.auth().signOut()
-            USER_EMAIL = ""
-            USER_ID = ""
-            let vc = LaunchVC()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: false)
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
+        let confirmAction = UIAlertAction(title: "Sign out", style: .destructive) { [weak self] _ in
+            do {
+                try Auth.auth().signOut()
+                USER_EMAIL = ""
+                USER_ID = ""
+                let vc = LaunchVC()
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self!.present(nav, animated: false)
+                UserDefaults.standard.setValue(false, forKey: isLoggedIn)
+            } catch let signOutError as NSError {
+                print("Error signing out: %@", signOutError)
+            }
         }
+
+        warning_alert2.addAction(confirmAction)
+        display_warning2()
     }
     
     @objc func handle_delete_account(sender: UIButton) {
@@ -208,19 +220,31 @@ class AccountVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
             self?.deleteAccount()
         }
 
-        warning_alert.addAction(confirmAction)
-        display_warning()
+        warning_alert1.addAction(confirmAction)
+        display_warning1()
     }
     
     func deleteAccount() {
         let user = Auth.auth().currentUser
-
-        user?.delete { [weak self] error in
+        
+        db.collection("users").document(user!.uid).delete { [weak self] firestoreError in
             guard let self = self else { return }
-
-            if let error = error {
+            
+            if let firestoreError = firestoreError {
+                print("Error deleting user doc from Firestore: \(firestoreError.localizedDescription)")
                 self.display_error()
-            } else {
+                return
+            }
+            
+            user?.delete { authError in
+                if let authError = authError {
+                    print("Error deleting user from Auth: \(authError.localizedDescription)")
+                    self.display_error()
+                    return
+                }
+                
+                USER_EMAIL = ""
+                USER_ID = ""
                 let vc = LaunchVC()
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen

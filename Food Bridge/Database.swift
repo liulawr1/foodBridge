@@ -15,9 +15,10 @@ let storage = Storage.storage()
 let storage_ref = Storage.storage().reference()
 
 let USER = Auth.auth().currentUser
-var USER_EMAIL = ""//USER!.email
-var USER_ID = ""//USER!.uid
+var USER_EMAIL = "" //USER!.email
+var USER_ID = "" //USER!.uid
 var isGuest = false
+var isLoggedIn = "isLoggedIn"
 
 let EMAIL = "email"
 let PASSWORD = "password"

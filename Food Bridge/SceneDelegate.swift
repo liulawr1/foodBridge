@@ -12,12 +12,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let sc = (scene as? UIWindowScene) else { return }
+        
+        if let savedEmail = UserDefaults.standard.string(forKey: "LastUserEmail") {
+            USER_EMAIL = savedEmail
+        }
+        if let savedUID = UserDefaults.standard.string(forKey: "LastUserID") {
+            USER_ID = savedUID
+        }
+        
+        print(UserDefaults.standard.bool(forKey: isLoggedIn))
+        window = UIWindow(windowScene: sc)
+        window?.makeKeyAndVisible()
+        if (UserDefaults.standard.bool(forKey: isLoggedIn) == false) {
+            window?.rootViewController = LaunchVC()
+        } else {
+            window?.rootViewController = ControlBar()
+        }
     }
 
     // This function is needed for iOS 13+ to complete the sign-in flow

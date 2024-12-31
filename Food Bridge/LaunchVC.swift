@@ -154,13 +154,16 @@ class LaunchVC: UIViewController {
                 
                 // Successfully signed in
                 let user = result?.user
-                var newuserID = user?.uid
-                var newemail = user?.email
+                let newuserID = user?.uid
+                let newemail = user?.email
                 print("Signed in! UserId: \(newuserID!), Email: \(newemail!)")
                 
                 USER_ID = newuserID!
                 USER_EMAIL = newemail!
                 print(USER_ID + " " + USER_EMAIL)
+                
+                UserDefaults.standard.setValue(USER_EMAIL, forKey: "LastUserEmail")
+                UserDefaults.standard.setValue(USER_ID, forKey: "LastUserID")
                 
                 db.collection("users").getDocuments { (querySnapshot, error) in
                     if let error = error {
@@ -175,7 +178,7 @@ class LaunchVC: UIViewController {
                                 let nav = UINavigationController(rootViewController: cb)
                                 nav.modalPresentationStyle = .fullScreen
                                 self.present(nav, animated: true)
-                                UserDefaults.standard.setValue(true, forKey: "")
+                                UserDefaults.standard.setValue(true, forKey: isLoggedIn)
                                 isNewUser = false
                                 break
                             }
@@ -198,7 +201,7 @@ class LaunchVC: UIViewController {
                                     let nav = UINavigationController(rootViewController: cb)
                                     nav.modalPresentationStyle = .fullScreen
                                     self.present(nav, animated: true)
-                                    UserDefaults.standard.setValue(true, forKey: "")
+                                    UserDefaults.standard.setValue(true, forKey: isLoggedIn)
                                 }
                             }
                         }

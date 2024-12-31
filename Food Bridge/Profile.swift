@@ -47,7 +47,7 @@ class ProfileView: UIView {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    if ((document.get("email") as! String) == USER_EMAIL) {
+                    if (USER_ID == document.documentID) {
                         email_lb.text = "Email: \(USER_EMAIL)"
                         user_type_lb.text = "User Type: \(document.get("user_type") as! String)"
                         
