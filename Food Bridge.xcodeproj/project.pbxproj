@@ -39,6 +39,10 @@
 		21E1C9432A47A20500E08F48 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1C9422A47A20500E08F48 /* User.swift */; };
 		21FB7DD82D235DD300E4A225 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 21FB7DD72D235DD300E4A225 /* GoogleService-Info.plist */; };
 		21FB7DDA2D23D73000E4A225 /* LeaderboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB7DD92D23D72B00E4A225 /* LeaderboardVC.swift */; };
+		21FB7DDE2D24A4F800E4A225 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB7DDD2D24A4ED00E4A225 /* MessagesVC.swift */; };
+		21FB7DE02D24AB3000E4A225 /* NewChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB7DDF2D24AB2D00E4A225 /* NewChatVC.swift */; };
+		21FB7DE22D25DD3100E4A225 /* CommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB7DE12D25DD2E00E4A225 /* CommentsVC.swift */; };
+		21FB7DE42D272D4000E4A225 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB7DE32D272D3800E4A225 /* CommentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +92,10 @@
 		21E1C9422A47A20500E08F48 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		21FB7DD72D235DD300E4A225 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		21FB7DD92D23D72B00E4A225 /* LeaderboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardVC.swift; sourceTree = "<group>"; };
+		21FB7DDD2D24A4ED00E4A225 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
+		21FB7DDF2D24AB2D00E4A225 /* NewChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatVC.swift; sourceTree = "<group>"; };
+		21FB7DE12D25DD2E00E4A225 /* CommentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsVC.swift; sourceTree = "<group>"; };
+		21FB7DE32D272D3800E4A225 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,11 +165,15 @@
 				21955C612A396E0F00BC87D2 /* MainVC.swift */,
 				21B8C7402A5A1E64003139FD /* BrowseVC.swift */,
 				21B8C7422A5A1E6F003139FD /* ListVC.swift */,
+				21FB7DDD2D24A4ED00E4A225 /* MessagesVC.swift */,
+				21FB7DDF2D24AB2D00E4A225 /* NewChatVC.swift */,
 				21FB7DD92D23D72B00E4A225 /* LeaderboardVC.swift */,
 				21B8C7442A5A1E79003139FD /* AccountVC.swift */,
 				2198F47C2A6AEB63001BF2F0 /* Database.swift */,
 				21E1C9422A47A20500E08F48 /* User.swift */,
 				21ACF3442A638E8D00BA374C /* Listing.swift */,
+				21FB7DE12D25DD2E00E4A225 /* CommentsVC.swift */,
+				21FB7DE32D272D3800E4A225 /* CommentCell.swift */,
 				21A164242A7F0B010034522C /* Profile.swift */,
 				21955C5F2A396DFA00BC87D2 /* Colors.swift */,
 				21955C352A396DB900BC87D2 /* Main.storyboard */,
@@ -342,9 +354,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21FB7DDE2D24A4F800E4A225 /* MessagesVC.swift in Sources */,
+				21FB7DE02D24AB3000E4A225 /* NewChatVC.swift in Sources */,
 				21FB7DDA2D23D73000E4A225 /* LeaderboardVC.swift in Sources */,
+				21FB7DE42D272D4000E4A225 /* CommentCell.swift in Sources */,
 				21A164252A7F0B010034522C /* Profile.swift in Sources */,
 				21C97C422D226E260038B3DB /* GuestControlBar.swift in Sources */,
+				21FB7DE22D25DD3100E4A225 /* CommentsVC.swift in Sources */,
 				21B8C7452A5A1E79003139FD /* AccountVC.swift in Sources */,
 				21E1C9432A47A20500E08F48 /* User.swift in Sources */,
 				21B8C7412A5A1E64003139FD /* BrowseVC.swift in Sources */,

@@ -135,11 +135,10 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         return tv
     }()
     
-    let item_quantity_field: LimitedTextField = {
-        let tf = LimitedTextField()
-        tf.characterLimit = 10
+    let item_quantity_field: UITextField = {
+        let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
-            string: "Title",
+            string: "Item Quantity",
             attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
@@ -185,7 +184,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let pickup_location_field: UITextField = {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
-            string: "Pickup Location",
+            string: "Pickup Location (Optional)",
             attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
@@ -389,7 +388,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let contact_info = contact_info_field.text
         let list_author = USER_EMAIL.split(separator: "@").first ?? ""
         
-        if (title != "" && description != "" && pickup_location != "" && contact_info != "") {
+        if (title != "" && description != "" && item_quantity != "" && item_weight != "" && contact_info != "") {
             var ref: DocumentReference? = nil
             
             ref = db.collection("listings").addDocument(data: [

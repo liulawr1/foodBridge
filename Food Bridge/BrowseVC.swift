@@ -145,18 +145,21 @@ class BrowseVC: UIViewController {
     @objc func handle_details(sender: UIButton) {
         let vc = ListingVC()
         let index = sender.tag
+		let tapped_listing = listings_arr[index]
 		
-		vc.listing_image.image = listings_arr[index].listing_image.image
-        vc.title_string = listings_arr[index].title_lb.text
-		vc.description_string = listings_arr[index].description_lb.text
-		vc.item_quantity_string = listings_arr[index].item_quantity_lb.text
-		vc.item_weight_string = listings_arr[index].item_weight_lb.text
-        vc.pickup_location_string = listings_arr[index].pickup_location_lb.text
-        vc.start_date_string = listings_arr[index].start_date_lb.text
-        vc.end_date_string = listings_arr[index].end_date_lb.text
-        vc.contact_info_string = listings_arr[index].contact_info_lb.text
-		vc.list_date_string = listings_arr[index].list_date_lb.text
-		vc.list_author_string = listings_arr[index].list_author_lb.text
+		vc.listing_image.image = tapped_listing.listing_image.image
+        vc.title_string = tapped_listing.title_lb.text
+		vc.description_string = tapped_listing.description_lb.text
+		vc.item_quantity_string = tapped_listing.item_quantity_lb.text
+		vc.item_weight_string = tapped_listing.item_weight_lb.text
+        vc.pickup_location_string = tapped_listing.pickup_location_lb.text
+        vc.start_date_string = tapped_listing.start_date_lb.text
+        vc.end_date_string = tapped_listing.end_date_lb.text
+        vc.contact_info_string = tapped_listing.contact_info_lb.text
+		vc.list_date_string = tapped_listing.list_date_lb.text
+		vc.list_author_string = tapped_listing.list_author_lb.text
+		
+		current_listing_id = tapped_listing.listingID
 	
 //		FIX
 //
@@ -235,6 +238,7 @@ class BrowseVC: UIViewController {
 	
 	func createListingFromDocument(_ document: QueryDocumentSnapshot, index: Int) -> ListingView {
 		let listing = ListingView()
+		listing.listingID = document.documentID
 		let x_cor: CGFloat = 20
 		let y_cor: CGFloat = CGFloat(index) * h * margin + 75
 		listing.frame = CGRect(x: x_cor, y: y_cor, width: w, height: h)

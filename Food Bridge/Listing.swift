@@ -12,6 +12,8 @@ import FirebaseFirestore
 var current_listing_id: String?
 
 class ListingView: UIButton {
+    var listingID: String = ""
+    
     let listing_image: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = lightGreen
@@ -170,6 +172,10 @@ class ListingVC: UIViewController {
         back_bt.tintColor = forestGreen
         navigationItem.leftBarButtonItem = back_bt
         
+        let comments_bt = UIBarButtonItem(image: UIImage(systemName: "message"), style: .plain, target: self, action: #selector(handle_comments))
+        comments_bt.tintColor = forestGreen
+        navigationItem.rightBarButtonItem = comments_bt
+        
         title_lb.text = title_string
         description_lb.text = description_string
         item_quantity_lb.text = item_quantity_string
@@ -194,6 +200,15 @@ class ListingVC: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: false)
         }
+    }
+    
+    @objc func handle_comments() {
+        guard let listingID = current_listing_id else { return }
+        print(listingID)
+        
+        let vc = CommentsVC()
+        vc.listingID = listingID
+        self.present(vc, animated: true)
     }
     
     let listing_image: UIImageView = {
