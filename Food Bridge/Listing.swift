@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
+import MapKit
 
 var current_listing_id: String?
 
@@ -46,56 +47,13 @@ class ListingView: UIButton {
         return lb
     }()
     
-//    let details_bt: UIButton = {
-//        let bt = UIButton()
-//        bt.tintColor = forestGreen
-//        
-//        let innerImageView = UIImageView()
-//        innerImageView.image = UIImage(systemName: "plus.magnifyingglass")
-//        innerImageView.frame.size.width = 35
-//        innerImageView.frame.size.height = 35
-//        innerImageView.frame.origin.x = 0
-//        innerImageView.frame.origin.y = 0
-//        bt.addSubview(innerImageView)
-//        
-//        bt.frame = CGRect(x: 350, y: 10, width: 35, height: 35)
-//        return bt
-//    }()
-    
-    let description_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-    
-    let item_quantity_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-    
-    let item_weight_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-
-    let pickup_location_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-
-    let start_date_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-
-    let end_date_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
-
-    let contact_info_lb: UILabel = {
-        let lb = UILabel()
-        return lb
-    }()
+    let description_lb: UILabel = { UILabel() }()
+    let item_quantity_lb: UILabel = { UILabel() }()
+    let item_weight_lb: UILabel = { UILabel() }()
+    let pickup_location_lb: UILabel = { UILabel() }()
+    let start_date_lb: UILabel = { UILabel() }()
+    let end_date_lb: UILabel = { UILabel() }()
+    let contact_info_lb: UILabel = { UILabel() }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,7 +61,6 @@ class ListingView: UIButton {
         self.addSubview(title_lb)
         self.addSubview(list_date_lb)
         self.addSubview(list_author_lb)
-        //self.addSubview(details_bt)
     }
     
     required init?(coder: NSCoder) {
@@ -122,7 +79,7 @@ class PaddedLabel: UILabel {
     }
 
     override func drawText(in rect: CGRect) {
-        guard let text = self.text else { return }
+        guard let _ = self.text else { return }
         var insetRect = rect.inset(by: textInsets)
         insetRect.origin.y += 5
         let textRect = super.textRect(forBounds: insetRect, limitedToNumberOfLines: self.numberOfLines)
@@ -186,6 +143,8 @@ class ListingVC: UIViewController {
         contact_info_lb.text = contact_info_string
         list_date_lb.text = list_date_string
         list_author_lb.text = list_author_string
+        
+        showPickupLocationOnMap()
     }
     
     @objc func handle_back() {
@@ -318,56 +277,13 @@ class ListingVC: UIViewController {
         return lb
     }()
     
-//    let end_listing_bt: UIButton = {
-//        let bt = UIButton()
-//        bt.setTitle("End Listing", for: .normal)
-//        bt.backgroundColor = lightGreen
-//        bt.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-//        bt.setTitleColor(forestGreen, for: .normal)
-//        bt.titleLabel?.textAlignment = .center
-//        bt.layer.borderColor = forestGreen.cgColor
-//        bt.layer.borderWidth = 2
-//        bt.layer.cornerRadius = 20
-//        return bt
-//    }()
-    
-//    @objc func handle_end_listing(sender: UIButton) {
-//        var updated_active_listings: Int?
-//        
-//        db.collection("users").getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    if ((document.get("email") as! String) == USER_EMAIL) {
-//                        updated_active_listings = (document.get("active_listings") as! Int) - 1
-//                        
-//                        let ref = db.collection("users").document(USER_ID)
-//
-//                        ref.updateData([
-//                            "active_listings": updated_active_listings!
-//                        ]) { err in
-//                            if let err = err {
-//                                print("Error updating document: \(err)")
-//                            } else {
-//                                print("Document successfully updated")
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        
-////       FIX
-////
-////        db.collection("listings").document(current_listing_id!).delete() { err in
-////            if let err = err {
-////                print("Error removing document: \(err)")
-////            } else {
-////                print("Document successfully removed!")
-////            }
-////        }
-//    }
+    let pickupMapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.layer.cornerRadius = 10
+        mapView.layer.borderColor = forestGreen.cgColor
+        mapView.layer.borderWidth = 2
+        return mapView
+    }()
     
     func setup_UI() {
         let top_margin: CGFloat = 0
@@ -376,6 +292,7 @@ class ListingVC: UIViewController {
         let listing_image_dim: CGFloat = view.frame.width - left_margin * 2
         scrollView.frame = view.bounds
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 200)
+        
         title_lb.frame = CGRect(x: left_margin, y: top_margin, width: elem_w, height: elem_h)
         listing_image.frame = CGRect(x: left_margin, y: title_lb.center.y + title_lb.frame.height / 2 + lb_margin, width: listing_image_dim, height: listing_image_dim)
         list_date_lb.frame = CGRect(x: left_margin, y: listing_image.center.y + listing_image.frame.height / 2 - 5, width: elem_w, height: elem_h)
@@ -387,10 +304,8 @@ class ListingVC: UIViewController {
         start_date_lb.frame = CGRect(x: left_margin, y: pickup_location_lb.center.y + pickup_location_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         end_date_lb.frame = CGRect(x: left_margin, y: start_date_lb.center.y + start_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
         contact_info_lb.frame = CGRect(x: left_margin, y: end_date_lb.center.y + end_date_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-//        end_listing_bt.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: elem_h)
-//
-//        // connect @objc func to buttons
-//        end_listing_bt.addTarget(self, action: #selector(handle_end_listing(sender: )), for: .touchUpInside)
+        
+        pickupMapView.frame = CGRect(x: left_margin, y: contact_info_lb.center.y + contact_info_lb.frame.height / 2 + elem_margin, width: elem_w, height: 250)
         
         view.addSubview(scrollView)
         scrollView.addSubview(title_lb)
@@ -404,13 +319,31 @@ class ListingVC: UIViewController {
         scrollView.addSubview(start_date_lb)
         scrollView.addSubview(end_date_lb)
         scrollView.addSubview(contact_info_lb)
+        scrollView.addSubview(pickupMapView)
         
-//        let current_user = USER_EMAIL!.split(separator: "@").first ?? ""
-//        let start_index = list_author_string?.index(list_author_string!.startIndex, offsetBy: 11)
-//        let list_author = list_author_string?.suffix(from: start_index!)
-//        
-//        if current_user == list_author {
-//            scrollView.addSubview(end_listing_bt)
-//        }
+        scrollView.contentSize.height = pickupMapView.frame.maxY + 40
+    }
+    
+    func showPickupLocationOnMap() {
+        guard let locationString = pickup_location_string, !locationString.isEmpty else { return }
+        
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(locationString) { [weak self] placemarks, error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Geocoding error: \(error)")
+                return
+            }
+            
+            if let coordinate = placemarks?.first?.location?.coordinate {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = coordinate
+                annotation.title = "Pickup Location"
+                self.pickupMapView.addAnnotation(annotation)
+                
+                let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+                self.pickupMapView.setRegion(region, animated: true)
+            }
+        }
     }
 }

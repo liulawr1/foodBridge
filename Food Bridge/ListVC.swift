@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseFirestore
-
+import MapKit
 
 class LimitedTextField: UITextField, UITextFieldDelegate {
     
@@ -68,10 +68,31 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     var image_data = Data()
     let scrollView = UIScrollView()
     
+    // Address autocomplete properties
+    var searchCompleter = MKLocalSearchCompleter()
+    var searchResults = [MKLocalSearchCompletion]()
+    var searchResultsTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = lightGreen
         setup_UI()
+        
+        // Setup address autocomplete
+        searchCompleter.delegate = self
+        searchCompleter.resultTypes = .address
+        
+        // Set region to improve local results (example: San Francisco area)
+        let region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
+            latitudinalMeters: 50000,
+            longitudinalMeters: 50000
+        )
+        searchCompleter.region = region
+        
+        pickup_location_field.delegate = self
+        pickup_location_field.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
+        setupSearchResultsTableView()
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -79,6 +100,93 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         self.hideKeyboardWhenTappedAround()
     }
     
+    private func setupSearchResultsTableView() {
+        searchResultsTableView = UITableView()
+        searchResultsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "searchResultCell")
+        searchResultsTableView.delegate = self
+        searchResultsTableView.dataSource = self
+        searchResultsTableView.backgroundColor = lightGreen
+        searchResultsTableView.layer.borderColor = forestGreen.cgColor
+        searchResultsTableView.layer.borderWidth = 1
+        searchResultsTableView.layer.cornerRadius = 10
+        searchResultsTableView.isHidden = true
+        searchResultsTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchResultsTableView)
+        
+        NSLayoutConstraint.activate([
+            searchResultsTableView.topAnchor.constraint(equalTo: pickup_location_field.bottomAnchor, constant: 5),
+            searchResultsTableView.leadingAnchor.constraint(equalTo: pickup_location_field.leadingAnchor),
+            searchResultsTableView.trailingAnchor.constraint(equalTo: pickup_location_field.trailingAnchor),
+            searchResultsTableView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+    }
+    
+    @objc func searchTextChanged() {
+        searchCompleter.queryFragment = pickup_location_field.text ?? ""
+    }
+    
+    private func performSearch(with completion: MKLocalSearchCompletion) {
+        let searchRequest = MKLocalSearch.Request(completion: completion)
+        let search = MKLocalSearch(request: searchRequest)
+        
+        search.start { [weak self] (response, error) in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Search error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let item = response?.mapItems.first else { return }
+            let placemark = item.placemark
+            
+            // Build address components
+            var streetAddress = ""
+            if let subThoroughfare = placemark.subThoroughfare {
+                streetAddress += subThoroughfare + " " // Street number
+            }
+            if let thoroughfare = placemark.thoroughfare {
+                streetAddress += thoroughfare // Street name
+            }
+            
+            var cityStateZip = ""
+            if let locality = placemark.locality {
+                cityStateZip += locality // City
+            }
+            if let administrativeArea = placemark.administrativeArea {
+                if !cityStateZip.isEmpty { cityStateZip += ", " }
+                cityStateZip += administrativeArea // State
+            }
+            if let postalCode = placemark.postalCode {
+                if !cityStateZip.isEmpty { cityStateZip += " " }
+                cityStateZip += postalCode // Zip code
+            }
+            
+//            var countryPart = ""
+//            if let country = placemark.country {
+//                countryPart = country
+//            }
+            
+            // Combine components with proper comma placement
+            var fullAddress = streetAddress
+            if !cityStateZip.isEmpty {
+                if !fullAddress.isEmpty { fullAddress += ", " }
+                fullAddress += cityStateZip
+            }
+//            if !countryPart.isEmpty {
+//                if !fullAddress.isEmpty { fullAddress += ", " }
+//                fullAddress += countryPart
+//            }
+            
+            DispatchQueue.main.async {
+                self.pickup_location_field.text = fullAddress
+                self.searchResultsTableView.isHidden = true
+                self.view.endEditing(true)
+            }
+        }
+    }
+
+    // MARK: - UI Elements
     let header_lb: UILabel = {
         let lb = UILabel()
         lb.text = "Create a Listing"
@@ -127,18 +235,13 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         tv.layer.borderColor = forestGreen.cgColor
         tv.layer.borderWidth = 2
         tv.layer.cornerRadius = 20
-        
-//        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tv.frame.height))
-//        tv.leftView = paddingView
-//        tv.leftViewMode = .always
-        
         return tv
     }()
     
     let item_quantity_field: UITextField = {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
-            string: "Item Quantity",
+            string: "Item Quantity (Optional)",
             attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
@@ -184,7 +287,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let pickup_location_field: UITextField = {
         let tf = UITextField()
         let attributedPlaceholder = NSAttributedString(
-            string: "Pickup Location (Optional)",
+            string: "Pickup Location",
             attributes: [NSAttributedString.Key.foregroundColor: forestGreen]
         )
         tf.attributedPlaceholder = attributedPlaceholder
@@ -358,11 +461,9 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                     if (USER_ID == document.documentID) {
                         let listingRef = db.collection("users").document(USER_ID)
                         
-                        //let active_listings_data = document.get("active_listings") as! Int
                         let total_listings_data = document.get("total_listings") as! Int
                         
                         listingRef.updateData([
-                            //"active_listings": active_listings_data + 1,
                             "total_listings": total_listings_data + 1
                         ]) { err in
                             if let err = err {
@@ -388,7 +489,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let contact_info = contact_info_field.text
         let list_author = USER_EMAIL.split(separator: "@").first ?? ""
         
-        if (title != "" && description != "" && item_quantity != "" && item_weight != "" && contact_info != "") {
+        if (title != "" && description != "" && item_weight != "" && pickup_location != "" && contact_info != "") {
             var ref: DocumentReference? = nil
             
             ref = db.collection("listings").addDocument(data: [
@@ -396,7 +497,7 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
                 "description": description!,
                 "item_quantity": item_quantity!,
                 "item_weight": item_weight!,
-                "pickup_location": pickup_location!,
+                "pickup_location": pickup_location ?? "",
                 "start_date": start_date,
                 "end_date": end_date,
                 "contact_info": contact_info!,
@@ -487,5 +588,68 @@ class ListVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         scrollView.addSubview(listing_image)
         scrollView.addSubview(set_listing_image_bt)
         scrollView.addSubview(create_listing_bt)
+    }
+}
+
+// MARK: - MKLocalSearchCompleterDelegate
+extension ListVC: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        // Filter to only include results with proper address components
+        searchResults = completer.results.filter { result in
+            // Only show results that have both street and city/state info
+            return !result.title.isEmpty && !result.subtitle.isEmpty
+        }
+        searchResultsTableView.isHidden = searchResults.isEmpty
+        searchResultsTableView.reloadData()
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print("Error suggesting addresses: \(error.localizedDescription)")
+    }
+}
+
+// MARK: - UITableViewDataSource & Delegate
+extension ListVC: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return min(searchResults.count, 5) // Show max 5 results
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "searchResultCell", for: indexPath)
+        let result = searchResults[indexPath.row]
+        
+        // Combine title and subtitle for full address display
+        var addressText = result.title
+        if !result.subtitle.isEmpty {
+            addressText += ", \(result.subtitle)"
+        }
+        
+        cell.textLabel?.text = addressText
+        cell.textLabel?.numberOfLines = 0 // Allow multiple lines
+        cell.backgroundColor = lightGreen
+        cell.textLabel?.textColor = forestGreen
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedResult = searchResults[indexPath.row]
+        performSearch(with: selectedResult)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ListVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == pickup_location_field {
+            searchTextChanged() // Trigger search when field is focused
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        searchResultsTableView.isHidden = true
+        return true
     }
 }
