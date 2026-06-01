@@ -1,2 +1,2 @@
-# foodBridge
-this is the code repository for foodBridge project
+# Food Bridge
+Fighting food waste and food insecurity by connecting users with extra food with those in need.
